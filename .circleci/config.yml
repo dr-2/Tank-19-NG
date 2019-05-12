@@ -30,9 +30,6 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      # adding following line to ensure maven installs the custom code I wrote. Without this instruction, it will search
-      # my classes on maven central repository (failing)
-      - run: mvn install -DskipTests
 
       - run: mvn dependency:go-offline
 
