@@ -18,6 +18,7 @@ public class ControllerMessaggiPartita {
     public Messaggio inviaMessaggioComando(@Payload Messaggio messaggio) {
         System.out.println("ho ricevuto da /partita.inviaComando: " + messaggio.getContent());
         System.out.println("mittente e tipo: " + messaggio.getSender() + " " + messaggio.getTipoMessaggio());
+        simpMessagingTemplate.convertAndSend("/partita/public", messaggio);
 
         return messaggio;
     }
@@ -29,4 +30,5 @@ public class ControllerMessaggiPartita {
 
         return messaggio;
     }
+
 }
