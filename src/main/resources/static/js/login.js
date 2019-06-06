@@ -1,16 +1,15 @@
-'use strict'
+function authenticate(){
+    console.log("Authentication");
+}
 
-console.log("javascript caricato correttamente");
+function redirect(destination){
+    window.location(destination);
+}
 
+window.onload=function(){
+    console.log("javascript caricato correttamente");
 
-let loginForm = document.querySelector('loginForm')
+    let loginForm = document.getElementById("loginForm");
 
-
-
-loginForm.addEventListener(onsubmit, autenticate)
-
-
-function onError(error) {
-    alert('Could not connect to WebSocket server. Please refresh this page to try again!');
-    //connectingElement.style.color = 'red';
+    loginForm.addEventListener(onsubmit, authenticate);
 }
