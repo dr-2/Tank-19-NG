@@ -1,113 +1,84 @@
-'use strict'
-
-console.log("javascript caricato correttamente");
+const gameState = {
+    tanks: {}
+};
+const command = {
+    up: false,
+    down: false,
+    left: false,
+    right: false
+};
 
 let username;
 let stompClient;
-let mainDiv = document.querySelector('#main-div');
-let bottoneConnessione = document.querySelector('#bottone-connessione');
-let bottoneInvio = document.querySelector('#bottone-invio');
 
+function setup() {
+    createCanvas(800, 600);
+    background(51);
+}
 
+function draw() {
+    //background(51)
+}
 
-function connect(event) {
-    username = "Carlo"; //document.querySelector('#name').value.trim();
+const keyDownHandler = (e) => {
+    if (e.keyCode === 38) {
+        e.preventDefault();
+        command.up = false;
+    }
+    if (e.keyCode === 40) {
+        e.preventDefault();
+        command.down = false;
+    }
+    if (e.keyCode === 39) {
+        e.preventDefault();
+        command.right = false;
+    }
+    if (e.keyCode === 37) {
+        e.preventDefault();
+        command.left = false;
+    }
+
+    if (e.keyCode === 37 || e.keyCode === 39 || e.keyCode === 40 || e.keyCode === 38) {
+        console.log(command);
+    }
+}
+
+const handleBottoneConnessione = () => {
+    username = "Carlo";
 
     if (username) {
-        //usernamePage.classList.add('hidden');
-        //chatPage.classList.remove('hidden');
-
-        var socket = new SockJS('/ws');
+        let socket = new SockJS("/ws");
         stompClient = Stomp.over(socket);
-
         stompClient.connect({}, onConnected, onError);
+        //stompClient.debug = null; TODO: disable debug on STOMP client
     }
-    event.preventDefault();
+
 }
 
-function onStateUpgradeReceived(payload) {
-    let message = JSON.parse(payload.body);
-    let content = JSON.parse(message.content);
-    console.log("AAA -> " + payload + " <-- " + message);
-    console.log(message)
-    console.log(content)
-
-    let data = content;
-    drawPoint(data);
-}
-
-function onConnected() {
-    // Subscribe to the Public Topic
-    //stompClient.subscribe('/partita/public', onMessageReceived);
-    //stompClient.subscribe('/topic/' + username, onMessageReceived);
+const onConnected = () => {
     stompClient.subscribe('/partita/public', onStateUpgradeReceived);
-
 
     // Tell your username to the server
     stompClient.send("/app/partita.connessioneGiocatore",
         {},
         JSON.stringify({sender: username, tipoMessaggio: 'CONNESSIONE'})
     );
-
-
-    //connectingElement.classList.add('hidden');
-}
-
-function inviaMessaggio(m) {
-    stompClient.send("/app/partita.inviaComando",
-        {},
-        JSON.stringify({sender: username, tipoMessaggio: 'COMANDO', content: m})
-    );
-}
-
-
-function onError(error) {
-    alert('Could not connect to WebSocket server. Please refresh this page to try again!');
-    //connectingElement.style.color = 'red';
-}
-
-bottoneConnessione.addEventListener('click', connect, true);
-bottoneInvio.addEventListener('click', inviaMessaggio, true);
-
-
-let myColor = {
-    r: 200,
-    g: 50,
-    b: 22
 };
 
+const onError = () => {
+    alert('Could not connect to WebSocket server. Please refresh this page to try again!');
 
-function setup() {
-    createCanvas(600, 400);
-    background(51);
+};
+
+const onStateUpgradeReceived = (message) => {
+    gameState.tanks[0] = new Tank(100, 100, 250);
+    gameState.tanks[0].draw();
+    console.log(message);
 }
 
-function draw() {
 
-}
+document.addEventListener('keydown', keyDownHandler)
+//document.addEventListener('keyup', keyUpHandler)
 
-function mouseDragged() {
-    //console.log("Sending: " + mouseX + "," + mouseY);
+document.getElementById("bottone-connessione").addEventListener("click", handleBottoneConnessione);
 
-    let data = {
-        x: mouseX,
-        y: mouseY,
-        color: myColor
-    };
-
-    console.log(data);
-
-    drawPoint(data);
-    sendPoint(data);
-}
-
-function drawPoint(data) {
-    noStroke();
-    fill(data.color.r, data.color.g, data.color.b);
-    ellipse(data.x, data.y, 36, 36);
-}
-
-function sendPoint(data) {
-    let a = JSON.stringify(data);
-    inviaMessaggio(a);
-}
