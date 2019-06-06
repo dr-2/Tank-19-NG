@@ -2,11 +2,13 @@
 
 console.log("javascript caricato correttamente");
 
+
 let username;
 let stompClient;
 let mainDiv = document.querySelector('#main-div');
 let bottoneConnessione = document.querySelector('#bottone-connessione');
 let bottoneInvio = document.querySelector('#bottone-invio');
+
 
 
 
