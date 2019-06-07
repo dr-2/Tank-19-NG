@@ -2,15 +2,19 @@ package it.univaq.dr2.tank19.controller;
 
 
 import it.univaq.dr2.tank19.model.Persona;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+
+@RestController
 public class ControllerSignup {
-    @RequestMapping(method = RequestMethod.POST, value = "/signup")
-    public void nuovaPersona(@RequestBody Persona persona) {
-        System.out.println("Username della nuova persona: " + persona.getUsername());
+
+    @PostMapping("/signup")
+    public Persona formPost(@RequestParam(value = "username", defaultValue = "boh") String username) {
+        Persona persona = new Persona();
+        persona.setUsername(username);
+        System.out.println("Persona: " + persona.getUsername());
+        return persona;
     }
 }

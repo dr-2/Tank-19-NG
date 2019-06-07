@@ -1,14 +1,11 @@
 package it.univaq.dr2.tank19.model;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity // Hibernate crea la relativa tabella
+@Table(name = "persone")
 @Data // Lombok implementas automaticamente getter e setter
 public class Persona {
     @Id
@@ -17,8 +14,9 @@ public class Persona {
     private String username;
     private String email;
     private String password;
-    @Autowired
-    private TipoRuoloPersona ruolo;
-    private boolean attivo = false; // True se l'utente è loggato
-    private boolean verificato = false; //True se l'email dell'utente è già stata verificata
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "privilegi", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "ruoli"))
+    private Set<RuoloPersona> ruoli;
+    private String status; //ad es. se l'utente è loggato
 }

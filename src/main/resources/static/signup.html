@@ -26,13 +26,12 @@
                 <h3>Registrazione</h3>
             </div>
             <div class="card-body">
-                <form id="signupForm" th:action="@{/signup}" th:object="${persona}" method="post">
+                <form id="signupForm" action="/signup" method="post">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
                         <input type="text" class="form-control" placeholder="username" id="username"
-                               th:field="*{username}"
                                title = "Username"
                                required pattern="\w+">>
                     </div>
@@ -40,7 +39,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="email" class="form-control" placeholder="email" id="email" th:field="*{email}"
+                        <input type="email" class="form-control" placeholder="email" id="email"
                                required>
                     </div>
                     <div class="input-group form-group">
@@ -48,7 +47,6 @@
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
                         <input type="password" class="form-control" placeholder="password" id="password"
-                               th:field="*{password}"
                                title = "La Password deve essere lunga almeno 6 caratteri e deve contenere lettere maiuscole e minuscole e numeri"
                                required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
                                onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');
