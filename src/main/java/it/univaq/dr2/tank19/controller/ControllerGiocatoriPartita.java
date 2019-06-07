@@ -22,6 +22,7 @@ public class ControllerGiocatoriPartita {
         this.serviceGiocatore = serviceGiocatore;
     }
 
+
     //TODO: questo metodo è solo per validare visivamente il funzionamento. translare e spostare in test
     @RequestMapping("/{idpartita}/get")
     public String getId(@PathVariable("idpartita") Long id) {
