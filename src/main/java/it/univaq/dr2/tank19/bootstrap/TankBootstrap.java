@@ -1,7 +1,9 @@
 package it.univaq.dr2.tank19.bootstrap;
 
+import it.univaq.dr2.tank19.model.Giocatore;
 import it.univaq.dr2.tank19.model.Partita;
-import it.univaq.dr2.tank19.repository.RepositoryPartite;
+import it.univaq.dr2.tank19.service.ServiceGiocatore;
+import it.univaq.dr2.tank19.service.ServicePartita;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -14,26 +16,51 @@ import java.util.List;
 @Component
 public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-    private final RepositoryPartite repositoryPartite;
+    private final ServicePartita servicePartita;
+    private final ServiceGiocatore serviceGiocatore;
 
-    public TankBootstrap(RepositoryPartite repositoryPartite) {
-        this.repositoryPartite = repositoryPartite;
+    public TankBootstrap(ServicePartita servicePartita, ServiceGiocatore serviceGiocatore) {
+        this.servicePartita = servicePartita;
+        this.serviceGiocatore = serviceGiocatore;
     }
+
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.warn("****************** STO CARICANDO I DATI INIZIALI DAL BOOTSTRAP. Disabilitare in produzione *******************");
-        repositoryPartite.saveAll(getPartite());
+        loadData();
     }
 
-    private List<Partita> getPartite() {
+    private void loadData() {
         List<Partita> partite = new ArrayList<>(2);
 
-        Partita partita1 = new Partita();
-        partita1.setGiocatoreA("Carlo");
-        partita1.setGiocatoreB("Agnese");
-        partite.add(partita1);
+        Partita p = new Partita();
+        Giocatore g = new Giocatore();
+        g.setNome("Carlo");
+        g.setPartita(p);
 
-        return partite;
+        p.getGiocatori().add(g);
+
+        servicePartita.save(p);
+
+
+        Partita p2 = new Partita();
+        Giocatore g2 = new Giocatore();
+        g2.setNome("Valeria");
+        g2.setPartita(p2);
+
+        p2.getGiocatori().add(g2);
+
+        servicePartita.save(p2);
+
+        Giocatore g3 = new Giocatore();
+        g3.setNome("Agnese");
+        g3.setPartita(p);
+
+        p.getGiocatori().add(g3);
+
+        servicePartita.save(p);
+
+
     }
 }
