@@ -3,10 +3,7 @@ package it.univaq.dr2.tank19.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Setter
 @Getter
@@ -21,5 +18,13 @@ public class Giocatore extends BaseEntity {
     @JoinColumn(name = "partita_id")
     private Partita partita;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "punteggio_id", referencedColumnName = "id")
+    private Punteggio punteggio;
+
     String nome;
+
+    public void aggiungiPunti(Integer punti) { // TODO: cambiare in assegna ricompensa
+        this.punteggio.aggiungiPunti(punti);
+    }
 }

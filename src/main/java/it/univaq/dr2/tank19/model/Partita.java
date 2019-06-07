@@ -20,4 +20,12 @@ public class Partita extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita")
     private Set<Giocatore> giocatori = new HashSet<>();
+
+    public Set<Long> getListaIdGiocatori() {
+        Set<Long> idGiocatori = new HashSet<>();
+        this.getGiocatori().iterator().forEachRemaining(e -> {
+            idGiocatori.add(e.getId());
+        });
+        return idGiocatori;
+    }
 }
