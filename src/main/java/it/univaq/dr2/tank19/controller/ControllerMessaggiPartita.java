@@ -19,8 +19,8 @@ public class ControllerMessaggiPartita {
 
     @MessageMapping("/partita.inviaComando")
     public MessaggioBase inviaMessaggioComando(@Payload MessaggioComando messaggio) {
-        System.out.println("ho ricevuto da /partita.inviaComando: " + messaggio.getContent());
-        System.out.println("mittente e tipo: " + messaggio.getSender() + " " + messaggio.getTipoMessaggio());
+        log.debug("ho ricevuto da /partita.inviaComando:content, mittente, tipo: " + messaggio.getContent() + ", " + messaggio.getSender() + " " + messaggio.getTipoMessaggio());
+
         simpMessagingTemplate.convertAndSend("/partita/public", messaggio);
 
         // System.out.println();
