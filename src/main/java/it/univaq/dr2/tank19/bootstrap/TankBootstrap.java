@@ -36,11 +36,8 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         List<Partita> partite = new ArrayList<>(2);
 
         Partita p = new Partita();
-        Giocatore g = new Giocatore();
-        g.setNome("Carlo");
-        g.setPartita(p);
-        Punteggio punti = new Punteggio();
-        punti.setPunti(33);
+        Giocatore g = Giocatore.builder().nome("Carlo").partita(p).build();
+        Punteggio punti = Punteggio.builder().punti(33).build();
         g.setPunteggio(punti);
 
         g.aggiungiPunti(-34);

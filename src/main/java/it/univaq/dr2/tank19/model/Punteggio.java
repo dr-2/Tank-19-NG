@@ -1,17 +1,23 @@
 package it.univaq.dr2.tank19.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * @author Carlo Centofanti
  * @created 07/06/2019
  */
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
+@Table(name = "punteggi")
 public class Punteggio extends BaseEntity {
     private Integer punti;
 
