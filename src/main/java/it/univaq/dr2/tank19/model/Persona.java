@@ -10,13 +10,13 @@ import java.util.Set;
 public class Persona {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     private String username;
     private String email;
     private String password;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "privilegi", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "ruoli"))
+    @Transient
+    private String passwordConfirm;
+    @ManyToMany
     private Set<RuoloPersona> ruoli;
     private String status; //ad es. se l'utente è loggato
 }

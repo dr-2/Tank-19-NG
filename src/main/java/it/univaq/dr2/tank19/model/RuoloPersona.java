@@ -2,6 +2,7 @@ package it.univaq.dr2.tank19.model;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "ruoli")
@@ -9,7 +10,10 @@ import javax.persistence.*;
 public class RuoloPersona {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
-    private TipoRuoloPersona tipoRuolo;
+    private Long id;
+    private String nome;
+    private TipoRuoloPersona tipo;
     private String descrizione;
+    @ManyToMany(mappedBy = "ruoli")
+    private Set<Persona> users;
 }
