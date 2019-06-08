@@ -36,7 +36,7 @@ public class ControllerPersona {
         }
         servicePersona.save(formPersona);
         securityService.autoLogin(formPersona.getUsername(), formPersona.getPasswordConfirm());
-        return "redirect:/wellcome";
+        return "redirect:/welcome";
     }
 
     @GetMapping("/login")
@@ -50,7 +50,7 @@ public class ControllerPersona {
         return "login";
     }
 
-    @GetMapping({"/", "/wellcome"})
+    @GetMapping({"/", "/welcome"})
     public String wellcome(Model model) {
         return "wellcome";
     }
