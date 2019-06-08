@@ -1,7 +1,10 @@
-body {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #eee;
+
+html,body{
+    background-image: url('/static/css/pictures/wallpapers/wallpaperLogin.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: 'Numans', sans-serif;
 }
 
 .form-signin {

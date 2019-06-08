@@ -40,8 +40,8 @@ public class ControllerPersona {
     }
 
     @GetMapping("/login")
-    public String login(Model model, String errore, String logout) {
-        if (errore != null) {
+    public String login(Model model, String error, String logout) {
+        if (error != null) {
             model.addAttribute("error", "La combinazione username-password usata non è corretta");
         }
         if (logout != null) {
