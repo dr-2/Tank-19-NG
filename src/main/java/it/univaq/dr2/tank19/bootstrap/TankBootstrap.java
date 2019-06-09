@@ -57,6 +57,9 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g2.setNome("Valeria");
         g2.setPartita(p2);
 
+        OggettoDiGioco tank2 = OggettoDiGioco.builder().partita(p2).posX(100).posY(100).build();
+        p2.getOggettiDiGioco().add(tank2);
+
         p2.getGiocatori().add(g2);
 
         servicePartita.save(p2);
@@ -73,6 +76,9 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         Giocatore g3 = new Giocatore();
         g3.setNome("Agnese");
         g3.setPartita(p);
+
+        OggettoDiGioco tank3 = OggettoDiGioco.builder().partita(p).posX(500).posY(500).build();
+        p.getOggettiDiGioco().add(tank3);
 
         p.getGiocatori().add(g3);
 

@@ -3,10 +3,7 @@ package it.univaq.dr2.tank19.model;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author Carlo Centofanti
@@ -29,6 +26,7 @@ public class OggettoDiGioco extends BaseEntity {
     private Integer posY;
 
     @Value("${tank.velocita}")
+    @Transient
     private Integer velocita; //todo - muovi in app.propr
 
     @ManyToOne

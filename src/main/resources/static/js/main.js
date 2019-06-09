@@ -13,6 +13,7 @@ let username;
 let stompClient;
 
 const idPartita = 1;
+let idOggettoControllato = 1;
 
 function setup() {
     createCanvas(800, 600);
@@ -22,7 +23,6 @@ function setup() {
 function draw() {
     background(51);
     for (const id of Object.keys(gameState.tanks)) {
-        console.log(id)
         gameState.tanks[id].draw();
     }
 
@@ -51,7 +51,6 @@ const keyDownHandler = (e) => {
     }
 
     if (e.keyCode === 37 || e.keyCode === 39 || e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 70) {
-        console.log(command);
         JSON.stringify(command);
         stompClient.send("/app/partite/" + idPartita + "/.inviaComando",
             {},
@@ -60,7 +59,7 @@ const keyDownHandler = (e) => {
                 tipoMessaggio: 'COMANDO',
                 content: "prova di sto campo..",
                 idPartita: idPartita,
-                idOggetto: 1, //TODO: parametrizzare questo magic numb
+                idOggetto: idOggettoControllato, //TODO: parametrizzare questo magic numb
                 nord: command.nord, sud: command.sud, est: command.est, ovest: command.ovest, fuoco: command.fuoco
             })
         );
@@ -90,7 +89,6 @@ const keyUpHandler = (e) => {
     }
 
     if (e.keyCode === 37 || e.keyCode === 39 || e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 70) {
-        console.log(command);
 
     }
 }
@@ -126,17 +124,22 @@ const onStateUpgradeReceived = (message) => {
     parsedData = JSON.parse(message.body);
     gameState.tanks[parsedData.idOggetto] = new Tank(parsedData.posx, parsedData.posy, 250);
 
+}
 
-    // gameState.tanks[0].draw();
-    console.log("------------")
-    console.log(message);
-
-    window.mess = parsedData
+const cambiaGiocatoere = () => {
+    if (idOggettoControllato === 1) {
+        idOggettoControllato = 3;
+    } else {
+        idOggettoControllato = 1;
+    }
 }
 
 
 document.addEventListener('keydown', keyDownHandler)
+
 document.addEventListener('keyup', keyUpHandler)
 
 document.getElementById("bottone-connessione").addEventListener("click", handleBottoneConnessione);
+
+document.getElementById('bottone-diventa-Player2').addEventListener("click", cambiaGiocatoere)
 

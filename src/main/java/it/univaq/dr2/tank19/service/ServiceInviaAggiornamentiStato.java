@@ -19,7 +19,7 @@ public class ServiceInviaAggiornamentiStato {
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
-    @Scheduled(fixedDelay = 1000 / 15)
+    @Scheduled(fixedDelay = 1000 / 60)
     public void inviaAggiornamentiDiStato() {
 //        Set<OggettoDiGioco> oggetti = new HashSet<>();
         serviceOggettoDiGioco.findAll().iterator().forEachRemaining(oggetto -> {
