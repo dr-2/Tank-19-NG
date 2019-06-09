@@ -21,11 +21,11 @@
         <form method="POST" action="/login" class="form-signin">
             <h2 class="form-heading card-text">Log in</h2>
             <div class="form-group ${error != null ? 'has-error' : ''}">
-                <span>${message}</span>
+                <span th:if="${message}" th:text="${message}"> </span>
                 <input name="username" type="text" class="form-control" placeholder="Username"
                        autofocus="true"/>
                 <input name="password" type="password" class="form-control" placeholder="Password"/>
-                <span>${error}</span>
+                <span class="has-error" th:if="${error}" th:text="${error}"> </span>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <button class="btn btn-lg btn-primary btn-block btn-login" type="submit">Accedi</button>
             </div>
