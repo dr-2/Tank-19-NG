@@ -51,5 +51,6 @@ public class ServicePartitaImpl implements ServicePartita {
     public void aggiornaStato(MessaggioComando comando) {
         Partita partitaCorrente = this.findById(comando.getIdPartita());
         partitaCorrente.muovi(comando.getIdOggetto(), comando.getDirezione());
+        this.save(partitaCorrente);
     }
 }

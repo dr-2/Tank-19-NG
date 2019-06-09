@@ -2,6 +2,7 @@ package it.univaq.dr2.tank19.service;
 
 import it.univaq.dr2.tank19.model.OggettoDiGioco;
 import it.univaq.dr2.tank19.repository.RepositoryOggettoDiGioco;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
  * @author Carlo Centofanti
  * @created 09/06/2019
  */
+@Service
 public class ServiceOggettoDiGiocoImpl implements ServiceOggettoDiGioco {
 
     private final RepositoryOggettoDiGioco repositoryOggettoDiGioco;
