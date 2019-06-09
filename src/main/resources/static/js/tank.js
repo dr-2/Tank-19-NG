@@ -12,5 +12,10 @@ class Tank {
         fill(this.color);
         rect(this.posX, this.posY, this.width, this.height);
     }
+
+    moveToXY(x, y) {
+        this.posX = x;
+        this.posY = y;
+    }
 }
 
