@@ -73,12 +73,8 @@ html,body{
     color: #000;
 }
 
-.registration-subsection{
-    margin-top: 15px;
-}
 
 .btn-signup{
-    margin-top: 10px;
     background-color: #FFC312;
     border: yellow;
     color: #000;

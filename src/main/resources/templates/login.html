@@ -25,15 +25,15 @@
                 <input name="username" type="text" class="form-control" placeholder="Username"
                        autofocus="true"/>
                 <input name="password" type="password" class="form-control" placeholder="Password"/>
-                <span class="has-error" th:if="${error}" th:text="${error}"> </span>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <button class="btn btn-lg btn-primary btn-block btn-login" type="submit">Accedi</button>
-            </div>
-            <div class="registration-subsection">
-                <div class="card-text"> Non sei ancora registrato?</div>
-                <button class="btn btn-signup" formaction="/registration">Registrati</button>
+                <span class="has-error" th:if="${error}" th:text="${error}"> </span>
             </div>
         </form>
+        <div class="registration-subsection form-signin">
+            <div class="card-text"> Non sei ancora registrato?</div>
+            <button class="btn btn-signup" onclick="window.location='/registration'">Registrati</button>
+        </div>
     </div>
 </div>
 

@@ -19,21 +19,21 @@ public class ValidatorPersona implements Validator {
     }
 
     @Override
-    public void validate(Object o, Errors errori){
+    public void validate(Object o, Errors errors){
         Persona persona = (Persona)o;
-        ValidationUtils.rejectIfEmptyOrWhitespace(errori, "username", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
         if(persona.getUsername().length() < 6 || persona.getUsername().length() > 32){
-            errori.rejectValue("username", "Size.userForm.username");
+            errors.rejectValue("username", "Size.userForm.username");
         }
         if(servicePersona.findByUsername(persona.getUsername()) != null){
-            errori.rejectValue("username", "Duplicate.userForm.username");
+            errors.rejectValue("username", "Duplicate.userForm.username");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errori, "password", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
         if(persona.getPassword().length() < 8 || persona.getPassword().length() > 32){
-            errori.rejectValue("password", "Size.userForm.password");
+            errors.rejectValue("password", "Size.userForm.password");
         }
         if(! persona.getPasswordConfirm().equals(persona.getPassword())){
-            errori.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
+            errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
     }
 }
