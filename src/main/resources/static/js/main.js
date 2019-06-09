@@ -50,20 +50,20 @@ const keyDownHandler = (e) => {
         command.fuoco = true;
     }
 
-    if (e.keyCode === 37 || e.keyCode === 39 || e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 70) {
-        JSON.stringify(command);
-        stompClient.send("/app/partite/" + idPartita + "/.inviaComando",
-            {},
-            JSON.stringify({
-                sender: username,
-                tipoMessaggio: 'COMANDO',
-                content: "prova di sto campo..",
-                idPartita: idPartita,
-                idOggetto: idOggettoControllato, //TODO: parametrizzare questo magic numb
-                nord: command.nord, sud: command.sud, est: command.est, ovest: command.ovest, fuoco: command.fuoco
-            })
-        );
-    }
+    // if (e.keyCode === 37 || e.keyCode === 39 || e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 70) {
+    //     JSON.stringify(command);
+    //     stompClient.send("/app/partite/" + idPartita + "/.inviaComando",
+    //         {},
+    //         JSON.stringify({
+    //             sender: username,
+    //             tipoMessaggio: 'COMANDO',
+    //             content: "prova di sto campo..",
+    //             idPartita: idPartita,
+    //             idOggetto: idOggettoControllato, //TODO: parametrizzare questo magic numb
+    //             nord: command.nord, sud: command.sud, est: command.est, ovest: command.ovest, fuoco: command.fuoco
+    //         })
+    //     );
+    // }
 }
 
 const keyUpHandler = (e) => {
@@ -134,12 +134,25 @@ const cambiaGiocatoere = () => {
     }
 }
 
+setInterval(() => {
+    JSON.stringify(command);
+    stompClient.send("/app/partite/" + idPartita + "/.inviaComando",
+        {},
+        JSON.stringify({
+            sender: username,
+            tipoMessaggio: 'COMANDO',
+            content: "prova di sto campo..",
+            idPartita: idPartita,
+            idOggetto: idOggettoControllato, //TODO: parametrizzare questo magic numb
+            nord: command.nord, sud: command.sud, est: command.est, ovest: command.ovest, fuoco: command.fuoco
+        })
+        );
+}, 1000 / 60);
+
 
 document.addEventListener('keydown', keyDownHandler)
-
 document.addEventListener('keyup', keyUpHandler)
 
 document.getElementById("bottone-connessione").addEventListener("click", handleBottoneConnessione);
-
 document.getElementById('bottone-diventa-Player2').addEventListener("click", cambiaGiocatoere)
 
