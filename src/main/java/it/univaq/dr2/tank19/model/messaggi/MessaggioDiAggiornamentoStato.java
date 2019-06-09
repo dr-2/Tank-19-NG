@@ -7,7 +7,7 @@ import lombok.Data;
  * @created 09/06/2019
  */
 @Data
-public class MessaggioDiStato extends MessaggioBase {
+public class MessaggioDiAggiornamentoStato extends MessaggioBase {
     private Long idOggetto;
     private Integer posx;
     private Integer posy;

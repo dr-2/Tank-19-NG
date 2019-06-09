@@ -1,13 +1,25 @@
 package it.univaq.dr2.tank19.model;
 
-import lombok.Data;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * @author Carlo Centofanti
  * @created 08/06/2019
  */
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "oggettodigioco")
 public class OggettoDiGioco extends BaseEntity {
 
 //    @JsonInclude()
@@ -15,8 +27,29 @@ public class OggettoDiGioco extends BaseEntity {
 
     private Integer posX;
     private Integer posY;
-    private Long idPartita;
+
+    @Value("${tank.velocita}")
+    private Integer velocita; //todo - muovi in app.propr
+
+    @ManyToOne
+    @JoinColumn(name = "partita_id")
+    private Partita partita;
 
     //void eseguiComando(Comando comando);
+
+    void muovi(Direzione direzione) {
+        if (direzione == Direzione.NORD) {
+            this.posY = this.posY - 4;
+        }
+        if (direzione == Direzione.SUD) {
+            this.posY = this.posY + 4;
+        }
+        if (direzione == Direzione.EST) {
+            this.posX = this.posX + 4;
+        }
+        if (direzione == Direzione.OVEST) {
+            this.posX = this.posX - 4;
+        }
+    }
 
 }

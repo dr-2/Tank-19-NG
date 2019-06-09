@@ -12,7 +12,7 @@ const command = {
 let username;
 let stompClient;
 
-const idPartita = 17;
+const idPartita = 1;
 
 function setup() {
     createCanvas(800, 600);
@@ -20,7 +20,7 @@ function setup() {
 }
 
 function draw() {
-    //background(51)
+    background(51);
     for (const id of Object.keys(gameState.tanks)) {
         console.log(id)
         gameState.tanks[id].draw();
@@ -56,7 +56,11 @@ const keyDownHandler = (e) => {
         stompClient.send("/app/partite/" + idPartita + "/.inviaComando",
             {},
             JSON.stringify({
-                sender: username, tipoMessaggio: 'COMANDO', content: "prova di sto campo..",
+                sender: username,
+                tipoMessaggio: 'COMANDO',
+                content: "prova di sto campo..",
+                idPartita: idPartita,
+                idOggetto: 1, //TODO: parametrizzare questo magic numb
                 nord: command.nord, sud: command.sud, est: command.est, ovest: command.ovest, fuoco: command.fuoco
             })
         );

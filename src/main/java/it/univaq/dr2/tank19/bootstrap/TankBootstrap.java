@@ -1,6 +1,7 @@
 package it.univaq.dr2.tank19.bootstrap;
 
 import it.univaq.dr2.tank19.model.Giocatore;
+import it.univaq.dr2.tank19.model.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.Punteggio;
 import it.univaq.dr2.tank19.service.ServiceGiocatore;
@@ -41,6 +42,10 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g.setPunteggio(punti);
 
         g.aggiungiPunti(-34);
+
+        OggettoDiGioco tank = OggettoDiGioco.builder().partita(p).posX(100).posY(100).build();
+        p.getOggettiDiGioco().add(tank);
+
 
         p.getGiocatori().add(g);
 
