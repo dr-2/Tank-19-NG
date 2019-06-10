@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 
 @Controller
 public class ControllerPersona {
@@ -28,9 +31,12 @@ public class ControllerPersona {
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("userForm") Persona formPersona, BindingResult bindingResult) {
+    public String registration(Model model, @ModelAttribute("userForm") Persona formPersona, BindingResult bindingResult) {
         validatorPersona.validate(formPersona, bindingResult);
         if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getAllErrors());
+            System.out.print(bindingResult);
+            model.addAttribute("usernameErrors", bindingResult.getFieldErrors("username"));
             return "registration";
         }
         servicePersona.save(formPersona);
@@ -50,8 +56,8 @@ public class ControllerPersona {
     }
 
     @GetMapping({"/", "/welcome"})
-    public String wellcome(Model model) {
-        return "wellcome";
+    public String welcome(Model model) {
+        return "welcome";
     }
 
 }

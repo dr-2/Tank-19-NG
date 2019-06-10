@@ -22,8 +22,7 @@
             <h2 class="form-heading card-text">Log in</h2>
             <div class="form-group ${error != null ? 'has-error' : ''}">
                 <span th:if="${message}" th:text="${message}"> </span>
-                <input name="username" type="text" class="form-control" placeholder="Username"
-                       autofocus="true"/>
+                <input name="username" type="text" class="form-control" placeholder="Username" autofocus="true"/>
                 <input name="password" type="password" class="form-control" placeholder="Password"/>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <button class="btn btn-lg btn-primary btn-block btn-login" type="submit">Accedi</button>
