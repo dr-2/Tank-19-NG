@@ -32,11 +32,25 @@ public class OggettoDiGioco extends BaseEntity {
 
     //    @Value("${tank.velocita}")
     private static Integer velocita;
+    private static Integer larghezzaCanvas;
+    private static Integer altezzaCanvas;
 
     // workaround per iniettare il valore nella variabile statica di classe
     @Value("${tank.velocita}")
-    public void setVelocita(Integer v) {
-        velocita = v;
+    public void setVelocita(Integer vel) {
+        velocita = vel;
+    }
+
+    // workaround per iniettare il valore nella variabile statica di classe
+    @Value("${canvas.altezza}")
+    public void setAltezzaCanvas(Integer altezza) {
+        larghezzaCanvas = altezza;
+    }
+
+    // workaround per iniettare il valore nella variabile statica di classe
+    @Value("${canvas.larghezza}")
+    public void setLarghezzaCanvas(Integer larghezza) {
+        altezzaCanvas = larghezza;
     }
 
     @ManyToOne
@@ -47,16 +61,16 @@ public class OggettoDiGioco extends BaseEntity {
 
     void muovi(Direzione direzione) {
         if (direzione == Direzione.NORD) {
-            this.posY = this.posY - OggettoDiGioco.velocita;
+            if (this.posY > 0) this.posY = this.posY - OggettoDiGioco.velocita;
         }
         if (direzione == Direzione.SUD) {
-            this.posY = this.posY + OggettoDiGioco.velocita;
+            if (this.posY < OggettoDiGioco.altezzaCanvas - 20) this.posY = this.posY + OggettoDiGioco.velocita;
         }
         if (direzione == Direzione.EST) {
-            this.posX = this.posX + OggettoDiGioco.velocita;
+            if (this.posX < OggettoDiGioco.larghezzaCanvas - 20) this.posX = this.posX + OggettoDiGioco.velocita;
         }
         if (direzione == Direzione.OVEST) {
-            this.posX = this.posX - OggettoDiGioco.velocita;
+            if (this.posX > 0) this.posX = this.posX - OggettoDiGioco.velocita;
         }
     }
 

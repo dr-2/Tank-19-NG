@@ -3,8 +3,8 @@ class Tank {
         this.posX = posX;
         this.posY = posY;
         this.color = color;
-        this.width = 40;
-        this.height = 40;
+        this.width = 20;
+        this.height = 20;
     }
 
     draw() {

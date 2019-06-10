@@ -157,7 +157,13 @@ const onError = () => {
 
 const onStateUpgradeReceived = (message) => {
     parsedData = JSON.parse(message.body);
-    gameState.tanks[parsedData.idOggetto] = new Tank(parsedData.posx, parsedData.posy, 250);
+    let colore;
+    if (parsedData.idOggetto === 1) {
+        colore = "blue"
+    } else {
+        colore = "red"
+    }
+    gameState.tanks[parsedData.idOggetto] = new Tank(parsedData.posx, parsedData.posy, colore);
 
 }
 
