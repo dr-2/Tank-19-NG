@@ -8,6 +8,15 @@ const command = {
     est: false,
     fuoco: false
 };
+const gameConfig = {
+    tank: {
+        velocita: null
+    },
+    canvas: {
+        altezza: null,
+        larghezza: null
+    }
+}
 
 let username;
 let stompClient;
@@ -15,8 +24,33 @@ let stompClient;
 const idPartita = 1;
 let idOggettoControllato = 1;
 
+
+function preload() {
+    httpGet("/configurazioni/canvas/altezza", 'text', false, (response) => {
+        gameConfig.canvas.larghezza = response;
+        resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
+    }, () => {
+        alert("Errore critico di configurazione. La pagina verrà ricaricata");
+        location.reload();
+    });
+    httpGet("/configurazioni/canvas/larghezza", 'text', false, (response) => {
+        gameConfig.canvas.altezza = response;
+        resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
+    }, () => {
+        alert("Errore critico di configurazione. La pagina verrà ricaricata");
+        location.reload();
+    });
+    httpGet("/configurazioni/tank/velocita", 'text', false, (response) => {
+        gameConfig.tank.velocita = response;
+        resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
+    }, () => {
+        alert("Errore critico di configurazione. La pagina verrà ricaricata");
+        location.reload();
+    });
+}
+
 function setup() {
-    createCanvas(800, 600);
+    createCanvas(10, 10);
     background(51);
 }
 
@@ -49,21 +83,6 @@ const keyDownHandler = (e) => {
         e.preventDefault();
         command.fuoco = true;
     }
-
-    // if (e.keyCode === 37 || e.keyCode === 39 || e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 70) {
-    //     JSON.stringify(command);
-    //     stompClient.send("/app/partite/" + idPartita + "/.inviaComando",
-    //         {},
-    //         JSON.stringify({
-    //             sender: username,
-    //             tipoMessaggio: 'COMANDO',
-    //             content: "prova di sto campo..",
-    //             idPartita: idPartita,
-    //             idOggetto: idOggettoControllato, //TODO: parametrizzare questo magic numb
-    //             nord: command.nord, sud: command.sud, est: command.est, ovest: command.ovest, fuoco: command.fuoco
-    //         })
-    //     );
-    // }
 }
 
 const keyUpHandler = (e) => {
@@ -93,6 +112,7 @@ const keyUpHandler = (e) => {
     }
 }
 
+
 const handleBottoneConnessione = () => {
     username = "Carlo";
 
@@ -102,6 +122,21 @@ const handleBottoneConnessione = () => {
         stompClient.connect({}, onConnected, onError);
         //stompClient.debug = null; TODO: disable debug on STOMP client
     }
+
+    setInterval(() => {
+        JSON.stringify(command);
+        stompClient.send("/app/partite/" + idPartita + "/.inviaComando",
+            {},
+            JSON.stringify({
+                sender: username,
+                tipoMessaggio: 'COMANDO',
+                content: "prova di sto campo..",
+                idPartita: idPartita,
+                idOggetto: idOggettoControllato, //TODO: parametrizzare questo magic numb
+                nord: command.nord, sud: command.sud, est: command.est, ovest: command.ovest, fuoco: command.fuoco
+            })
+        );
+    }, 1000 / 60);
 
 }
 
@@ -133,21 +168,6 @@ const cambiaGiocatoere = () => {
         idOggettoControllato = 1;
     }
 }
-
-setInterval(() => {
-    JSON.stringify(command);
-    stompClient.send("/app/partite/" + idPartita + "/.inviaComando",
-        {},
-        JSON.stringify({
-            sender: username,
-            tipoMessaggio: 'COMANDO',
-            content: "prova di sto campo..",
-            idPartita: idPartita,
-            idOggetto: idOggettoControllato, //TODO: parametrizzare questo magic numb
-            nord: command.nord, sud: command.sud, est: command.est, ovest: command.ovest, fuoco: command.fuoco
-        })
-        );
-}, 1000 / 60);
 
 
 document.addEventListener('keydown', keyDownHandler)

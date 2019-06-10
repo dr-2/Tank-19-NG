@@ -12,6 +12,7 @@ public class MessaggioComando extends MessaggioBase {
     Boolean ovest;
     Boolean fuoco;
 
+    //Regole di controllo derivate da REQ
     public Direzione getDirezione() {
         Direzione d = null;
         if (nord) {
