@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ControllerSignup {
 
     @PostMapping("/signup")
-    public Persona formPost(@RequestParam(value = "username", defaultValue = "boh") String username) {
+    public Persona formPost(@RequestParam(value = "username", defaultValue = "username") String username) {
         Persona persona = new Persona();
         persona.setUsername(username);
         System.out.println("Persona: " + persona.getUsername());
