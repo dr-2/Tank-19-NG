@@ -34,8 +34,7 @@ public class ControllerPersona {
     public String registration(Model model, @ModelAttribute("userForm") Persona formPersona, BindingResult bindingResult) {
         validatorPersona.validate(formPersona, bindingResult);
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
-            System.out.print(bindingResult);
+            // System.out.print(bindingResult); // Test
             model.addAttribute("usernameErrors", bindingResult.getFieldErrors("username"));
             return "registration";
         }

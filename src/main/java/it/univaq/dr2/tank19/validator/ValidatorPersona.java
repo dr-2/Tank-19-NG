@@ -23,17 +23,17 @@ public class ValidatorPersona implements Validator {
         Persona persona = (Persona)o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
         if(persona.getUsername().length() < 6 || persona.getUsername().length() > 32){
-            errors.rejectValue("username", "Size.userForm.username");
+            errors.rejectValue("username", "Size.userForm.username", "Scegli uno username tra 6 e 32 caratteri");
         }
         if(servicePersona.findByUsername(persona.getUsername()) != null){
-            errors.rejectValue("username", "Duplicate.userForm.username");
+            errors.rejectValue("username", "Duplicate.userForm.username", "Username già in uso");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
         if(persona.getPassword().length() < 8 || persona.getPassword().length() > 32){
-            errors.rejectValue("password", "Size.userForm.password");
+            errors.rejectValue("password", "Size.userForm.password", "Scegli una password tra 8 e 32 caratteri");
         }
         if(! persona.getPasswordConfirm().equals(persona.getPassword())){
-            errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
+            errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm", "Le password inserite non corrispondono");
         }
     }
 }
