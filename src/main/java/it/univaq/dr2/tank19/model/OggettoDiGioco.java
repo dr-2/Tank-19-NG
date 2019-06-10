@@ -2,8 +2,12 @@ package it.univaq.dr2.tank19.model;
 
 import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * @author Carlo Centofanti
@@ -16,6 +20,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
+@Component
 @Table(name = "oggettodigioco")
 public class OggettoDiGioco extends BaseEntity {
 
@@ -25,9 +30,14 @@ public class OggettoDiGioco extends BaseEntity {
     private Integer posX;
     private Integer posY;
 
+    //    @Value("${tank.velocita}")
+    private static Integer velocita;
+
+    // workaround per iniettare il valore nella variabile statica di classe
     @Value("${tank.velocita}")
-    @Transient
-    private Integer velocita; //todo - muovi in app.propr
+    public void setVelocita(Integer v) {
+        velocita = v;
+    }
 
     @ManyToOne
     @JoinColumn(name = "partita_id")
@@ -37,16 +47,16 @@ public class OggettoDiGioco extends BaseEntity {
 
     void muovi(Direzione direzione) {
         if (direzione == Direzione.NORD) {
-            this.posY = this.posY - 4;
+            this.posY = this.posY - OggettoDiGioco.velocita;
         }
         if (direzione == Direzione.SUD) {
-            this.posY = this.posY + 4;
+            this.posY = this.posY + OggettoDiGioco.velocita;
         }
         if (direzione == Direzione.EST) {
-            this.posX = this.posX + 4;
+            this.posX = this.posX + OggettoDiGioco.velocita;
         }
         if (direzione == Direzione.OVEST) {
-            this.posX = this.posX - 4;
+            this.posX = this.posX - OggettoDiGioco.velocita;
         }
     }
 

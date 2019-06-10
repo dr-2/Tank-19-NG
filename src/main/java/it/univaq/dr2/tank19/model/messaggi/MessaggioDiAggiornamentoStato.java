@@ -1,5 +1,6 @@
 package it.univaq.dr2.tank19.model.messaggi;
 
+import it.univaq.dr2.tank19.model.Direzione;
 import lombok.Data;
 
 /**
@@ -11,4 +12,5 @@ public class MessaggioDiAggiornamentoStato extends MessaggioBase {
     private Long idOggetto;
     private Integer posx;
     private Integer posy;
+    private Direzione direzione;
 }
