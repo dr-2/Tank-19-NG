@@ -9,6 +9,7 @@ import it.univaq.dr2.tank19.service.ServicePartita;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -36,8 +37,11 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
     private void loadData() {
         List<Partita> partite = new ArrayList<>(2);
 
+        BCryptPasswordEncoder e = new BCryptPasswordEncoder();
+
+
         Partita p = new Partita();
-        Giocatore g = Giocatore.builder().username("Carlo").partita(p).password("password").build();
+        Giocatore g = Giocatore.builder().username("Carlo").partita(p).password(e.encode("password")).build();
         Punteggio punti = Punteggio.builder().punti(33).build();
         g.setPunteggio(punti);
 
