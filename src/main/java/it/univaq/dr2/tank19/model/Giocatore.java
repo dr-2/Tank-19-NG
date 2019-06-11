@@ -11,6 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
+@NamedQuery(name = "Giocatore.findByUsername", query = "SELECT g FROM Giocatore g WHERE g.username = ?1")
 @Table(name = "giocatori")
 public class Giocatore extends BaseEntity {
 
@@ -22,7 +23,9 @@ public class Giocatore extends BaseEntity {
     @JoinColumn(name = "punteggio_id", referencedColumnName = "id")
     private Punteggio punteggio;
 
-    String nome;
+    private String username;
+    private String password;
+    private String ruolo = "ROLE_GIOCATORE";
 
     public void aggiungiPunti(Integer punti) { // TODO: cambiare in assegna ricompensa
         this.punteggio.aggiungiPunti(punti);

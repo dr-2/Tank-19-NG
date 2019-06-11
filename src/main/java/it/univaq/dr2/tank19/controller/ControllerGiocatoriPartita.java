@@ -26,7 +26,7 @@ public class ControllerGiocatoriPartita {
     @RequestMapping("/{idpartita}/get")
     public String getId(@PathVariable("idpartita") Long id) {
         servicePartita.findById(id).getListaIdGiocatori().iterator().forEachRemaining(aLong -> {
-            System.out.println(serviceGiocatore.findById(aLong).getNome());
+            System.out.println(serviceGiocatore.findById(aLong).getUsername());
         });
         return "a";
     }

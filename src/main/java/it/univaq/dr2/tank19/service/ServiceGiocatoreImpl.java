@@ -41,4 +41,9 @@ public class ServiceGiocatoreImpl implements ServiceGiocatore {
     public void deleteById(Long aLong) {
         repositoryGiocatore.deleteById(aLong);
     }
+
+    @Override
+    public Giocatore findByUsername(String username) {
+        return repositoryGiocatore.findByUsername(username);
+    }
 }
