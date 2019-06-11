@@ -1,1 +1,85 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
 
+html, body {
+    background-image: url("/pictures/wallpapers/wallpaperLogin.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: 'Numans', sans-serif;
+}
+
+
+.container {
+    height: 100%;
+    align-content: center;
+}
+
+.card {
+    height: 500px;
+    width: 400px;
+}
+
+.central {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+
+.form-signin .checkbox {
+    font-weight: normal;
+}
+
+.card-text {
+    color: white;
+}
+
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input {
+    margin-top: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.btn-login {
+    margin-top: 10px;
+    background-color: darkgreen;
+    border: darkolivegreen;
+    color: #000;
+}
+
+
+.btn-signup {
+    background-color: #FFC312;
+    border: yellow;
+    color: #000;
+}
+
+.has-error {
+    color: red
+}
+
+table, th, td {
+    padding-right: 10px;
+}

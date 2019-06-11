@@ -17,7 +17,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/app").setCacheLimit(100);
-        registry.enableSimpleBroker("/partita", "/messages");
+        registry.setApplicationDestinationPrefixes("/app").setCacheLimit(1000);
+        registry.enableSimpleBroker("/partite", "/messages");
     }
 }

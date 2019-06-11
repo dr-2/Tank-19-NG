@@ -2,7 +2,9 @@ package it.univaq.dr2.tank19.controller;
 
 import it.univaq.dr2.tank19.model.messaggi.MessaggioBase;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioComando;
+import it.univaq.dr2.tank19.service.ServicePartita;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -11,29 +13,33 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 @Controller
 public class ControllerMessaggiPartita {
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private final ServicePartita servicePartita;
 
-    public ControllerMessaggiPartita(SimpMessagingTemplate simpMessagingTemplate) {
-        this.simpMessagingTemplate = simpMessagingTemplate;
+    public ControllerMessaggiPartita(SimpMessagingTemplate simpMessagingTemplate, ServicePartita servicePartita) {
+        this.servicePartita = servicePartita;
     }
 
-    @MessageMapping("/partita.inviaComando")
-    public MessaggioBase inviaMessaggioComando(@Payload MessaggioComando messaggio) {
-        log.debug("ho ricevuto da /partita.inviaComando:content, mittente, tipo: " + messaggio.getContent() + ", " + messaggio.getSender() + " " + messaggio.getTipoMessaggio());
+    @MessageMapping("/partite/{idpartita}/.inviaComando")
+    public MessaggioBase inviaMessaggioComando(@Payload MessaggioComando messaggio, @DestinationVariable("idpartita") String idPartita) {
+        String URLMessaggiPartita = "/partite/" + idPartita + "/stato";
+        log.debug("ho ricevuto da /partita.inviaComando:content, mittente, tipo, idpartita: " + messaggio.getContent()
+                + ", " + messaggio.getSender() + ", " + messaggio.getTipoMessaggio() + ", " + idPartita + messaggio.toString());
 
-        simpMessagingTemplate.convertAndSend("/partita/public", messaggio);
-
-        // System.out.println();
+        servicePartita.aggiornaStato(messaggio);
         return messaggio;
     }
 
-    @MessageMapping("/partita.connessioneGiocatore")
-    public MessaggioBase connessioneGiocatore(@Payload MessaggioBase messaggio) {
-        log.debug("ho ricevuto da /partita.connessioneGiocatore content, sender, tipo: " + messaggio.getContent() + ", " + messaggio.getSender() + ", " + messaggio.getTipoMessaggio());
+    @MessageMapping("/partite/{idpartita}/.connessioneGiocatore")
+    public MessaggioBase connessioneGiocatore(@Payload MessaggioBase messaggio, @DestinationVariable("idpartita") String idPartita) {
+        log.debug("ho ricevuto da /partita.connessioneGiocatore content, sender, tipo, idpartita: "
+                + messaggio.getContent() + ", " + messaggio.getSender() + ", " + messaggio.getTipoMessaggio()
+                + ", " + idPartita);
+        // Todo: implementare la logica per la connessione del giocatore alla partita?
+
         return messaggio;
     }
 
-    @MessageMapping("/partita.inviaMessaggioChat")
+    @MessageMapping("/partite/{idpartita}/.inviaMessaggioChat")
     public MessaggioBase inviaMessaggioChat(@Payload MessaggioBase messaggio) {
         //TODO: implementare
         return messaggio;

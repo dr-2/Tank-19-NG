@@ -1,6 +1,7 @@
 package it.univaq.dr2.tank19.service;
 
 import it.univaq.dr2.tank19.model.Partita;
+import it.univaq.dr2.tank19.model.messaggi.MessaggioComando;
 import it.univaq.dr2.tank19.repository.RepositoryGiocatore;
 import it.univaq.dr2.tank19.repository.RepositoryPartita;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,12 @@ public class ServicePartitaImpl implements ServicePartita {
     @Override
     public void deleteById(Long aLong) {
         repositoryPartita.deleteById(aLong);
+    }
+
+    @Override
+    public void aggiornaStato(MessaggioComando comando) {
+        Partita partitaCorrente = this.findById(comando.getIdPartita());
+        partitaCorrente.muovi(comando.getIdOggetto(), comando.getDirezione());
+        this.save(partitaCorrente);
     }
 }
