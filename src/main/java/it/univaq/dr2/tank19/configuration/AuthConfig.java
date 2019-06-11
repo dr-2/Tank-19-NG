@@ -33,7 +33,8 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                 //.failureUrl("/login.html?error=true")
                 .and()
                 .logout()
-                .logoutUrl("/perform_logout")
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
                 .deleteCookies("JSESSIONID")
                 .and()
                 .headers().frameOptions().disable();

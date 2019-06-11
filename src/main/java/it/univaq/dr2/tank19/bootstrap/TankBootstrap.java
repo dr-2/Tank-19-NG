@@ -37,11 +37,11 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
     private void loadData() {
         List<Partita> partite = new ArrayList<>(2);
 
-        BCryptPasswordEncoder e = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 
         Partita p = new Partita();
-        Giocatore g = Giocatore.builder().username("Carlo").partita(p).password(e.encode("password")).build();
+        Giocatore g = Giocatore.builder().username("Carlo").partita(p).password(encoder.encode("password")).build();
         Punteggio punti = Punteggio.builder().punti(33).build();
         g.setPunteggio(punti);
 
@@ -80,6 +80,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         Giocatore g3 = new Giocatore();
         g3.setUsername("Agnese");
         g3.setPartita(p);
+        g3.setPassword(encoder.encode("password"));
 
         OggettoDiGioco tank3 = OggettoDiGioco.builder().partita(p).posX(500).posY(500).build();
         p.getOggettiDiGioco().add(tank3);

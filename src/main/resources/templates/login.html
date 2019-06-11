@@ -1,6 +1,9 @@
 <html xmlns:X-Content-Type-Options="http://www.w3.org/1999/xhtml">
 
 <head>
+    <title>Log in</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -9,26 +12,39 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" media="all" href="/css/main.css"/>
 </head>
+
 <body>
-<h1>Login</h1>
+
+<h1 class="header card-text">Tank 19 NG</h1>
+
 
 <div class="container">
     <div class="card central">
         <form method="POST" action="login" class="form-signin" X-Content-Type-Options: nosniff accept-charset=utf-8>
-            <table>
-                <tr>
-                    <td>User:</td>
-                    <td><input class="form-control" autofocus="true" type='text' name='username' value=''></td>
-                </tr>
-                <tr>
-                    <td>Password:</td>
-                    <td><input class="form-control" type='password' name='password'/></td>
-                </tr>
-                <tr>
-                    <td><input class="btn btn-lg btn-primary btn-block btn-login" name="submit" type="submit"
-                               value="Accedi"/></td>
-                </tr>
-            </table>
+            <h2 class="form-heading card-text">Tank 19 - Login</h2>
+            <div class="form-group">
+                <table>
+                    <tr>
+                        <td class="card-text">Username:</td>
+                        <td>
+                            <input name="username" type="text" class="form-control" placeholder="Username"
+                                   autofocus="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="card-text">Password:</td>
+                        <td>
+                            <input class="form-control" type='password' name='password' placeholder="Password"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-lg btn-primary btn-block btn-login" type="submit">Accedi</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </form>
 
     </div>

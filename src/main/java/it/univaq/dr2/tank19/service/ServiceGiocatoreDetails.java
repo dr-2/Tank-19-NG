@@ -22,7 +22,6 @@ public class ServiceGiocatoreDetails implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        System.out.println(s);
         Giocatore g = serviceGiocatore.findByUsername(s);
         g.setRuolo("ROLE_USER");
 
