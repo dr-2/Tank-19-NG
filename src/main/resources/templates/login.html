@@ -1,21 +1,37 @@
-<html>
-<head></head>
+<html xmlns:X-Content-Type-Options="http://www.w3.org/1999/xhtml">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="/css/main.css"/>
+</head>
 <body>
 <h1>Login</h1>
-<form name='f' action="login" method='POST'>
-    <table>
-        <tr>
-            <td>User:</td>
-            <td><input type='text' name='username' value=''></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type='password' name='password'/></td>
-        </tr>
-        <tr>
-            <td><input name="submit" type="submit" value="submit"/></td>
-        </tr>
-    </table>
-</form>
+
+<div class="container">
+    <div class="card central">
+        <form method="POST" action="login" class="form-signin" X-Content-Type-Options: nosniff accept-charset=utf-8>
+            <table>
+                <tr>
+                    <td>User:</td>
+                    <td><input class="form-control" autofocus="true" type='text' name='username' value=''></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input class="form-control" type='password' name='password'/></td>
+                </tr>
+                <tr>
+                    <td><input class="btn btn-lg btn-primary btn-block btn-login" name="submit" type="submit"
+                               value="Accedi"/></td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+</div>
 </body>
 </html>
