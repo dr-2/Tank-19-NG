@@ -1,9 +1,6 @@
 package it.univaq.dr2.tank19.bootstrap;
 
-import it.univaq.dr2.tank19.model.Giocatore;
-import it.univaq.dr2.tank19.model.OggettoDiGioco;
-import it.univaq.dr2.tank19.model.Partita;
-import it.univaq.dr2.tank19.model.Punteggio;
+import it.univaq.dr2.tank19.model.*;
 import it.univaq.dr2.tank19.service.ServiceGiocatore;
 import it.univaq.dr2.tank19.service.ServicePartita;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +38,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
 
         Partita p = new Partita();
-        Giocatore g = Giocatore.builder().username("Carlo").partita(p).password(encoder.encode("password")).build();
+        Giocatore g = Giocatore.builder().username("Carlo").ruolo(TipoRuolo.ROLE_USER.toString()).partita(p).password(encoder.encode("password")).build();
         Punteggio punti = Punteggio.builder().punti(33).build();
         g.setPunteggio(punti);
 
