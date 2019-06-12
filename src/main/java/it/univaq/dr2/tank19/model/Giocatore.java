@@ -22,11 +22,15 @@ public class Giocatore extends BaseEntity {
     @JoinColumn(name = "punteggio_id", referencedColumnName = "id")
     private Punteggio punteggio;
 
+    @Transient
+    private String passwordConfirm;
+
     private String username;
     private String password;
-    private String ruolo = "ROLE_USER";
+    private String ruolo = TipoRuolo.ROLE_USER.toString();
 
     public void aggiungiPunti(Integer punti) { // TODO: cambiare in assegna ricompensa
         this.punteggio.aggiungiPunti(punti);
     }
+
 }
