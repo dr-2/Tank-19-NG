@@ -26,8 +26,8 @@ public class ServiceInviaAggiornamentiStato {
             String URLMessaggiPartita = "/partite/" + oggetto.getPartita().getId() + "/stato";
             MessaggioDiAggiornamentoStato messaggio = new MessaggioDiAggiornamentoStato();
             messaggio.setIdOggetto(oggetto.getId());
-            messaggio.setPosx(oggetto.getPosX());
-            messaggio.setPosy(oggetto.getPosY());
+            messaggio.setPosx(oggetto.getPosizione().getPosX());
+            messaggio.setPosy(oggetto.getPosizione().getPosY());
             simpMessagingTemplate.convertAndSend(URLMessaggiPartita, messaggio);
         });
     }

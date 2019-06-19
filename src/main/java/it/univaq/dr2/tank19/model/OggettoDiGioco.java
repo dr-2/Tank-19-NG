@@ -1,13 +1,9 @@
 package it.univaq.dr2.tank19.model;
 
 import lombok.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author Carlo Centofanti
@@ -27,31 +23,10 @@ public class OggettoDiGioco extends BaseEntity {
 //    @JsonInclude()
 //    @Transient
 
-    private Integer posX;
-    private Integer posY;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Posizione posizione;
 
-    //    @Value("${tank.velocita}")
-    private static Integer velocita;
-    private static Integer larghezzaCanvas;
-    private static Integer altezzaCanvas;
 
-    // workaround per iniettare il valore nella variabile statica di classe
-    @Value("${tank.velocita}")
-    public void setVelocita(Integer vel) {
-        velocita = vel;
-    }
-
-    // workaround per iniettare il valore nella variabile statica di classe
-    @Value("${canvas.altezza}")
-    public void setAltezzaCanvas(Integer altezza) {
-        larghezzaCanvas = altezza;
-    }
-
-    // workaround per iniettare il valore nella variabile statica di classe
-    @Value("${canvas.larghezza}")
-    public void setLarghezzaCanvas(Integer larghezza) {
-        altezzaCanvas = larghezza;
-    }
 
     @ManyToOne
     @JoinColumn(name = "partita_id")
@@ -60,18 +35,9 @@ public class OggettoDiGioco extends BaseEntity {
     //void eseguiComando(Comando comando);
 
     void muovi(Direzione direzione) {
-        if (direzione == Direzione.NORD) {
-            if (this.posY > 0) this.posY = this.posY - OggettoDiGioco.velocita;
-        }
-        if (direzione == Direzione.SUD) {
-            if (this.posY < OggettoDiGioco.altezzaCanvas - 20) this.posY = this.posY + OggettoDiGioco.velocita;
-        }
-        if (direzione == Direzione.EST) {
-            if (this.posX < OggettoDiGioco.larghezzaCanvas - 20) this.posX = this.posX + OggettoDiGioco.velocita;
-        }
-        if (direzione == Direzione.OVEST) {
-            if (this.posX > 0) this.posX = this.posX - OggettoDiGioco.velocita;
-        }
+        Movimento movimento = new Movimento();
+        movimento.muovimi(this, direzione);
+
     }
 
 }

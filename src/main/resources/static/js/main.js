@@ -21,7 +21,7 @@ const gameConfig = {
 let username;
 let stompClient;
 
-const idPartita = 1;
+let idPartita = 1;
 let idOggettoControllato = 1;
 
 
@@ -158,7 +158,7 @@ const onError = () => {
 const onStateUpgradeReceived = (message) => {
     parsedData = JSON.parse(message.body);
     let colore;
-    if (parsedData.idOggetto === 1) {
+    if (parsedData.idOggetto % 2 === 0) {
         colore = "blue"
     } else {
         colore = "red"
@@ -169,9 +169,21 @@ const onStateUpgradeReceived = (message) => {
 
 const cambiaGiocatoere = () => {
     if (idOggettoControllato === 1) {
+        idOggettoControllato = 2;
+    } else if (idOggettoControllato === 2) {
         idOggettoControllato = 3;
-    } else {
+    } else if (idOggettoControllato === 3) {
+        idOggettoControllato = 4;
+    } else if (idOggettoControllato === 4) {
         idOggettoControllato = 1;
+    }
+}
+
+const cambiaPartita = () => {
+    if (idPartita === 1) {
+        idPartita = 2;
+    } else {
+        idPartita = 1;
     }
 }
 
@@ -180,5 +192,6 @@ document.addEventListener('keydown', keyDownHandler)
 document.addEventListener('keyup', keyUpHandler)
 
 document.getElementById("bottone-connessione").addEventListener("click", handleBottoneConnessione);
-document.getElementById('bottone-diventa-Player2').addEventListener("click", cambiaGiocatoere)
+document.getElementById('bottone-diventa-Player2').addEventListener("click", cambiaGiocatoere);
+document.getElementById('bottone-cambia-partita').addEventListener("click", cambiaPartita);
 

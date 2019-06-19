@@ -21,6 +21,10 @@ public class Partita extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita", fetch = FetchType.EAGER)
     private Set<OggettoDiGioco> oggettiDiGioco = new HashSet<>();
 
+
+    private TipoStatoPartita stato;
+    private Integer numeroGiocatoriUmani;
+
     public Set<Long> getListaIdGiocatori() {
         Set<Long> idGiocatori = new HashSet<>();
         this.getGiocatori().iterator().forEachRemaining(e -> {
