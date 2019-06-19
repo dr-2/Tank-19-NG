@@ -24,6 +24,11 @@ let stompClient;
 let idPartita = 1;
 let idOggettoControllato = 1;
 
+let imgTank_n;
+let imgTank_s;
+let imgTank_e;
+let imgTank_o;
+
 
 function preload() {
     httpGet("/configurazioni/canvas/altezza", 'text', false, (response) => {
@@ -47,10 +52,20 @@ function preload() {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");
         location.reload();
     });
+
+    imgTank_n = loadImage('/pictures/game/tank/giallo_n.png');
+    imgTank_s = loadImage('/pictures/game/tank/giallo_s.png');
+    imgTank_e = loadImage('/pictures/game/tank/giallo_e.png');
+    imgTank_o = loadImage('/pictures/game/tank/giallo_o.png');
+
 }
 
 function setup() {
-    createCanvas(10, 10);
+    if (!(gameConfig.tank.velocita && gameConfig.canvas.larghezza && gameConfig.canvas.altezza)) {
+        createCanvas(10, 10);
+    } else {
+        resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
+    }
     background(51);
 }
 
@@ -157,13 +172,19 @@ const onError = () => {
 
 const onStateUpgradeReceived = (message) => {
     parsedData = JSON.parse(message.body);
-    let colore;
-    if (parsedData.idOggetto % 2 === 0) {
-        colore = "blue"
+    // let colore;
+    // if (parsedData.idOggetto % 2 === 0) {
+    //     colore = "blue"
+    // } else {
+    //     colore = "red"
+    // }
+
+    if (gameState.tanks[parsedData.idOggetto]) {
+        gameState.tanks[parsedData.idOggetto].moveToXY(parsedData.posx, parsedData.posy, parsedData.direzione)
     } else {
-        colore = "red"
+        gameState.tanks[parsedData.idOggetto] = new Tank(parsedData.posx, parsedData.posy, parsedData.direzione)
     }
-    gameState.tanks[parsedData.idOggetto] = new Tank(parsedData.posx, parsedData.posy, colore);
+
 
 }
 

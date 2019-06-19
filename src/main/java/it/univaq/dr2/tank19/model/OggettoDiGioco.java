@@ -26,7 +26,7 @@ public class OggettoDiGioco extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private Posizione posizione;
 
-
+    private String direzione;
 
     @ManyToOne
     @JoinColumn(name = "partita_id")
@@ -37,6 +37,7 @@ public class OggettoDiGioco extends BaseEntity {
     void muovi(Direzione direzione) {
         Movimento movimento = new Movimento();
         movimento.muovimi(this, direzione);
+        this.direzione = direzione.toString();
 
     }
 

@@ -28,6 +28,7 @@ public class ServiceInviaAggiornamentiStato {
             messaggio.setIdOggetto(oggetto.getId());
             messaggio.setPosx(oggetto.getPosizione().getPosX());
             messaggio.setPosy(oggetto.getPosizione().getPosY());
+            messaggio.setDirezione(oggetto.getDirezione());
             simpMessagingTemplate.convertAndSend(URLMessaggiPartita, messaggio);
         });
     }
