@@ -3,13 +3,10 @@ class Tank {
         this.posX = posX;
         this.posY = posY;
         this.direzione = direzione;
-        // this.width = 20;
-        // this.height = 20;
     }
 
     draw() {
         noStroke();
-        //fill(this.color);
         let img = imgTank_n;
         if (this.direzione === "NORD") {
             img = imgTank_n
@@ -20,7 +17,7 @@ class Tank {
         } else if (this.direzione === "OVEST") {
             img = imgTank_o
         }
-        image(img, this.posX, this.posY, this.width, this.height);
+        image(img, this.posX, this.posY, 30, 30);
     }
 
     moveToXY(x, y, dir) {

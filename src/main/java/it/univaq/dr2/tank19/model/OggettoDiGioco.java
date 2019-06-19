@@ -27,6 +27,7 @@ public class OggettoDiGioco extends BaseEntity {
     private Posizione posizione;
 
     private String direzione;
+    private String tipo;
 
     @ManyToOne
     @JoinColumn(name = "partita_id")
@@ -34,7 +35,7 @@ public class OggettoDiGioco extends BaseEntity {
 
     //void eseguiComando(Comando comando);
 
-    void muovi(Direzione direzione) {
+    public void muovi(Direzione direzione) {
         Movimento movimento = new Movimento();
         movimento.muovimi(this, direzione);
         this.direzione = direzione.toString();

@@ -22,20 +22,15 @@ public class ControllerMessaggiPartita {
     @MessageMapping("/partite/{idpartita}/.inviaComando")
     public MessaggioBase inviaMessaggioComando(@Payload MessaggioComando messaggio, @DestinationVariable("idpartita") String idPartita) {
         String URLMessaggiPartita = "/partite/" + idPartita + "/stato";
-        log.debug("ho ricevuto da /partita.inviaComando:content, mittente, tipo, idpartita: " + messaggio.getContent()
-                + ", " + messaggio.getSender() + ", " + messaggio.getTipoMessaggio() + ", " + idPartita + messaggio.toString());
 
-        servicePartita.aggiornaStato(messaggio);
+
+        servicePartita.eseguiComando(messaggio);
         return messaggio;
     }
 
     @MessageMapping("/partite/{idpartita}/.connessioneGiocatore")
     public MessaggioBase connessioneGiocatore(@Payload MessaggioBase messaggio, @DestinationVariable("idpartita") String idPartita) {
-        log.debug("ho ricevuto da /partita.connessioneGiocatore content, sender, tipo, idpartita: "
-                + messaggio.getContent() + ", " + messaggio.getSender() + ", " + messaggio.getTipoMessaggio()
-                + ", " + idPartita);
         // Todo: implementare la logica per la connessione del giocatore alla partita?
-
         return messaggio;
     }
 

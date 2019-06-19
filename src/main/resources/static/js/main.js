@@ -172,12 +172,7 @@ const onError = () => {
 
 const onStateUpgradeReceived = (message) => {
     parsedData = JSON.parse(message.body);
-    // let colore;
-    // if (parsedData.idOggetto % 2 === 0) {
-    //     colore = "blue"
-    // } else {
-    //     colore = "red"
-    // }
+    let tipoOggetto = parsedData
 
     if (gameState.tanks[parsedData.idOggetto]) {
         gameState.tanks[parsedData.idOggetto].moveToXY(parsedData.posx, parsedData.posy, parsedData.direzione)

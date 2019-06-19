@@ -5,7 +5,6 @@ import lombok.Data;
 @Data
 public class MessaggioBase {
     private TipoMessaggio tipoMessaggio;
-    private String content;
-    private String sender;
+    //private String sender;
     private Long idPartita;
 }
