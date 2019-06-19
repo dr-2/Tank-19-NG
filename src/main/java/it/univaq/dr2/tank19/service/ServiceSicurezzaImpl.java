@@ -1,7 +1,6 @@
 package it.univaq.dr2.tank19.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,11 +11,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ServiceSicurezzaImpl implements ServiceSicurezza {
     private final AuthenticationManager authManager;
-    @Autowired
-    private ServiceGiocatoreDetails serviceGiocatoreDetails;
+    private final ServiceGiocatore serviceGiocatore;
 
-    public ServiceSicurezzaImpl(AuthenticationManager authManager) {
+    public ServiceSicurezzaImpl(AuthenticationManager authManager, ServiceGiocatore serviceGiocatore) {
         this.authManager = authManager;
+        this.serviceGiocatore = serviceGiocatore;
     }
 
     @Override
@@ -30,7 +29,7 @@ public class ServiceSicurezzaImpl implements ServiceSicurezza {
 
     @Override
     public void autoLogin(String username, String password) {
-        UserDetails detailsPersona = serviceGiocatoreDetails.loadUserByUsername(username);
+        UserDetails detailsPersona = serviceGiocatore.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(detailsPersona, password, detailsPersona.getAuthorities());
         authManager.authenticate(usernamePasswordAuthenticationToken);
         if (usernamePasswordAuthenticationToken.isAuthenticated()) {

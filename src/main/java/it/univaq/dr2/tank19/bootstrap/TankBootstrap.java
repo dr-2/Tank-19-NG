@@ -48,6 +48,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         Posizione pos = new Posizione(100, 100);
         OggettoDiGioco tank = OggettoDiGioco.builder().partita(p1).posizione(pos).build();
         p1.getOggettiDiGioco().add(tank);
+        g.setMioTank(tank);
 
 
         p1.getGiocatori().add(g);
@@ -67,6 +68,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         p2.getOggettiDiGioco().add(tankValeria);
 
         p2.getGiocatori().add(g2);
+        g2.setMioTank(tankValeria);
 
         servicePartita.save(p2);
 
@@ -75,12 +77,12 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g4.setUsername("Gio");
         g4.setPartita(p2);
 
-        Integer a = 3; //weird trick to avoid Idea duplicate code recognition
         pos = new Posizione(100, 200);
         OggettoDiGioco tankGio = OggettoDiGioco.builder().partita(p2).posizione(pos).build();
         p2.getOggettiDiGioco().add(tankGio);
 
         p2.getGiocatori().add(g4);
+        g4.setMioTank(tankGio);
 
         servicePartita.save(p2);
 
@@ -94,6 +96,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         p1.getOggettiDiGioco().add(tank3);
 
         p1.getGiocatori().add(g3);
+        g3.setMioTank(tank3);
 
 
         servicePartita.save(p1);

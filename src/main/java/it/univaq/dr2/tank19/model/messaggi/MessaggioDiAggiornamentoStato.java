@@ -12,4 +12,5 @@ public class MessaggioDiAggiornamentoStato extends MessaggioBase {
     private Integer posx;
     private Integer posy;
     private String direzione;
+    private TipoOggetto tipoOggetto;
 }

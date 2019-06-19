@@ -21,7 +21,7 @@ const gameConfig = {
 let username;
 let stompClient;
 
-let idPartita = 1;
+let idPartita;
 let idOggettoControllato = 1;
 
 let imgTank_n;
@@ -31,6 +31,19 @@ let imgTank_o;
 
 
 function preload() {
+    httpGet("/configurazioni/getPartitaId", 'text', false, (response) => {
+        idPartita = response;
+    }, () => {
+        alert("Errore critico di configurazione. La pagina verrà ricaricata");
+        location.reload();
+    });
+    httpGet("/configurazioni/getMioTankId", 'text', false, (response) => {
+        idOggettoControllato = response;
+    }, () => {
+        alert("Errore critico di configurazione. La pagina verrà ricaricata");
+        location.reload();
+    });
+
     httpGet("/configurazioni/canvas/altezza", 'text', false, (response) => {
         gameConfig.canvas.larghezza = response;
         resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
@@ -172,12 +185,7 @@ const onError = () => {
 
 const onStateUpgradeReceived = (message) => {
     parsedData = JSON.parse(message.body);
-    // let colore;
-    // if (parsedData.idOggetto % 2 === 0) {
-    //     colore = "blue"
-    // } else {
-    //     colore = "red"
-    // }
+    let tipoOggetto = parsedData
 
     if (gameState.tanks[parsedData.idOggetto]) {
         gameState.tanks[parsedData.idOggetto].moveToXY(parsedData.posx, parsedData.posy, parsedData.direzione)

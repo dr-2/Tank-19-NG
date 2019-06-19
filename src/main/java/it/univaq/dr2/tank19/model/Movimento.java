@@ -5,6 +5,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Objects;
 
 @Component
 public class Movimento extends BaseEntity {
@@ -18,9 +19,9 @@ public class Movimento extends BaseEntity {
 
     @PostConstruct
     public void a() {
-        velocita = Integer.parseInt(env.getProperty("tank.velocita"));
-        xMax = Integer.parseInt(env.getProperty("canvas.altezza"));
-        yMax = Integer.parseInt(env.getProperty("canvas.larghezza"));
+        velocita = Integer.parseInt(Objects.requireNonNull(env.getProperty("tank.velocita")));
+        xMax = Integer.parseInt(Objects.requireNonNull(env.getProperty("canvas.altezza")));
+        yMax = Integer.parseInt(Objects.requireNonNull(env.getProperty("canvas.larghezza")));
     }
 
     public void muovimi(OggettoDiGioco oggettoDiGioco, Direzione direzione) {
@@ -34,12 +35,12 @@ public class Movimento extends BaseEntity {
             }
         }
         if (direzione == Direzione.SUD) {
-            if (posY < yMax - 20) {
+            if (posY < yMax - 30) {
                 posY = posY + velocita;
             }
         }
         if (direzione == Direzione.EST) {
-            if (posX < xMax - 20) {
+            if (posX < xMax - 30) {
                 posX = posX + velocita;
             }
         }
@@ -49,7 +50,7 @@ public class Movimento extends BaseEntity {
             }
         }
 
-        Posizione newPosizione = new Posizione();
+        Posizione newPosizione = oggettoDiGioco.getPosizione();
         newPosizione.setPosX(posX);
         newPosizione.setPosY(posY);
 

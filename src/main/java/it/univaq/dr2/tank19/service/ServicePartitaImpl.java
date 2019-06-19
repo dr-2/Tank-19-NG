@@ -14,10 +14,12 @@ public class ServicePartitaImpl implements ServicePartita {
 
     private final RepositoryGiocatore repositoryGiocatore;
     private final RepositoryPartita repositoryPartita;
+    private final ServiceOggettoDiGioco serviceOggettoDiGioco;
 
-    public ServicePartitaImpl(RepositoryGiocatore repositoryGiocatore, RepositoryPartita repositoryPartita) {
+    public ServicePartitaImpl(RepositoryGiocatore repositoryGiocatore, RepositoryPartita repositoryPartita, ServiceOggettoDiGioco serviceOggettoDiGioco) {
         this.repositoryGiocatore = repositoryGiocatore;
         this.repositoryPartita = repositoryPartita;
+        this.serviceOggettoDiGioco = serviceOggettoDiGioco;
     }
 
     @Override
@@ -48,11 +50,14 @@ public class ServicePartitaImpl implements ServicePartita {
     }
 
     @Override
-    public void aggiornaStato(MessaggioComando comando) {
+    public void eseguiComando(MessaggioComando comando) {
         Partita partitaCorrente = this.findById(comando.getIdPartita());
         if (comando.getDirezione() != null) {
             partitaCorrente.muovi(comando.getIdOggetto(), comando.getDirezione());
             this.save(partitaCorrente);
+        }
+        if (comando.getFuoco() != null) {
+            //serviceOggettoDiGioco.findById(comando.getIdOggetto()).spara();
         }
     }
 }
