@@ -1,5 +1,6 @@
 package it.univaq.dr2.tank19.controller;
 
+import it.univaq.dr2.tank19.service.ServiceGiocatore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RESTControllerConfigurazioni {
+    private final ServiceGiocatore serviceGiocatore;
 
     @Value("${canvas.altezza}")
     Integer altezza;
@@ -21,6 +23,10 @@ public class RESTControllerConfigurazioni {
 
     @Value("${tank.velocita}")
     Integer velocita;
+
+    public RESTControllerConfigurazioni(ServiceGiocatore serviceGiocatore) {
+        this.serviceGiocatore = serviceGiocatore;
+    }
 
     @RequestMapping("/configurazioni/canvas/altezza")
     public Integer getAltezzaCanvas() {
@@ -37,8 +43,13 @@ public class RESTControllerConfigurazioni {
         return this.velocita;
     }
 
-    @RequestMapping("/configurazioni/prova")
-    public String getGiocatore() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+    @RequestMapping("/configurazioni/getMioTankId")
+    public String getMyId() {
+        return serviceGiocatore.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getMioTank().getId().toString();
+    }
+
+    @RequestMapping("/configurazioni/getPartitaId")
+    public String getPartitaId() {
+        return serviceGiocatore.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getPartita().getId().toString();
     }
 }

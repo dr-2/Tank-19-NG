@@ -22,6 +22,9 @@ public class Giocatore extends BaseEntity {
     @JoinColumn(name = "punteggio_id", referencedColumnName = "id")
     private Punteggio punteggio;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private OggettoDiGioco mioTank;
+
     @Transient
     private String passwordConfirm;
 
