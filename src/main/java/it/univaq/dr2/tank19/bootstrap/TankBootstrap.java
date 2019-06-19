@@ -37,20 +37,24 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 
-        Partita p = new Partita();
-        Giocatore g = Giocatore.builder().username("Carlo").ruolo(TipoRuolo.ROLE_USER.toString()).partita(p).password(encoder.encode("password")).build();
+        Partita p1 = new Partita();
+
+        Giocatore g = Giocatore.builder().username("Carlo").ruolo(TipoRuolo.ROLE_USER.toString()).partita(p1).password(encoder.encode("password")).build();
         Punteggio punti = Punteggio.builder().punti(33).build();
         g.setPunteggio(punti);
 
         g.aggiungiPunti(-34);
 
-        OggettoDiGioco tank = OggettoDiGioco.builder().partita(p).posX(100).posY(100).build();
-        p.getOggettiDiGioco().add(tank);
+        Posizione pos = new Posizione(100, 100);
+        OggettoDiGioco tank = OggettoDiGioco.builder().partita(p1).posizione(pos).build();
+        p1.getOggettiDiGioco().add(tank);
 
 
-        p.getGiocatori().add(g);
+        p1.getGiocatori().add(g);
+        p1.setStato(TipoStatoPartita.CREAZIONE);
+        p1.setNumeroGiocatoriUmani(2);
 
-        servicePartita.save(p);
+        servicePartita.save(p1);
 
 
         Partita p2 = new Partita();
@@ -58,8 +62,9 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g2.setUsername("Valeria");
         g2.setPartita(p2);
 
-        OggettoDiGioco tank2 = OggettoDiGioco.builder().partita(p2).posX(100).posY(100).build();
-        p2.getOggettiDiGioco().add(tank2);
+        pos = new Posizione(200, 100);
+        OggettoDiGioco tankValeria = OggettoDiGioco.builder().partita(p2).posizione(pos).build();
+        p2.getOggettiDiGioco().add(tankValeria);
 
         p2.getGiocatori().add(g2);
 
@@ -70,22 +75,28 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g4.setUsername("Gio");
         g4.setPartita(p2);
 
+        Integer a = 3; //weird trick to avoid Idea duplicate code recognition
+        pos = new Posizione(100, 200);
+        OggettoDiGioco tankGio = OggettoDiGioco.builder().partita(p2).posizione(pos).build();
+        p2.getOggettiDiGioco().add(tankGio);
+
         p2.getGiocatori().add(g4);
 
         servicePartita.save(p2);
 
         Giocatore g3 = new Giocatore();
         g3.setUsername("Agnese");
-        g3.setPartita(p);
+        g3.setPartita(p1);
         g3.setPassword(encoder.encode("password"));
 
-        OggettoDiGioco tank3 = OggettoDiGioco.builder().partita(p).posX(500).posY(500).build();
-        p.getOggettiDiGioco().add(tank3);
+        pos = new Posizione(500, 500);
+        OggettoDiGioco tank3 = OggettoDiGioco.builder().partita(p1).posizione(pos).build();
+        p1.getOggettiDiGioco().add(tank3);
 
-        p.getGiocatori().add(g3);
+        p1.getGiocatori().add(g3);
 
 
-        servicePartita.save(p);
+        servicePartita.save(p1);
 
 
     }
