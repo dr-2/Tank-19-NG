@@ -1,6 +1,7 @@
 package it.univaq.dr2.tank19.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,5 +35,10 @@ public class RESTControllerConfigurazioni {
     @RequestMapping("/configurazioni/tank/velocita")
     public Integer getVelocitaTank() {
         return this.velocita;
+    }
+
+    @RequestMapping("/configurazioni/prova")
+    public String getGiocatore() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }

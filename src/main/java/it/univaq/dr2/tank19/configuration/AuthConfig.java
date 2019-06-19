@@ -1,6 +1,6 @@
 package it.univaq.dr2.tank19.configuration;
 
-import it.univaq.dr2.tank19.service.ServiceGiocatoreDetails;
+import it.univaq.dr2.tank19.service.ServiceGiocatore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,10 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class AuthConfig extends WebSecurityConfigurerAdapter {
-    private final ServiceGiocatoreDetails serviceGiocatoreDetails;
+    private final ServiceGiocatore serviceGiocatore;
 
-    public AuthConfig(ServiceGiocatoreDetails serviceGiocatoreDetails) {
-        this.serviceGiocatoreDetails = serviceGiocatoreDetails;
+    public AuthConfig(ServiceGiocatore serviceGiocatore) {
+        this.serviceGiocatore = serviceGiocatore;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // @formatter:off
 
-        auth.userDetailsService(serviceGiocatoreDetails).passwordEncoder(getEncoder());
+        auth.userDetailsService(serviceGiocatore).passwordEncoder(getEncoder());
 
         // @formatter:on
     }
