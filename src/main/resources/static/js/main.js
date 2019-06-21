@@ -29,6 +29,9 @@ let imgTank_s;
 let imgTank_e;
 let imgTank_o;
 
+var haveEvents = 'ongamepadconnected' in window;
+var controllers = {};
+
 
 function preload() {
     httpGet("/configurazioni/getPartitaId", 'text', false, (response) => {
@@ -88,6 +91,89 @@ function draw() {
         gameState.tanks[id].draw();
     }
 
+    //check gamepad
+    gamepadLoop()
+}
+
+function connecthandler(e) {
+    addgamepad(e.gamepad);
+}
+
+function addgamepad(gamepad) {
+    controllers[gamepad.index] = gamepad;
+}
+
+function disconnecthandler(e) {
+    removegamepad(e.gamepad);
+}
+
+function removegamepad(gamepad) {
+    delete controllers[gamepad.index];
+}
+
+function gamepadLoop() {
+    if (!haveEvents) {
+        scangamepads();
+    }
+    var i = 0;
+    var j;
+
+    for (j in controllers) {
+        var controller = controllers[j];
+
+        //Buttons
+        for (i = 0; i < controller.buttons.length; i++) {
+            var val = controller.buttons[i];
+            var pressed = val === 1.0;
+            if (typeof (val) == "object") {
+                pressed = val.pressed;
+                val = val.value;
+            }
+
+            if (pressed) {
+                console.log("button pressed: " + i);
+            } else {
+                //console.log("button NON premuto: " + i);
+            }
+        }
+
+        //Axes
+        if (controller.axes[0] === 0) {
+            command.nord = false;
+            command.sud = false;
+        } else if (controller.axes[0] === 1) {
+            command.nord = true;
+            command.sud = false;
+        } else if (controller.axes[0] === -1) {
+            command.nord = false;
+            command.sud = true;
+        }
+
+        if (controller.axes[1] === 0) {
+            command.est = false;
+            command.ovest = false;
+        } else if (controller.axes[1] === 1) {
+            command.est = true;
+            command.ovest = false;
+        } else if (controller.axes[1] === -1) {
+            command.est = false;
+            command.ovest = true;
+        }
+
+    }
+}
+
+function scangamepads() {
+    var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+    for (var i = 0; i < gamepads.length; i++) {
+        if (gamepads[i]) {
+            if (gamepads[i].index in controllers) {
+                controllers[gamepads[i].index] = gamepads[i];
+            } else {
+                addgamepad(gamepads[i]);
+            }
+        }
+    }
 }
 
 const keyDownHandler = (e) => {
@@ -219,8 +305,14 @@ const cambiaPartita = () => {
 
 document.addEventListener('keydown', keyDownHandler)
 document.addEventListener('keyup', keyUpHandler)
+window.addEventListener("gamepadconnected", connecthandler);
+window.addEventListener("gamepaddisconnected", disconnecthandler);
 
 document.getElementById("bottone-connessione").addEventListener("click", handleBottoneConnessione);
 document.getElementById('bottone-diventa-Player2').addEventListener("click", cambiaGiocatoere);
 document.getElementById('bottone-cambia-partita').addEventListener("click", cambiaPartita);
 
+
+if (!haveEvents) {
+    setInterval(scangamepads, 500);
+}
