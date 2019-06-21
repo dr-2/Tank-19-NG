@@ -33,7 +33,7 @@ public class OggettoDiGioco extends BaseEntity {
     @JoinColumn(name = "partita_id")
     private Partita partita;
 
-    //void eseguiComando(Comando comando);
+    //void doMossa(Comando comando);
 
     public void muovi(Direzione direzione) {
         Movimento movimento = new Movimento();

@@ -7,15 +7,15 @@ class Tank {
 
     draw() {
         noStroke();
-        let img = imgTank_n;
+        let img = gameConfig.tank.myTank_n;
         if (this.direzione === "NORD") {
-            img = imgTank_n
+            img = gameConfig.tank.myTank_n
         } else if (this.direzione === "SUD") {
-            img = imgTank_s
+            img = gameConfig.tank.myTank_s
         } else if (this.direzione === "EST") {
-            img = imgTank_e
+            img = gameConfig.tank.myTank_e
         } else if (this.direzione === "OVEST") {
-            img = imgTank_o
+            img = gameConfig.tank.myTank_o
         }
         image(img, this.posX, this.posY, 30, 30);
     }

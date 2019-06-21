@@ -24,7 +24,7 @@ public class ControllerMessaggiPartita {
         String URLMessaggiPartita = "/partite/" + idPartita + "/stato";
 
 
-        servicePartita.eseguiComando(messaggio);
+        servicePartita.doMossa(messaggio);
         return messaggio;
     }
 

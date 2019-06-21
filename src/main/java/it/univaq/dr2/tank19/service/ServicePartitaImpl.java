@@ -50,7 +50,7 @@ public class ServicePartitaImpl implements ServicePartita {
     }
 
     @Override
-    public void eseguiComando(MessaggioComando comando) {
+    public void doMossa(MessaggioComando comando) {
         Partita partitaCorrente = this.findById(comando.getIdPartita());
         if (comando.getDirezione() != null) {
             partitaCorrente.muovi(comando.getIdOggetto(), comando.getDirezione());

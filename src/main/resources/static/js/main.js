@@ -10,38 +10,41 @@ const command = {
 };
 const gameConfig = {
     tank: {
-        velocita: null
+        myTank_n: null,
+        myTank_s: null,
+        myTank_e: null,
+        myTank_o: null
     },
     canvas: {
         altezza: null,
         larghezza: null
+    },
+    userInfo: {
+        username: null
+    },
+    partita: {
+        idPartita: null,
+        idOggettoControllato: null
+    },
+    communication: {
+        stompClient: null
     }
 }
 
-let username;
-let stompClient;
 
-let idPartita;
-let idOggettoControllato = 1;
-
-let imgTank_n;
-let imgTank_s;
-let imgTank_e;
-let imgTank_o;
-
-var haveEvents = 'ongamepadconnected' in window;
-var controllers = {};
+let haveEvents = 'ongamepadconnected' in window;
+let controllers = {};
 
 
 function preload() {
     httpGet("/configurazioni/getPartitaId", 'text', false, (response) => {
-        idPartita = response;
+        gameConfig.partita.idPartita = response;
     }, () => {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");
         location.reload();
     });
     httpGet("/configurazioni/getMioTankId", 'text', false, (response) => {
-        idOggettoControllato = response;
+        gameConfig.partita.idOggettoControllato = response;
     }, () => {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");
         location.reload();
@@ -61,18 +64,12 @@ function preload() {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");
         location.reload();
     });
-    httpGet("/configurazioni/tank/velocita", 'text', false, (response) => {
-        gameConfig.tank.velocita = response;
-        resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
-    }, () => {
-        alert("Errore critico di configurazione. La pagina verrà ricaricata");
-        location.reload();
-    });
 
-    imgTank_n = loadImage('/pictures/game/tank/giallo_n.png');
-    imgTank_s = loadImage('/pictures/game/tank/giallo_s.png');
-    imgTank_e = loadImage('/pictures/game/tank/giallo_e.png');
-    imgTank_o = loadImage('/pictures/game/tank/giallo_o.png');
+
+    gameConfig.tank.myTank_n = loadImage('/pictures/game/tank/giallo_n.png');
+    gameConfig.tank.myTank_s = loadImage('/pictures/game/tank/giallo_s.png');
+    gameConfig.tank.myTank_e = loadImage('/pictures/game/tank/giallo_e.png');
+    gameConfig.tank.myTank_o = loadImage('/pictures/game/tank/giallo_o.png');
 
 }
 
@@ -91,7 +88,7 @@ function draw() {
         gameState.tanks[id].draw();
     }
 
-    //check gamepad
+    //check gamepad inputs
     gamepadLoop()
 }
 
@@ -101,6 +98,8 @@ function connecthandler(e) {
 
 function addgamepad(gamepad) {
     controllers[gamepad.index] = gamepad;
+    document.removeEventListener('keydown', keyDownHandler);
+    document.removeEventListener('keyup', keyUpHandler)
 }
 
 function disconnecthandler(e) {
@@ -109,6 +108,8 @@ function disconnecthandler(e) {
 
 function removegamepad(gamepad) {
     delete controllers[gamepad.index];
+    document.addEventListener('keydown', keyDownHandler)
+    document.addEventListener('keyup', keyUpHandler)
 }
 
 function gamepadLoop() {
@@ -228,25 +229,25 @@ const keyUpHandler = (e) => {
 
 
 const handleBottoneConnessione = () => {
-    username = "Carlo";
+    gameConfig.userInfo.username = "Carlo";
 
-    if (username) {
+    if (gameConfig.userInfo.username) {
         let socket = new SockJS("/ws");
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, onConnected, onError);
+        gameConfig.communication.stompClient = Stomp.over(socket);
+        gameConfig.communication.stompClient.connect({}, onConnected, onError);
         //stompClient.debug = null; TODO: disable debug on STOMP client
     }
 
     setInterval(() => {
         JSON.stringify(command);
-        stompClient.send("/app/partite/" + idPartita + "/.inviaComando",
+        gameConfig.communication.stompClient.send("/app/partite/" + gameConfig.partita.idPartita + "/.inviaComando",
             {},
             JSON.stringify({
-                sender: username,
+                sender: gameConfig.userInfo.username,
                 tipoMessaggio: 'COMANDO',
                 content: "prova di sto campo..",
-                idPartita: idPartita,
-                idOggetto: idOggettoControllato, //TODO: parametrizzare questo magic numb
+                idPartita: gameConfig.partita.idPartita,
+                idOggetto: gameConfig.partita.idOggettoControllato, //TODO: parametrizzare questo magic numb
                 nord: command.nord, sud: command.sud, est: command.est, ovest: command.ovest, fuoco: command.fuoco
             })
         );
@@ -255,12 +256,12 @@ const handleBottoneConnessione = () => {
 }
 
 const onConnected = () => {
-    stompClient.subscribe('/partite/' + idPartita + '/stato', onStateUpgradeReceived);
+    gameConfig.communication.stompClient.subscribe('/partite/' + gameConfig.partita.idPartita + '/stato', onStateUpgradeReceived);
 
     // Tell your username to the server
-    stompClient.send("/app/partite/" + idPartita + "/.connessioneGiocatore",
+    gameConfig.communication.stompClient.send("/app/partite/" + gameConfig.partita.idPartita + "/.connessioneGiocatore",
         {},
-        JSON.stringify({sender: username, tipoMessaggio: 'CONNESSIONE'})
+        JSON.stringify({sender: gameConfig.userInfo.username, tipoMessaggio: 'CONNESSIONE'})
     );
 };
 
@@ -283,25 +284,24 @@ const onStateUpgradeReceived = (message) => {
 }
 
 const cambiaGiocatoere = () => {
-    if (idOggettoControllato === 1) {
-        idOggettoControllato = 2;
-    } else if (idOggettoControllato === 2) {
-        idOggettoControllato = 3;
-    } else if (idOggettoControllato === 3) {
-        idOggettoControllato = 4;
-    } else if (idOggettoControllato === 4) {
-        idOggettoControllato = 1;
+    if (gameConfig.partita.idOggettoControllato === 1) {
+        gameConfig.partita.idOggettoControllato = 2;
+    } else if (gameConfig.partita.idOggettoControllato === 2) {
+        gameConfig.partita.idOggettoControllato = 3;
+    } else if (gameConfig.partita.idOggettoControllato === 3) {
+        gameConfig.partita.idOggettoControllato = 4;
+    } else if (gameConfig.partita.idOggettoControllato === 4) {
+        gameConfig.partita.idOggettoControllato = 1;
     }
 }
 
 const cambiaPartita = () => {
-    if (idPartita === 1) {
-        idPartita = 2;
+    if (gameConfig.partita.idPartita === 1) {
+        gameConfig.partita.idPartita = 2;
     } else {
-        idPartita = 1;
+        gameConfig.partita.idPartita = 1;
     }
 }
-
 
 document.addEventListener('keydown', keyDownHandler)
 document.addEventListener('keyup', keyUpHandler)
