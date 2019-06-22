@@ -2,6 +2,7 @@ package it.univaq.dr2.tank19.controller;
 
 import it.univaq.dr2.tank19.model.messaggi.MessaggioBase;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioComando;
+import it.univaq.dr2.tank19.model.messaggi.MessaggioConnessione;
 import it.univaq.dr2.tank19.service.ServicePartita;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -29,7 +30,7 @@ public class ControllerMessaggiPartita {
     }
 
     @MessageMapping("/partite/{idpartita}/.connessioneGiocatore")
-    public MessaggioBase connessioneGiocatore(@Payload MessaggioBase messaggio, @DestinationVariable("idpartita") String idPartita) {
+    public MessaggioBase connessioneGiocatore(@Payload MessaggioConnessione messaggio, @DestinationVariable("idpartita") String idPartita) {
         // Todo: implementare la logica per la connessione del giocatore alla partita?
         return messaggio;
     }
