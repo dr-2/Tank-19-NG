@@ -39,7 +39,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
         Partita p1 = new Partita();
 
-        Giocatore g = Giocatore.builder().username("Carlo").ruolo(TipoRuolo.ROLE_USER.toString()).partita(p1).password(encoder.encode("password")).build();
+        Giocatore g = Giocatore.builder().username("Carlo").ruolo(TipoRuolo.ROLE_USER.toString()).partita(p1).password(encoder.encode("p")).build();
         Punteggio punti = Punteggio.builder().punti(33).build();
         g.setPunteggio(punti);
 
@@ -62,6 +62,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         Giocatore g2 = new Giocatore();
         g2.setUsername("Valeria");
         g2.setPartita(p2);
+        g2.setPassword(encoder.encode("p"));
 
         pos = new Posizione(200, 100);
         OggettoDiGioco tankValeria = OggettoDiGioco.builder().partita(p2).posizione(pos).build();
@@ -76,6 +77,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         Giocatore g4 = new Giocatore();
         g4.setUsername("Gio");
         g4.setPartita(p2);
+        g4.setPassword(encoder.encode("p"));
 
         pos = new Posizione(100, 200);
         OggettoDiGioco tankGio = OggettoDiGioco.builder().partita(p2).posizione(pos).build();
@@ -89,7 +91,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         Giocatore g3 = new Giocatore();
         g3.setUsername("Agnese");
         g3.setPartita(p1);
-        g3.setPassword(encoder.encode("password"));
+        g3.setPassword(encoder.encode("p"));
 
         pos = new Posizione(500, 500);
         OggettoDiGioco tank3 = OggettoDiGioco.builder().partita(p1).posizione(pos).build();

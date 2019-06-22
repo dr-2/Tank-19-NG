@@ -36,7 +36,9 @@ public class Partita extends BaseEntity {
     public void muovi(Long idOggetto, Direzione direzione) {
         oggettiDiGioco.iterator().forEachRemaining(oggetto -> {
             if (oggetto.getId().equals(idOggetto)) {
-                oggetto.muovi(direzione);
+                Comando c = new ComandoMossa();
+                oggetto.setComando(c);
+                oggetto.eseguiComando(direzione);
             }
         });
     }

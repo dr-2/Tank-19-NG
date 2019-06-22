@@ -303,6 +303,10 @@ const cambiaPartita = () => {
     }
 }
 
+setTimeout(() => {
+    resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
+}, 2000)
+
 document.addEventListener('keydown', keyDownHandler)
 document.addEventListener('keyup', keyUpHandler)
 window.addEventListener("gamepadconnected", connecthandler);

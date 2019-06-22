@@ -7,8 +7,12 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Objects;
 
+/**
+ * @author Carlo Centofanti
+ * @created 08/06/2019
+ */
 @Component
-public class Movimento extends BaseEntity {
+public class ComandoMossa implements Comando {
 
     static int xMax;
     static int yMax;
@@ -24,7 +28,8 @@ public class Movimento extends BaseEntity {
         yMax = Integer.parseInt(Objects.requireNonNull(env.getProperty("canvas.larghezza")));
     }
 
-    public void muovimi(OggettoDiGioco oggettoDiGioco, Direzione direzione) {
+    @Override
+    public void esegui(OggettoDiGioco oggettoDiGioco, Direzione direzione) {
         Integer posX = oggettoDiGioco.getPosizione().getPosX();
         Integer posY = oggettoDiGioco.getPosizione().getPosY();
 
@@ -49,12 +54,11 @@ public class Movimento extends BaseEntity {
                 posX = posX - velocita;
             }
         }
-
         Posizione newPosizione = oggettoDiGioco.getPosizione();
         newPosizione.setPosX(posX);
         newPosizione.setPosY(posY);
 
         oggettoDiGioco.setPosizione(newPosizione);
-
+        oggettoDiGioco.setDirezione(direzione.toString());
     }
 }

@@ -5,5 +5,5 @@ package it.univaq.dr2.tank19.model;
  * @created 08/06/2019
  */
 public interface Comando {
-    void esegui(OggettoDiGioco oggettoDiGioco);
+    void esegui(OggettoDiGioco oggettoDiGioco, Direzione direzione);
 }

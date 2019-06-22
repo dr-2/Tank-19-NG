@@ -23,6 +23,9 @@ public class OggettoDiGioco extends BaseEntity {
 //    @JsonInclude()
 //    @Transient
 
+    @Transient
+    Comando comando;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Posizione posizione;
 
@@ -35,10 +38,9 @@ public class OggettoDiGioco extends BaseEntity {
 
     //void doMossa(Comando comando);
 
-    public void muovi(Direzione direzione) {
-        Movimento movimento = new Movimento();
-        movimento.muovimi(this, direzione);
-        this.direzione = direzione.toString();
+    public void eseguiComando(Direzione direzione) {
+        comando.esegui(this, direzione);
+
 
     }
 

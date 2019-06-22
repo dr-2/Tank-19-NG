@@ -12,14 +12,10 @@ import java.util.Set;
 @Service
 public class ServicePartitaImpl implements ServicePartita {
 
-    private final RepositoryGiocatore repositoryGiocatore;
     private final RepositoryPartita repositoryPartita;
-    private final ServiceOggettoDiGioco serviceOggettoDiGioco;
 
     public ServicePartitaImpl(RepositoryGiocatore repositoryGiocatore, RepositoryPartita repositoryPartita, ServiceOggettoDiGioco serviceOggettoDiGioco) {
-        this.repositoryGiocatore = repositoryGiocatore;
         this.repositoryPartita = repositoryPartita;
-        this.serviceOggettoDiGioco = serviceOggettoDiGioco;
     }
 
     @Override
@@ -57,6 +53,7 @@ public class ServicePartitaImpl implements ServicePartita {
             this.save(partitaCorrente);
         }
         if (comando.getFuoco() != null) {
+            //TODO: rinominare questo metodo in doComando?
             //serviceOggettoDiGioco.findById(comando.getIdOggetto()).spara();
         }
     }
