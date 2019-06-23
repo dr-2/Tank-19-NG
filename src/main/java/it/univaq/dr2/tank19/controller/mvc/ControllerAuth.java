@@ -1,4 +1,4 @@
-package it.univaq.dr2.tank19.controller;
+package it.univaq.dr2.tank19.controller.mvc;
 
 
 import org.springframework.stereotype.Controller;

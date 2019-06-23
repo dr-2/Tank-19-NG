@@ -1,31 +1,33 @@
-package it.univaq.dr2.tank19.controller;
+package it.univaq.dr2.tank19.controller.mvc;
 
+import it.univaq.dr2.tank19.controller.grasp.ControllerGRASP;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioBase;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioComando;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioConnessione;
-import it.univaq.dr2.tank19.service.ServicePartita;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 @Slf4j
 @Controller
 public class ControllerMessaggiPartita {
-    private final ServicePartita servicePartita;
+    private final ControllerGRASP controllerGRASP;
 
-    public ControllerMessaggiPartita(SimpMessagingTemplate simpMessagingTemplate, ServicePartita servicePartita) {
-        this.servicePartita = servicePartita;
+    public ControllerMessaggiPartita(ControllerGRASP controllerGRASP) {
+        this.controllerGRASP = controllerGRASP;
     }
 
     @MessageMapping("/partite/{idpartita}/.inviaComando")
     public MessaggioBase inviaMessaggioComando(@Payload MessaggioComando messaggio, @DestinationVariable("idpartita") String idPartita) {
         String URLMessaggiPartita = "/partite/" + idPartita + "/stato";
 
+        controllerGRASP.muovi(messaggio.getIdOggetto(), messaggio.getDirezione());
+        //controllerGRASP.spara(messaggio.getIdOggetto(), messaggio.getFuoco()); //TODO: seconda iteerazione -> lato GRASP eseguire solo se .getFuoco è true
 
-        servicePartita.doMossa(messaggio);
+
+        //servicePartita.doMossa(messaggio);
         return messaggio;
     }
 

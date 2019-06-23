@@ -38,28 +38,34 @@ let controllers = {};
 
 function preload() {
     httpGet("/configurazioni/getPartitaId", 'text', false, (response) => {
-        gameConfig.partita.idPartita = response;
+        gameConfig.partita.idPartita = parseInt(response);
     }, () => {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");
         location.reload();
     });
     httpGet("/configurazioni/getMioTankId", 'text', false, (response) => {
-        gameConfig.partita.idOggettoControllato = response;
+        gameConfig.partita.idOggettoControllato = parseInt(response);
     }, () => {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");
         location.reload();
     });
 
     httpGet("/configurazioni/canvas/altezza", 'text', false, (response) => {
-        gameConfig.canvas.larghezza = response;
+        gameConfig.canvas.larghezza = parseInt(response);
         resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
     }, () => {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");
         location.reload();
     });
     httpGet("/configurazioni/canvas/larghezza", 'text', false, (response) => {
-        gameConfig.canvas.altezza = response;
+        gameConfig.canvas.altezza = parseInt(response);
         resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
+    }, () => {
+        alert("Errore critico di configurazione. La pagina verrà ricaricata");
+        location.reload();
+    });
+    httpGet("/configurazioni/userinfo/username", 'text', false, (response) => {
+        gameConfig.userInfo.username = response;
     }, () => {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");
         location.reload();
@@ -228,14 +234,15 @@ const keyUpHandler = (e) => {
 }
 
 
-const handleBottoneConnessione = () => {
-    gameConfig.userInfo.username = "Carlo";
+const handleBottoneConnessione = (e) => {
+    e.srcElement.disabled = true;
+    console.log("ciao, " + gameConfig.userInfo.username)
 
     if (gameConfig.userInfo.username) {
         let socket = new SockJS("/ws");
         gameConfig.communication.stompClient = Stomp.over(socket);
         gameConfig.communication.stompClient.connect({}, onConnected, onError);
-        //stompClient.debug = null; TODO: disable debug on STOMP client
+        gameConfig.communication.stompClient.debug = null; //TODO: disable debug on STOMP client
     }
 
     setInterval(() => {
@@ -245,9 +252,8 @@ const handleBottoneConnessione = () => {
             JSON.stringify({
                 sender: gameConfig.userInfo.username,
                 tipoMessaggio: 'COMANDO',
-                content: "prova di sto campo..",
                 idPartita: gameConfig.partita.idPartita,
-                idOggetto: gameConfig.partita.idOggettoControllato, //TODO: parametrizzare questo magic numb
+                idOggetto: gameConfig.partita.idOggettoControllato,
                 nord: command.nord, sud: command.sud, est: command.est, ovest: command.ovest, fuoco: command.fuoco
             })
         );
@@ -293,6 +299,7 @@ const cambiaGiocatoere = () => {
     } else if (gameConfig.partita.idOggettoControllato === 4) {
         gameConfig.partita.idOggettoControllato = 1;
     }
+    console.log(gameConfig.partita.idOggettoControllato)
 }
 
 const cambiaPartita = () => {

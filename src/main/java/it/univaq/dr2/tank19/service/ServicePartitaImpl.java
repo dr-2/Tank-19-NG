@@ -1,8 +1,8 @@
 package it.univaq.dr2.tank19.service;
 
 import it.univaq.dr2.tank19.model.Partita;
-import it.univaq.dr2.tank19.model.messaggi.MessaggioComando;
 import it.univaq.dr2.tank19.repository.RepositoryGiocatore;
+import it.univaq.dr2.tank19.repository.RepositoryOggettoDiGioco;
 import it.univaq.dr2.tank19.repository.RepositoryPartita;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +13,11 @@ import java.util.Set;
 public class ServicePartitaImpl implements ServicePartita {
 
     private final RepositoryPartita repositoryPartita;
+    private final RepositoryOggettoDiGioco repositoryOggettoDiGioco;
 
-    public ServicePartitaImpl(RepositoryGiocatore repositoryGiocatore, RepositoryPartita repositoryPartita, ServiceOggettoDiGioco serviceOggettoDiGioco) {
+    public ServicePartitaImpl(RepositoryGiocatore repositoryGiocatore, RepositoryPartita repositoryPartita, ServiceOggettoDiGioco serviceOggettoDiGioco, RepositoryOggettoDiGioco repositoryOggettoDiGioco) {
         this.repositoryPartita = repositoryPartita;
+        this.repositoryOggettoDiGioco = repositoryOggettoDiGioco;
     }
 
     @Override
@@ -45,16 +47,4 @@ public class ServicePartitaImpl implements ServicePartita {
         repositoryPartita.deleteById(aLong);
     }
 
-    @Override
-    public void doMossa(MessaggioComando comando) {
-        Partita partitaCorrente = this.findById(comando.getIdPartita());
-        if (comando.getDirezione() != null) {
-            partitaCorrente.muovi(comando.getIdOggetto(), comando.getDirezione());
-            this.save(partitaCorrente);
-        }
-        if (comando.getFuoco() != null) {
-            //TODO: rinominare questo metodo in doComando?
-            //serviceOggettoDiGioco.findById(comando.getIdOggetto()).spara();
-        }
-    }
 }

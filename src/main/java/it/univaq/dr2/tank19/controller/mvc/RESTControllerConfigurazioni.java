@@ -1,4 +1,4 @@
-package it.univaq.dr2.tank19.controller;
+package it.univaq.dr2.tank19.controller.mvc;
 
 import it.univaq.dr2.tank19.service.ServiceGiocatore;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,4 +52,11 @@ public class RESTControllerConfigurazioni {
     public String getPartitaId() {
         return serviceGiocatore.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getPartita().getId().toString();
     }
+
+    @RequestMapping("/configurazioni/userinfo/username")
+    public String getMyUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+
 }
