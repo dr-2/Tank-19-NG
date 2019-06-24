@@ -33,12 +33,4 @@ public class Partita extends BaseEntity {
         return idGiocatori;
     }
 
-    public void muovi(Long idOggetto, Direzione direzione) {
-        oggettiDiGioco.iterator().forEachRemaining(oggetto -> {
-            if (oggetto.getId().equals(idOggetto)) {
-                oggetto.muovi(direzione);
-            }
-        });
-    }
-
 }

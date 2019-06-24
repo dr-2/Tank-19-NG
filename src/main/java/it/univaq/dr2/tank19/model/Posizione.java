@@ -6,8 +6,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Data
@@ -15,11 +13,7 @@ import javax.persistence.Table;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Table(name = "posizione")
-public class Posizione {
-    @Id
-    @GeneratedValue
-    private Long id;
-
+public class Posizione extends BaseEntity {
     @NonNull
     private Integer posX;
     @NonNull

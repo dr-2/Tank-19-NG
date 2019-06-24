@@ -23,22 +23,24 @@ public class OggettoDiGioco extends BaseEntity {
 //    @JsonInclude()
 //    @Transient
 
+    @Transient
+    Comando comando;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Posizione posizione;
 
-    private String direzione;
+    private Direzione direzione;
     private String tipo;
 
     @ManyToOne
     @JoinColumn(name = "partita_id")
     private Partita partita;
 
-    //void eseguiComando(Comando comando);
+    //void doMossa(Comando comando);
 
-    public void muovi(Direzione direzione) {
-        Movimento movimento = new Movimento();
-        movimento.muovimi(this, direzione);
-        this.direzione = direzione.toString();
+    public void eseguiComando(Direzione direzione) {
+        comando.esegui(this, direzione);
+
 
     }
 
