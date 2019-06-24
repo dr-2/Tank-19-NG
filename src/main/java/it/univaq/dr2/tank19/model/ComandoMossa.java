@@ -59,6 +59,6 @@ public class ComandoMossa implements Comando {
         newPosizione.setPosY(posY);
 
         oggettoDiGioco.setPosizione(newPosizione);
-        oggettoDiGioco.setDirezione(direzione.toString());
+        oggettoDiGioco.setDirezione(direzione);
     }
 }

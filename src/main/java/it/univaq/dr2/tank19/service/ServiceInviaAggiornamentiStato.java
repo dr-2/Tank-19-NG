@@ -24,11 +24,18 @@ public class ServiceInviaAggiornamentiStato {
 //        Set<OggettoDiGioco> oggetti = new HashSet<>();
         serviceOggettoDiGioco.findAll().iterator().forEachRemaining(oggetto -> {
             String URLMessaggiPartita = "/partite/" + oggetto.getPartita().getId() + "/stato";
+            String direzione;
+            try {
+                direzione = oggetto.getDirezione().toString();
+            } catch (NullPointerException e) {
+                direzione = "null";
+            }
+
             MessaggioDiAggiornamentoStato messaggio = new MessaggioDiAggiornamentoStato();
             messaggio.setIdOggetto(oggetto.getId());
             messaggio.setPosx(oggetto.getPosizione().getPosX());
             messaggio.setPosy(oggetto.getPosizione().getPosY());
-            messaggio.setDirezione(oggetto.getDirezione());
+            messaggio.setDirezione(direzione);
             simpMessagingTemplate.convertAndSend(URLMessaggiPartita, messaggio);
         });
     }

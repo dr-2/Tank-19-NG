@@ -1,5 +1,6 @@
 package it.univaq.dr2.tank19.model.messaggi;
 
+import it.univaq.dr2.tank19.model.TipoOggetto;
 import lombok.Data;
 
 /**

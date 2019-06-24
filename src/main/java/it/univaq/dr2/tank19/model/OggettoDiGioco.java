@@ -29,7 +29,7 @@ public class OggettoDiGioco extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private Posizione posizione;
 
-    private String direzione;
+    private Direzione direzione;
     private String tipo;
 
     @ManyToOne
