@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
  * @created 23/06/2019
  */
 @Component
-public class ControllerGRASP {
+public class ControllerGRASPFacade {
     private final ServiceOggettoDiGioco serviceOggettoDiGioco;
 
-    public ControllerGRASP(ServiceOggettoDiGioco serviceOggettoDiGioco) {
+    public ControllerGRASPFacade(ServiceOggettoDiGioco serviceOggettoDiGioco) {
         this.serviceOggettoDiGioco = serviceOggettoDiGioco;
     }
 

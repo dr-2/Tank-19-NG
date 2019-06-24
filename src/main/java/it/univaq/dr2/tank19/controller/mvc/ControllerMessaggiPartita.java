@@ -1,6 +1,6 @@
 package it.univaq.dr2.tank19.controller.mvc;
 
-import it.univaq.dr2.tank19.controller.grasp.ControllerGRASP;
+import it.univaq.dr2.tank19.controller.grasp.ControllerGRASPFacade;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioBase;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioComando;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioConnessione;
@@ -13,17 +13,17 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 @Controller
 public class ControllerMessaggiPartita {
-    private final ControllerGRASP controllerGRASP;
+    private final ControllerGRASPFacade controllerGRASPFacade;
 
-    public ControllerMessaggiPartita(ControllerGRASP controllerGRASP) {
-        this.controllerGRASP = controllerGRASP;
+    public ControllerMessaggiPartita(ControllerGRASPFacade controllerGRASPFacade) {
+        this.controllerGRASPFacade = controllerGRASPFacade;
     }
 
     @MessageMapping("/partite/{idpartita}/.inviaComando")
     public MessaggioBase inviaMessaggioComando(@Payload MessaggioComando messaggio, @DestinationVariable("idpartita") String idPartita) {
         String URLMessaggiPartita = "/partite/" + idPartita + "/stato";
 
-        controllerGRASP.muovi(messaggio.getIdOggetto(), messaggio.getDirezione());
+        controllerGRASPFacade.muovi(messaggio.getIdOggetto(), messaggio.getDirezione());
         //controllerGRASP.spara(messaggio.getIdOggetto(), messaggio.getFuoco()); //TODO: seconda iteerazione -> lato GRASP eseguire solo se .getFuoco è true
 
 

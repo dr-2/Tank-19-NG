@@ -3,16 +3,24 @@
 
     /*==================================================================
     [ Validate ]*/
-    var input = $('.validate-input .input100');
+    let input = $('.validate-input .input100');
+    let confrontaPasswords = $('.confronta');
+
 
     $('.validate-form').on('submit', function () {
-        var check = true;
+        let check = true;
 
-        for (var i = 0; i < input.length; i++) {
+        for (let i = 0; i < input.length; i++) {
             if (validate(input[i]) === false) {
-                showValidate(input[i]);
+                showValidate(input[i], "Inserisci una password valida (min 3 simboli)");
                 check = false;
             }
+        }
+
+        if (confrontaPasswords[0] !== confrontaPasswords[1]) {
+            check = false;
+            showValidate(input[1], "Le password non corrispondono")
+            showValidate(input[2], "Le password non corrispondono")
         }
         return check;
     });
@@ -36,14 +44,17 @@
         }
     }
 
-    function showValidate(input) {
-        var thisAlert = $(input).parent();
+    function showValidate(input, messaggio) {
+        let thisAlert = $(input).parent();
+        window.t = thisAlert
+        window.m = messaggio
+        thisAlert[0].attributes[1].value = messaggio;
 
         $(thisAlert).addClass('alert-validate');
     }
 
     function hideValidate(input) {
-        var thisAlert = $(input).parent();
+        let thisAlert = $(input).parent();
 
         $(thisAlert).removeClass('alert-validate');
     }
