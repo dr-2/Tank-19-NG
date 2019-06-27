@@ -2,8 +2,8 @@ package it.univaq.dr2.tank19.controller.grasp;
 
 import it.univaq.dr2.tank19.model.ComandoMossa;
 import it.univaq.dr2.tank19.model.Direzione;
-import it.univaq.dr2.tank19.model.OggettoDiGioco;
-import it.univaq.dr2.tank19.service.ServiceOggettoDiGioco;
+import it.univaq.dr2.tank19.model.gioco.Tank;
+import it.univaq.dr2.tank19.service.ServiceTank;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,18 +12,18 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ControllerGRASPFacade {
-    private final ServiceOggettoDiGioco serviceOggettoDiGioco;
+    private final ServiceTank serviceTank;
 
-    public ControllerGRASPFacade(ServiceOggettoDiGioco serviceOggettoDiGioco) {
-        this.serviceOggettoDiGioco = serviceOggettoDiGioco;
+    public ControllerGRASPFacade(ServiceTank serviceTank) {
+        this.serviceTank = serviceTank;
     }
 
     public void muovi(Long idOggetto, Direzione direzione) {
         if (direzione != null) {
-            OggettoDiGioco currentOggettoDiGioco = serviceOggettoDiGioco.findById(idOggetto);
+            Tank currentOggettoDiGioco = serviceTank.findById(idOggetto);
             currentOggettoDiGioco.setComando(new ComandoMossa());
             currentOggettoDiGioco.eseguiComando(direzione);
-            serviceOggettoDiGioco.save(currentOggettoDiGioco);
+            serviceTank.save(currentOggettoDiGioco);
         }
     }
 }

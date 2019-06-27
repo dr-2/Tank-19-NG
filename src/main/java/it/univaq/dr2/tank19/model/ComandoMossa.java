@@ -1,5 +1,6 @@
 package it.univaq.dr2.tank19.model;
 
+import it.univaq.dr2.tank19.model.gioco.Tank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,7 @@ public class ComandoMossa implements Comando {
     }
 
     @Override
-    public void esegui(OggettoDiGioco oggettoDiGioco, Direzione direzione) {
+    public void esegui(Tank oggettoDiGioco, Direzione direzione) {
         Integer posX = oggettoDiGioco.getPosizione().getPosX();
         Integer posY = oggettoDiGioco.getPosizione().getPosY();
 
@@ -57,6 +58,8 @@ public class ComandoMossa implements Comando {
         Posizione newPosizione = oggettoDiGioco.getPosizione();
         newPosizione.setPosX(posX);
         newPosizione.setPosY(posY);
+
+        CollisionDetector collisionDetector = new CollisionDetector();
 
         oggettoDiGioco.setPosizione(newPosizione);
         oggettoDiGioco.setDirezione(direzione);

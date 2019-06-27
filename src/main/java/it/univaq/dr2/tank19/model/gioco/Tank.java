@@ -1,5 +1,9 @@
-package it.univaq.dr2.tank19.model;
+package it.univaq.dr2.tank19.model.gioco;
 
+import it.univaq.dr2.tank19.model.Comando;
+import it.univaq.dr2.tank19.model.Direzione;
+import it.univaq.dr2.tank19.model.Partita;
+import it.univaq.dr2.tank19.model.Posizione;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +21,8 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Component
-@Table(name = "oggettodigioco")
-public class OggettoDiGioco extends BaseEntity {
+@Table(name = "tank")
+public class Tank extends OggettoDiGioco {
 
 //    @JsonInclude()
 //    @Transient
@@ -32,6 +36,9 @@ public class OggettoDiGioco extends BaseEntity {
     private Direzione direzione;
     private String tipo;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Proiettile proiettile;
+
     @ManyToOne
     @JoinColumn(name = "partita_id")
     private Partita partita;
@@ -40,8 +47,6 @@ public class OggettoDiGioco extends BaseEntity {
 
     public void eseguiComando(Direzione direzione) {
         comando.esegui(this, direzione);
-
-
     }
 
 }

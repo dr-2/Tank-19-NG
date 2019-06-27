@@ -1,5 +1,6 @@
 package it.univaq.dr2.tank19.model;
 
+import it.univaq.dr2.tank19.model.gioco.Tank;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ComandoFuoco implements Comando {
     @Override
-    public void esegui(OggettoDiGioco oggettoDiGioco, Direzione direzione) {
+    public void esegui(Tank tank, Direzione direzione) {
 
     }
 }

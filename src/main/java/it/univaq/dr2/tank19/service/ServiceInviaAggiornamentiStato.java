@@ -11,18 +11,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ServiceInviaAggiornamentiStato {
-    private final ServiceOggettoDiGioco serviceOggettoDiGioco;
+    private final ServiceTank serviceTank;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public ServiceInviaAggiornamentiStato(ServiceOggettoDiGioco serviceOggettoDiGioco, SimpMessagingTemplate simpMessagingTemplate) {
-        this.serviceOggettoDiGioco = serviceOggettoDiGioco;
+    public ServiceInviaAggiornamentiStato(ServiceTank serviceTank, SimpMessagingTemplate simpMessagingTemplate) {
+        this.serviceTank = serviceTank;
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @Scheduled(fixedDelay = 1000 / 60)
     public void inviaAggiornamentiDiStato() {
 //        Set<OggettoDiGioco> oggetti = new HashSet<>();
-        serviceOggettoDiGioco.findAll().iterator().forEachRemaining(oggetto -> {
+        serviceTank.findAll().iterator().forEachRemaining(oggetto -> {
             String URLMessaggiPartita = "/partite/" + oggetto.getPartita().getId() + "/stato";
             String direzione;
             try {

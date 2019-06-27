@@ -1,6 +1,7 @@
 package it.univaq.dr2.tank19.bootstrap;
 
 import it.univaq.dr2.tank19.model.*;
+import it.univaq.dr2.tank19.model.gioco.Tank;
 import it.univaq.dr2.tank19.service.ServiceGiocatore;
 import it.univaq.dr2.tank19.service.ServicePartita;
 import lombok.extern.slf4j.Slf4j;
@@ -46,14 +47,15 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g.aggiungiPunti(-34);
 
         Posizione pos = new Posizione(100, 100);
-        OggettoDiGioco tank = OggettoDiGioco.builder().partita(p1).posizione(pos).build();
-        p1.getOggettiDiGioco().add(tank);
+        Tank tank = Tank.builder().partita(p1).posizione(pos).build();
+        p1.getTanks().add(tank);
         g.setMioTank(tank);
 
 
         p1.getGiocatori().add(g);
         p1.setStato(TipoStatoPartita.CREAZIONE);
         p1.setNumeroGiocatoriUmani(2);
+
 
         servicePartita.save(p1);
 
@@ -65,8 +67,8 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g2.setPassword(encoder.encode("p"));
 
         pos = new Posizione(200, 100);
-        OggettoDiGioco tankValeria = OggettoDiGioco.builder().partita(p2).posizione(pos).build();
-        p2.getOggettiDiGioco().add(tankValeria);
+        Tank tankValeria = Tank.builder().partita(p2).posizione(pos).build();
+        p2.getTanks().add(tankValeria);
 
         p2.getGiocatori().add(g2);
         g2.setMioTank(tankValeria);
@@ -80,8 +82,8 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g4.setPassword(encoder.encode("p"));
 
         pos = new Posizione(100, 200);
-        OggettoDiGioco tankGio = OggettoDiGioco.builder().partita(p2).posizione(pos).build();
-        p2.getOggettiDiGioco().add(tankGio);
+        Tank tankGio = Tank.builder().partita(p2).posizione(pos).build();
+        p2.getTanks().add(tankGio);
 
         p2.getGiocatori().add(g4);
         g4.setMioTank(tankGio);
@@ -94,8 +96,8 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g3.setPassword(encoder.encode("p"));
 
         pos = new Posizione(500, 500);
-        OggettoDiGioco tank3 = OggettoDiGioco.builder().partita(p1).posizione(pos).build();
-        p1.getOggettiDiGioco().add(tank3);
+        Tank tank3 = Tank.builder().partita(p1).posizione(pos).build();
+        p1.getTanks().add(tank3);
 
         p1.getGiocatori().add(g3);
         g3.setMioTank(tank3);

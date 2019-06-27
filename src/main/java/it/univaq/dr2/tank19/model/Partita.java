@@ -1,5 +1,6 @@
 package it.univaq.dr2.tank19.model;
 
+import it.univaq.dr2.tank19.model.gioco.Tank;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Partita extends BaseEntity {
     private Set<Giocatore> giocatori = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita", fetch = FetchType.EAGER)
-    private Set<OggettoDiGioco> oggettiDiGioco = new HashSet<>();
+    private Set<Tank> tanks = new HashSet<>();
 
 
     private TipoStatoPartita stato;
