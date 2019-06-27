@@ -1,5 +1,6 @@
 const gameState = {
-    tanks: {}
+    tanks: {},
+    proiettili: {}
 };
 const command = {
     nord: false,
@@ -14,6 +15,9 @@ const gameConfig = {
         myTank_s: null,
         myTank_e: null,
         myTank_o: null
+    },
+    proiettile: {
+        proiettile_n: null
     },
     canvas: {
         altezza: null,
@@ -30,6 +34,9 @@ const gameConfig = {
         stompClient: null
     }
 }
+
+const PROIETTILE = "PROIETTILE"
+const CARRO_ARMATO = "CARRO_ARMATO"
 
 
 let haveEvents = 'ongamepadconnected' in window;
@@ -74,6 +81,7 @@ function preload() {
     gameConfig.tank.myTank_s = loadImage('/pictures/game/tank/giallo_s.png');
     gameConfig.tank.myTank_e = loadImage('/pictures/game/tank/giallo_e.png');
     gameConfig.tank.myTank_o = loadImage('/pictures/game/tank/giallo_o.png');
+    gameConfig.proiettile.proiettile_n = loadImage('/pictures/game/tank/proiettile.png')
 
 }
 
@@ -90,6 +98,9 @@ function draw() {
     background(51);
     for (const id of Object.keys(gameState.tanks)) {
         gameState.tanks[id].draw();
+    }
+    for (const id of Object.keys(gameState.proiettili)) {
+        gameState.proiettili[id].draw();
     }
 
     //check gamepad inputs
@@ -276,12 +287,23 @@ const onError = () => {
 
 const onStateUpgradeReceived = (message) => {
     parsedData = JSON.parse(message.body);
-    let tipoOggetto = parsedData
+    let tipoOggetto = parsedData.tipoOggetto
 
-    if (gameState.tanks[parsedData.idOggetto]) {
-        gameState.tanks[parsedData.idOggetto].moveToXY(parsedData.posx, parsedData.posy, parsedData.direzione)
-    } else {
-        gameState.tanks[parsedData.idOggetto] = new Tank(parsedData.posx, parsedData.posy, parsedData.direzione)
+    if (tipoOggetto === CARRO_ARMATO) {
+        if (gameState.tanks[parsedData.idOggetto]) {
+            gameState.tanks[parsedData.idOggetto].moveToXY(parsedData.posx, parsedData.posy, parsedData.direzione)
+        } else {
+            gameState.tanks[parsedData.idOggetto] = new Tank(parsedData.posx, parsedData.posy, parsedData.direzione)
+        }
+    }
+
+    if (tipoOggetto === PROIETTILE) {
+
+        if (gameState.proiettili[parsedData.idOggetto]) {
+            gameState.proiettili[parsedData.idOggetto].moveToXY(parsedData.posx, parsedData.posy, parsedData.direzione)
+        } else {
+            gameState.proiettili[parsedData.idOggetto] = new Proiettile(parsedData.posx, parsedData.posy, parsedData.direzione)
+        }
     }
 
 

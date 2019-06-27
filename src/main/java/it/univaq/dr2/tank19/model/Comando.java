@@ -7,5 +7,5 @@ import it.univaq.dr2.tank19.model.gioco.Tank;
  * @created 08/06/2019
  */
 public interface Comando {
-    void esegui(Tank tank, Direzione direzione);
+    void esegui(Tank tank);
 }

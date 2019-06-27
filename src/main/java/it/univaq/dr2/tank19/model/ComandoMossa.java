@@ -30,7 +30,8 @@ public class ComandoMossa implements Comando {
     }
 
     @Override
-    public void esegui(Tank oggettoDiGioco, Direzione direzione) {
+    public void esegui(Tank oggettoDiGioco) {
+        Direzione direzione = oggettoDiGioco.getDirezione();
         Integer posX = oggettoDiGioco.getPosizione().getPosX();
         Integer posY = oggettoDiGioco.getPosizione().getPosY();
 

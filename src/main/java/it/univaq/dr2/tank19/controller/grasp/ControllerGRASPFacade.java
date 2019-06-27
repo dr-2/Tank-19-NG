@@ -1,5 +1,6 @@
 package it.univaq.dr2.tank19.controller.grasp;
 
+import it.univaq.dr2.tank19.model.ComandoFuoco;
 import it.univaq.dr2.tank19.model.ComandoMossa;
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.gioco.Tank;
@@ -18,12 +19,19 @@ public class ControllerGRASPFacade {
         this.serviceTank = serviceTank;
     }
 
-    public void muovi(Long idOggetto, Direzione direzione) {
+    public void eseguiComandi(Long idOggetto, Direzione direzione, Boolean fuoco) {
+        Tank currentOggettoDiGioco = serviceTank.findById(idOggetto);
         if (direzione != null) {
-            Tank currentOggettoDiGioco = serviceTank.findById(idOggetto);
+            currentOggettoDiGioco.setDirezione(direzione);
             currentOggettoDiGioco.setComando(new ComandoMossa());
-            currentOggettoDiGioco.eseguiComando(direzione);
-            serviceTank.save(currentOggettoDiGioco);
+            currentOggettoDiGioco.eseguiComando();
         }
+        if (fuoco) {
+            currentOggettoDiGioco.setComando(new ComandoFuoco());
+            currentOggettoDiGioco.eseguiComando();
+        }
+        serviceTank.save(currentOggettoDiGioco);
     }
+
+
 }

@@ -45,8 +45,8 @@ public class Tank extends OggettoDiGioco {
 
     //void doMossa(Comando comando);
 
-    public void eseguiComando(Direzione direzione) {
-        comando.esegui(this, direzione);
+    public void eseguiComando() {
+        comando.esegui(this);
     }
 
 }
