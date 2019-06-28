@@ -1,9 +1,11 @@
 package it.univaq.dr2.tank19.model.gioco;
 
-import it.univaq.dr2.tank19.model.Comando;
+import it.univaq.dr2.tank19.model.BaseEntity;
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.Posizione;
+import it.univaq.dr2.tank19.model.comandi.Comando;
+import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +24,7 @@ import javax.persistence.*;
 @Entity
 @Component
 @Table(name = "tank")
-public class Tank extends OggettoDiGioco {
+public class Tank extends BaseEntity implements OggettoDiGioco {
 
 //    @JsonInclude()
 //    @Transient
@@ -43,10 +45,22 @@ public class Tank extends OggettoDiGioco {
     @JoinColumn(name = "partita_id")
     private Partita partita;
 
-    //void doMossa(Comando comando);
 
+    @Override
     public void eseguiComando() {
         comando.esegui(this);
+    }
+
+    @Override
+    public void setComandoMovimento() {
+        ComandoTankStrategyFactory factoryComandiTank = ComandoTankStrategyFactory.getInstance();
+        this.comando = factoryComandiTank.getComandoMovimento();
+    }
+
+    @Override
+    public void setComandoFuoco() {
+        ComandoTankStrategyFactory factoryComandiTank = ComandoTankStrategyFactory.getInstance();
+        this.comando = factoryComandiTank.getComandoFuoco();
     }
 
 }

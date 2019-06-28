@@ -1,6 +1,8 @@
-package it.univaq.dr2.tank19.model;
+package it.univaq.dr2.tank19.model.comandi;
 
-import it.univaq.dr2.tank19.model.gioco.Tank;
+import it.univaq.dr2.tank19.model.Direzione;
+import it.univaq.dr2.tank19.model.Posizione;
+import it.univaq.dr2.tank19.model.gioco.OggettoDiGioco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -13,7 +15,7 @@ import java.util.Objects;
  * @created 08/06/2019
  */
 @Component
-public class ComandoMossa implements Comando {
+public class ComandoMovimento implements Comando {
 
     static int xMax;
     static int yMax;
@@ -30,7 +32,7 @@ public class ComandoMossa implements Comando {
     }
 
     @Override
-    public void esegui(Tank oggettoDiGioco) {
+    public void esegui(OggettoDiGioco oggettoDiGioco) {
         Direzione direzione = oggettoDiGioco.getDirezione();
         Integer posX = oggettoDiGioco.getPosizione().getPosX();
         Integer posY = oggettoDiGioco.getPosizione().getPosY();
@@ -60,9 +62,10 @@ public class ComandoMossa implements Comando {
         newPosizione.setPosX(posX);
         newPosizione.setPosY(posY);
 
-        CollisionDetector collisionDetector = new CollisionDetector();
 
         oggettoDiGioco.setPosizione(newPosizione);
         oggettoDiGioco.setDirezione(direzione);
+
     }
+
 }
