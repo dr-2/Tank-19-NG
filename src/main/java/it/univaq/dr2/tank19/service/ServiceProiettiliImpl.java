@@ -1,6 +1,6 @@
 package it.univaq.dr2.tank19.service;
 
-import it.univaq.dr2.tank19.model.gioco.Proiettile;
+import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.repository.RepositoryProiettili;
 import org.springframework.stereotype.Service;
 

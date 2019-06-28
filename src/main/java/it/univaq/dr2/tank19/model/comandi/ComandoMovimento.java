@@ -2,7 +2,7 @@ package it.univaq.dr2.tank19.model.comandi;
 
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.Posizione;
-import it.univaq.dr2.tank19.model.gioco.OggettoDiGioco;
+import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -36,7 +36,8 @@ public class ComandoMovimento implements Comando {
         Direzione direzione = oggettoDiGioco.getDirezione();
         Integer posX = oggettoDiGioco.getPosizione().getPosX();
         Integer posY = oggettoDiGioco.getPosizione().getPosY();
-
+        Integer velocita = oggettoDiGioco.getVelocita() != null ? oggettoDiGioco.getVelocita() : ComandoMovimento.velocita;
+        Integer dimensioneHitbox = oggettoDiGioco.getDimensioneHitbox();
 
         if (direzione == Direzione.NORD) {
             if (posY > 0) {
@@ -44,12 +45,12 @@ public class ComandoMovimento implements Comando {
             }
         }
         if (direzione == Direzione.SUD) {
-            if (posY < yMax - 30) {
+            if (posY < yMax - dimensioneHitbox) {
                 posY = posY + velocita;
             }
         }
         if (direzione == Direzione.EST) {
-            if (posX < xMax - 30) {
+            if (posX < xMax - dimensioneHitbox) {
                 posX = posX + velocita;
             }
         }

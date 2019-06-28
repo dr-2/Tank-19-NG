@@ -1,7 +1,7 @@
 package it.univaq.dr2.tank19.bootstrap;
 
 import it.univaq.dr2.tank19.model.*;
-import it.univaq.dr2.tank19.model.gioco.Tank;
+import it.univaq.dr2.tank19.model.oggettigioco.Tank;
 import it.univaq.dr2.tank19.service.ServiceGiocatore;
 import it.univaq.dr2.tank19.service.ServicePartita;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +46,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
         g.aggiungiPunti(-34);
 
-        Posizione pos = new Posizione(100, 100);
+        Posizione pos = new Posizione(100, 100, TipoOggetto.CARRO_ARMATO);
         Tank tank = Tank.builder().partita(p1).posizione(pos).build();
         p1.getTanks().add(tank);
         g.setMioTank(tank);
@@ -66,7 +66,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g2.setPartita(p2);
         g2.setPassword(encoder.encode("p"));
 
-        pos = new Posizione(200, 100);
+        pos = new Posizione(200, 100, TipoOggetto.CARRO_ARMATO);
         Tank tankValeria = Tank.builder().partita(p2).posizione(pos).build();
         p2.getTanks().add(tankValeria);
 
@@ -81,7 +81,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g4.setPartita(p2);
         g4.setPassword(encoder.encode("p"));
 
-        pos = new Posizione(100, 200);
+        pos = new Posizione(100, 200, TipoOggetto.CARRO_ARMATO);
         Tank tankGio = Tank.builder().partita(p2).posizione(pos).build();
         p2.getTanks().add(tankGio);
 
@@ -95,7 +95,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g3.setPartita(p1);
         g3.setPassword(encoder.encode("p"));
 
-        pos = new Posizione(500, 500);
+        pos = new Posizione(500, 500, TipoOggetto.CARRO_ARMATO);
         Tank tank3 = Tank.builder().partita(p1).posizione(pos).build();
         p1.getTanks().add(tank3);
 

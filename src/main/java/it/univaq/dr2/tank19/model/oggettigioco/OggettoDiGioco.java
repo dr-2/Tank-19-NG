@@ -1,6 +1,7 @@
-package it.univaq.dr2.tank19.model.gioco;
+package it.univaq.dr2.tank19.model.oggettigioco;
 
 import it.univaq.dr2.tank19.model.Direzione;
+import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.Posizione;
 
 public interface OggettoDiGioco {
@@ -21,4 +22,12 @@ public interface OggettoDiGioco {
     void eseguiComando();
 
     void setPosizione(Posizione posizione);
+
+    Integer getVelocita();
+
+    Partita getPartita();
+
+    Boolean collidoCon(OggettoDiGioco altroOggetto);
+
+    Integer getDimensioneHitbox();
 }

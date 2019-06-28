@@ -1,7 +1,7 @@
 package it.univaq.dr2.tank19.model;
 
 
-import it.univaq.dr2.tank19.model.gioco.Tank;
+import it.univaq.dr2.tank19.model.oggettigioco.Tank;
 import lombok.*;
 
 import javax.persistence.*;
