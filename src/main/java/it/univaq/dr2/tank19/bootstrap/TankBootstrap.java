@@ -46,8 +46,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
         g.aggiungiPunti(-34);
 
-        Posizione pos = new Posizione(100, 100, TipoOggetto.CARRO_ARMATO);
-        Tank tank = Tank.builder().partita(p1).posizione(pos).build();
+        Tank tank = Tank.builder().partita(p1).posX(100).posY(100).build();
         p1.getTanks().add(tank);
         g.setMioTank(tank);
 
@@ -66,8 +65,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g2.setPartita(p2);
         g2.setPassword(encoder.encode("p"));
 
-        pos = new Posizione(200, 100, TipoOggetto.CARRO_ARMATO);
-        Tank tankValeria = Tank.builder().partita(p2).posizione(pos).build();
+        Tank tankValeria = Tank.builder().partita(p2).posX(200).posY(100).build();
         p2.getTanks().add(tankValeria);
 
         p2.getGiocatori().add(g2);
@@ -81,8 +79,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g4.setPartita(p2);
         g4.setPassword(encoder.encode("p"));
 
-        pos = new Posizione(100, 200, TipoOggetto.CARRO_ARMATO);
-        Tank tankGio = Tank.builder().partita(p2).posizione(pos).build();
+        Tank tankGio = Tank.builder().partita(p2).posX(100).posY(200).build();
         p2.getTanks().add(tankGio);
 
         p2.getGiocatori().add(g4);
@@ -95,8 +92,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g3.setPartita(p1);
         g3.setPassword(encoder.encode("p"));
 
-        pos = new Posizione(500, 500, TipoOggetto.CARRO_ARMATO);
-        Tank tank3 = Tank.builder().partita(p1).posizione(pos).build();
+        Tank tank3 = Tank.builder().partita(p1).posX(200).posY(200).build();
         p1.getTanks().add(tank3);
 
         p1.getGiocatori().add(g3);

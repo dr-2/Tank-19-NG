@@ -87,16 +87,16 @@ public class ControllerGRASPFacade {
             MessaggioDiAggiornamentoStato aggiornamentoProiettile = new MessaggioDiAggiornamentoStato();
 
             aggiornamentoTank.setIdOggetto(tank.getId());
-            aggiornamentoTank.setPosx(tank.getPosizione().getPosX());
-            aggiornamentoTank.setPosy(tank.getPosizione().getPosY());
+            aggiornamentoTank.setPosx(tank.getPosX());
+            aggiornamentoTank.setPosy(tank.getPosY());
             aggiornamentoTank.setDirezione(direzione);
             aggiornamentoTank.setTipoOggetto(TipoOggetto.CARRO_ARMATO);
 
             if (tank.getProiettile() != null) {
                 Proiettile proiettile = tank.getProiettile();
                 aggiornamentoProiettile.setIdOggetto(proiettile.getId());
-                aggiornamentoProiettile.setPosx(proiettile.getPosizione().getPosX());
-                aggiornamentoProiettile.setPosy(proiettile.getPosizione().getPosY());
+                aggiornamentoProiettile.setPosx(proiettile.getPosX());
+                aggiornamentoProiettile.setPosy(proiettile.getPosY());
                 aggiornamentoProiettile.setDirezione(proiettile.getDirezione().toString());
                 aggiornamentoProiettile.setTipoOggetto(TipoOggetto.PROIETTILE);
             }

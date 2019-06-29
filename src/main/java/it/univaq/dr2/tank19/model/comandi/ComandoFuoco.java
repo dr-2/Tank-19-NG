@@ -1,8 +1,6 @@
 package it.univaq.dr2.tank19.model.comandi;
 
 import it.univaq.dr2.tank19.model.Direzione;
-import it.univaq.dr2.tank19.model.Posizione;
-import it.univaq.dr2.tank19.model.TipoOggetto;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettiDiGiocoFactory;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
@@ -22,8 +20,6 @@ public class ComandoFuoco implements Comando {
         if (oggettoDiGioco.getProiettile() == null) {
             OggettiDiGiocoFactory oggettiDiGiocoFactory = OggettiDiGiocoFactory.getInstance();
             Proiettile proiettile = null;
-            Posizione posizione = new Posizione();
-            posizione.setTipoOggettoPadre(TipoOggetto.CARRO_ARMATO);
 
             try {
                 proiettile = (Proiettile) oggettiDiGiocoFactory.getProiettile();
@@ -32,12 +28,11 @@ public class ComandoFuoco implements Comando {
             }
             Direzione direzione = oggettoDiGioco.getDirezione();
 
-            posizione.setPosY(oggettoDiGioco.getPosizione().getPosY() + 15);
-            posizione.setPosX(oggettoDiGioco.getPosizione().getPosX() + 15);
-
             assert proiettile != null;
+            proiettile.setPosY(oggettoDiGioco.getPosY() + 15);
+            proiettile.setPosX(oggettoDiGioco.getPosX() + 15);
+
             proiettile.setDirezione(direzione);
-            proiettile.setPosizione(posizione);
             proiettile.setTank((Tank) oggettoDiGioco);
             oggettoDiGioco.setProiettile(proiettile);
         } else { // TODO: al momento un tank non può sparare più di un proiettile

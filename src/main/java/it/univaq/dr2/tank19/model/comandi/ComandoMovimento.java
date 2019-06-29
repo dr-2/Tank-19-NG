@@ -1,7 +1,6 @@
 package it.univaq.dr2.tank19.model.comandi;
 
 import it.univaq.dr2.tank19.model.Direzione;
-import it.univaq.dr2.tank19.model.Posizione;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -34,8 +33,8 @@ public class ComandoMovimento implements Comando {
     @Override
     public void esegui(OggettoDiGioco oggettoDiGioco) {
         Direzione direzione = oggettoDiGioco.getDirezione();
-        Integer posX = oggettoDiGioco.getPosizione().getPosX();
-        Integer posY = oggettoDiGioco.getPosizione().getPosY();
+        Integer posX = oggettoDiGioco.getPosX();
+        Integer posY = oggettoDiGioco.getPosY();
         Integer velocita = oggettoDiGioco.getVelocita() != null ? oggettoDiGioco.getVelocita() : ComandoMovimento.velocita;
         Integer dimensioneHitbox = oggettoDiGioco.getDimensioneHitbox();
 
@@ -59,10 +58,9 @@ public class ComandoMovimento implements Comando {
                 posX = posX - velocita;
             }
         }
-        Posizione newPosizione = new Posizione();
 
-        oggettoDiGioco.getPosizione().setPosX(posX);
-        oggettoDiGioco.getPosizione().setPosY(posY);
+        oggettoDiGioco.setPosX(posX);
+        oggettoDiGioco.setPosY(posY);
 
         oggettoDiGioco.setDirezione(direzione);
 

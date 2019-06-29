@@ -1,6 +1,9 @@
 package it.univaq.dr2.tank19.model.oggettigioco;
 
-import it.univaq.dr2.tank19.model.*;
+import it.univaq.dr2.tank19.model.BaseEntity;
+import it.univaq.dr2.tank19.model.Direzione;
+import it.univaq.dr2.tank19.model.Giocatore;
+import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.comandi.Comando;
 import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
 import lombok.*;
@@ -29,8 +32,6 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
     @Transient
     Comando comando;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Posizione posizione;
 
     private Direzione direzione;
     private String tipo;
@@ -46,7 +47,18 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
     @JoinColumn(name = "partita_id")
     private Partita partita;
 
+    @NonNull
+    private Integer posX;
+    @NonNull
+    private Integer posY;
 
+    public Integer getXMax() {
+        return posX + 30;
+    }
+
+    public Integer getYMax() {
+        return posY + 30;
+    }
 
     @Override
     public void eseguiComando() {

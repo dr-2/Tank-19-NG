@@ -3,7 +3,6 @@ package it.univaq.dr2.tank19.model.oggettigioco;
 import it.univaq.dr2.tank19.model.BaseEntity;
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.Partita;
-import it.univaq.dr2.tank19.model.Posizione;
 import it.univaq.dr2.tank19.model.comandi.Comando;
 import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
 import lombok.*;
@@ -22,15 +21,26 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     @OneToOne(cascade = CascadeType.ALL)
     private Tank tank;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Posizione posizione;
 
     private Direzione direzione;
 
     private Integer velocita = 4;
 
+    @NonNull
+    private Integer posX;
+    @NonNull
+    private Integer posY;
+
     @Transient
     Comando comando;
+
+    public Integer getXMax() {
+        return posX + 5;
+    }
+
+    public Integer getYMax() {
+        return posY + 5;
+    }
 
     @Override
     public void setComandoMovimento() {
@@ -75,10 +85,10 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
          *
          */
 
-        int x1 = this.getPosizione().getPosX();
-        int x2 = this.getPosizione().getXMax();
-        int y1 = this.getPosizione().getPosY();
-        int y2 = this.getPosizione().getYMax();
+        int x1 = this.getPosX();
+        int x2 = this.getXMax();
+        int y1 = this.getPosY();
+        int y2 = this.getYMax();
 
 
         Polygon questo = new Polygon();
@@ -88,10 +98,10 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
         questo.addPoint(x2, y2);
 
 
-        int x_1 = altroOggetto.getPosizione().getPosX();
-        int x_2 = altroOggetto.getPosizione().getXMax();
-        int y_1 = altroOggetto.getPosizione().getPosY();
-        int y_2 = altroOggetto.getPosizione().getYMax();
+        int x_1 = altroOggetto.getPosX();
+        int x_2 = altroOggetto.getXMax();
+        int y_1 = altroOggetto.getPosY();
+        int y_2 = altroOggetto.getYMax();
 
         Polygon altro = new Polygon();
         altro.addPoint(x_1, y_1);
