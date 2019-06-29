@@ -20,11 +20,10 @@ public class ComandoFuoco implements Comando {
     @Override
     public void esegui(OggettoDiGioco oggettoDiGioco) {
         if (oggettoDiGioco.getProiettile() == null) {
-            System.out.println("creato proiettile");
             OggettiDiGiocoFactory oggettiDiGiocoFactory = OggettiDiGiocoFactory.getInstance();
             Proiettile proiettile = null;
             Posizione posizione = new Posizione();
-            posizione.setTipoOggettoPadre(TipoOggetto.PROIETTILE);
+            posizione.setTipoOggettoPadre(TipoOggetto.CARRO_ARMATO);
 
             try {
                 proiettile = (Proiettile) oggettiDiGiocoFactory.getProiettile();
@@ -41,7 +40,7 @@ public class ComandoFuoco implements Comando {
             proiettile.setPosizione(posizione);
             proiettile.setTank((Tank) oggettoDiGioco);
             oggettoDiGioco.setProiettile(proiettile);
-        } else {
+        } else { // TODO: al momento un tank non può sparare più di un proiettile
         }
     }
 
