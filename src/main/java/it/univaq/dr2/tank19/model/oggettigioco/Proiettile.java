@@ -100,6 +100,7 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
         altro.addPoint(x_2, y_2);
 
         if (questo.getBounds().intersects(altro.getBounds())) {
+            System.out.println("COLLISIONE!!!!");
             return true;
         } else return false;
 

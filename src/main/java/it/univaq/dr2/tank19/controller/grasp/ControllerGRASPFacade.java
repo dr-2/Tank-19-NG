@@ -68,7 +68,12 @@ public class ControllerGRASPFacade {
     }
 
     @Scheduled(fixedDelay = 1000 / 60)
-    public void inviaAggiornamentiDiStato() {
+    public void gameTick() {
+
+        inviaAggiornamentiDiStato();
+    }
+
+    private void inviaAggiornamentiDiStato() {
         serviceTank.findAll().iterator().forEachRemaining(tank -> {
             String URLMessaggiPartita = "/partite/" + tank.getPartita().getId() + "/stato";
             String direzione;

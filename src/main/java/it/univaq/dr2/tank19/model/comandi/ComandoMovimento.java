@@ -59,12 +59,11 @@ public class ComandoMovimento implements Comando {
                 posX = posX - velocita;
             }
         }
-        Posizione newPosizione = oggettoDiGioco.getPosizione();
-        newPosizione.setPosX(posX);
-        newPosizione.setPosY(posY);
+        Posizione newPosizione = new Posizione();
 
+        oggettoDiGioco.getPosizione().setPosX(posX);
+        oggettoDiGioco.getPosizione().setPosY(posY);
 
-        oggettoDiGioco.setPosizione(newPosizione);
         oggettoDiGioco.setDirezione(direzione);
 
     }
