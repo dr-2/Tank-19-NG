@@ -2,6 +2,7 @@ package it.univaq.dr2.tank19.model.oggettigioco;
 
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.Partita;
+import it.univaq.dr2.tank19.model.TipoOggetto;
 
 public interface OggettoDiGioco {
     void setDirezione(Direzione direzione);
@@ -24,7 +25,6 @@ public interface OggettoDiGioco {
 
     Partita getPartita();
 
-    Boolean collidoCon(OggettoDiGioco altroOggetto);
 
     Integer getDimensioneHitbox();
 
@@ -39,5 +39,9 @@ public interface OggettoDiGioco {
     void setPosX(Integer posX);
 
     void setPosY(Integer posY);
+
+    Long getId();
+
+    TipoOggetto getTipo();
 
 }

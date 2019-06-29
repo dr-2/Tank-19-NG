@@ -1,7 +1,7 @@
 package it.univaq.dr2.tank19.model.collisione;
 
-import it.univaq.dr2.tank19.model.TipoOggetto;
+import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 
 public interface Collisione {
-    Boolean isCollisione(Long idOggetto, TipoOggetto tipoOggetto);
+    OggettoDiGioco staCollidendoCon(OggettoDiGioco oggettoMosso);
 }

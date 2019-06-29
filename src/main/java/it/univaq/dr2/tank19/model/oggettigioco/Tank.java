@@ -1,9 +1,6 @@
 package it.univaq.dr2.tank19.model.oggettigioco;
 
-import it.univaq.dr2.tank19.model.BaseEntity;
-import it.univaq.dr2.tank19.model.Direzione;
-import it.univaq.dr2.tank19.model.Giocatore;
-import it.univaq.dr2.tank19.model.Partita;
+import it.univaq.dr2.tank19.model.*;
 import it.univaq.dr2.tank19.model.comandi.Comando;
 import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
 import lombok.*;
@@ -34,8 +31,8 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
 
 
     private Direzione direzione;
-    private String tipo;
-    private Integer velocita;
+    private TipoOggetto tipo = TipoOggetto.CARRO_ARMATO;
+    private Integer velocita = 1;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Giocatore proprietario;
@@ -70,10 +67,6 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
         return this.velocita;
     }
 
-    @Override
-    public Boolean collidoCon(OggettoDiGioco altroOggetto) {
-        return null;
-    }
 
     @Override
     public Integer getDimensioneHitbox() {

@@ -2,6 +2,7 @@ package it.univaq.dr2.tank19.controller.grasp;
 
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.TipoOggetto;
+import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioDiAggiornamentoStato;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
@@ -12,9 +13,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * @author Carlo Centofanti
  * @created 23/06/2019
@@ -24,15 +22,16 @@ public class ControllerGRASPFacade {
     private final ServiceTank serviceTank;
     private final ServiceProiettili serviceProiettili;
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final RilevatoreCollisioni rilevatoreCollisioni;
 
-    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate) {
+    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni) {
         this.serviceTank = serviceTank;
         this.serviceProiettili = serviceProiettili;
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.rilevatoreCollisioni = rilevatoreCollisioni;
     }
 
     public void eseguiComandi(Long idOggetto, Direzione direzione, Boolean fuoco) {
-        Boolean collisione = false;
         OggettoDiGioco currentOggettoDiGioco = serviceTank.findById(idOggetto);
         if (direzione != null) {
             currentOggettoDiGioco.setDirezione(direzione);
@@ -48,24 +47,12 @@ public class ControllerGRASPFacade {
             currentOggettoDiGioco.getProiettile().setComandoMovimento();
             currentOggettoDiGioco.getProiettile().eseguiComando();
         }
-        if (!collisione) {
+        if (rilevatoreCollisioni.staCollidendoCon(currentOggettoDiGioco) == null) {
             serviceTank.save((Tank) currentOggettoDiGioco);
         } else System.out.println("COLLISIONE RILEVATA!!");
     }
 
-    public Boolean verificaCollisione(OggettoDiGioco oggettoDiGioco) {
-        Set<OggettoDiGioco> oggetti = new HashSet<>();
-        serviceProiettili.findAll().iterator().forEachRemaining(oggetti::add);
-        serviceTank.findAll().iterator().forEachRemaining(oggetti::add);
 
-        while (oggetti.iterator().hasNext()) {
-            OggettoDiGioco oggetto = oggetti.iterator().next();
-            if (oggetto.collidoCon(oggettoDiGioco) != null) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Scheduled(fixedDelay = 1000 / 60)
     public void gameTick() {
