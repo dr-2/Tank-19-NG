@@ -44,4 +44,5 @@ public interface OggettoDiGioco {
 
     TipoOggetto getTipo();
 
+
 }

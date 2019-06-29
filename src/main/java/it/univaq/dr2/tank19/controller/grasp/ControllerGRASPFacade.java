@@ -47,7 +47,7 @@ public class ControllerGRASPFacade {
             currentOggettoDiGioco.getProiettile().setComandoMovimento();
             currentOggettoDiGioco.getProiettile().eseguiComando();
         }
-        if (rilevatoreCollisioni.staCollidendoCon(currentOggettoDiGioco) == null) {
+        if (!rilevatoreCollisioni.generaCollisione(currentOggettoDiGioco)) {
             serviceTank.save((Tank) currentOggettoDiGioco);
         } else System.out.println("COLLISIONE RILEVATA!!");
     }

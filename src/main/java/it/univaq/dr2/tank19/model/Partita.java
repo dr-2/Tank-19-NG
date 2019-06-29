@@ -1,5 +1,7 @@
 package it.univaq.dr2.tank19.model;
 
+import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
+import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
 import lombok.*;
 
@@ -22,6 +24,8 @@ public class Partita extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita", fetch = FetchType.EAGER)
     private Set<Tank> tanks = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita", fetch = FetchType.EAGER)
+    private Set<Proiettile> proiettili = new HashSet<>();
 
     private TipoStatoPartita stato;
     private Integer numeroGiocatoriUmani;
@@ -32,6 +36,14 @@ public class Partita extends BaseEntity {
             idGiocatori.add(e.getId());
         });
         return idGiocatori;
+    }
+
+    public Set<OggettoDiGioco> getOggettiPartita() {
+        Set<OggettoDiGioco> oggetti = new HashSet<>();
+        oggetti.addAll(tanks);
+        oggetti.addAll(proiettili);
+
+        return oggetti;
     }
 
 }

@@ -27,6 +27,10 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
 
     private Integer velocita = 4;
 
+    @ManyToOne
+    @JoinColumn(name = "partita_id")
+    private Partita partita;
+
     @NonNull
     private Integer posX;
     @NonNull
