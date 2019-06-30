@@ -10,10 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Objects;
 
-/**
- * @author Carlo Centofanti
- * @created 08/06/2019
- */
+
 @Component
 public class ComandoMovimento implements Comando {
 
@@ -47,6 +44,9 @@ public class ComandoMovimento implements Comando {
             else{
                 if(oggettoDiGioco.getTipo().toString() == "PROIETTILE"){
                     System.out.println("BOOM!");
+                    System.out.println(partitaInCorso.getOggettiPartita().toArray().length);
+                    partitaInCorso.cancellaProiettile(oggettoDiGioco);
+                    System.out.println(partitaInCorso.getOggettiPartita().toArray().length);
                     // ToDo: Aggiungere comportamento relativo a esplosione proiettile
 
                 }

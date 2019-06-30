@@ -1,8 +1,6 @@
 package it.univaq.dr2.tank19.model.comandi;
 
 import it.univaq.dr2.tank19.model.Direzione;
-import it.univaq.dr2.tank19.model.collisione.Collisione;
-import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettiDiGiocoFactory;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ComandoFuoco implements Comando {
+    // Serve a generare un oggetto che viene sparato da un altro oggetto (regole attuali: Proiettile viene sparato da Tank).
     @Override
     public void esegui(OggettoDiGioco oggettoDiGioco) {
         if (oggettoDiGioco.getProiettile() == null) {

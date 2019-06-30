@@ -23,7 +23,7 @@ public class RilevatoreCollisioni implements Collisione {
                 System.out.println("TROVATO!!!");
             }
             else{
-                System.out.println("Non collide con: " + oggettoDiGioco.getId().toString());
+                System.out.println("Non collide con: " + oggettoDiGioco.getId().toString()); // Test
             }
         });
 
