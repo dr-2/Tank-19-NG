@@ -56,14 +56,14 @@ function preload() {
     });
 
     httpGet("/configurazioni/canvas/altezza", 'text', false, (response) => {
-        gameConfig.canvas.larghezza = parseInt(response);
+        gameConfig.canvas.altezza = parseInt(response);
         resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
     }, () => {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");
         location.reload();
     });
     httpGet("/configurazioni/canvas/larghezza", 'text', false, (response) => {
-        gameConfig.canvas.altezza = parseInt(response);
+        gameConfig.canvas.larghezza = parseInt(response);
         resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
     }, () => {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");

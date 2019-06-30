@@ -25,6 +25,9 @@ public class FactoryRegoleCollisioneImpl implements FactoryRegoleCollisione {
         if (oggettoCheGeneraCollisione == TipoOggetto.CARRO_ARMATO && oggettoCheSubisceCollisione == TipoOggetto.LIMITE) {
             return new RegolaCollisioneNulla();
         }
+        if (oggettoCheGeneraCollisione == TipoOggetto.PROIETTILE && oggettoCheSubisceCollisione == TipoOggetto.LIMITE) {
+            return new RegolaCollisioneProiettileLimite();
+        }
 
         // Se non so cosa fare, loggo e non applico regole
         log.error("Caso di collisione non implementato. Viene applicata la regola nulla");

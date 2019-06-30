@@ -8,6 +8,8 @@ import it.univaq.dr2.tank19.model.comandi.Comando;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.awt.*;
 
@@ -20,12 +22,16 @@ import java.awt.*;
 public class LimiteMappa extends BaseEntity implements OggettoDiGioco {
 
     private TipoOggetto tipo = TipoOggetto.LIMITE;
+    private Integer hitbox;
 
     @NonNull
-    private Integer posX = 800;
+    private Integer posX;
     @NonNull
-    private Integer posY = 600;
+    private Integer posY;
 
+    @ManyToOne
+    @JoinColumn(name = "partita_id")
+    private Partita partita;
 
     @Override
     public void setDirezione(Direzione direzione) {
@@ -83,43 +89,18 @@ public class LimiteMappa extends BaseEntity implements OggettoDiGioco {
         return 1;
     }
 
-    @Override
-    public Integer getPosX() {
-        return null;
-    }
-
-    @Override
-    public Integer getPosY() {
-        return null;
-    }
 
     @Override
     public Integer getXMax() {
-        return posX + 30; //TODO: muovi in propr
+        return posX + hitbox;
     }
 
     @Override
     public Integer getYMax() {
-        return posY + 1000;
+        return posY + hitbox;
     }
 
-    @Override
-    public void setPosX(Integer posX) {
-    }
 
-    @Override
-    public void setPosY(Integer posY) {
-    }
-
-    @Override
-    public Long getId() {
-        return this.getId();
-    }
-
-    @Override
-    public TipoOggetto getTipo() {
-        return this.getTipo();
-    }
 
     @Override
     public Polygon getPolygon() {

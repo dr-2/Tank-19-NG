@@ -1,6 +1,8 @@
 package it.univaq.dr2.tank19.bootstrap;
 
 import it.univaq.dr2.tank19.model.*;
+import it.univaq.dr2.tank19.model.oggettigioco.FactoryOggettiDiGioco;
+import it.univaq.dr2.tank19.model.oggettigioco.LimiteMappa;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
 import it.univaq.dr2.tank19.service.ServiceGiocatore;
 import it.univaq.dr2.tank19.service.ServicePartita;
@@ -21,6 +23,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
     private final ServicePartita servicePartita;
     private final ServiceGiocatore serviceGiocatore;
     private static ResourceBundle rb = ResourceBundle.getBundle("application");
+    private static FactoryOggettiDiGioco factoryOggettiDiGioco = FactoryOggettiDiGioco.getInstance();
 
 
     public TankBootstrap(ServicePartita servicePartita, ServiceGiocatore serviceGiocatore) {
@@ -47,6 +50,22 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
 
         Partita p1 = new Partita();
+
+        LimiteMappa limiteMappaSUD = (LimiteMappa) factoryOggettiDiGioco.getLimiteSUD();
+        limiteMappaSUD.setPartita(p1);
+        p1.getLimitiMappa().add(limiteMappaSUD);
+
+        LimiteMappa limiteMappaNORD = (LimiteMappa) factoryOggettiDiGioco.getLimiteNORD();
+        limiteMappaNORD.setPartita(p1);
+        p1.getLimitiMappa().add(limiteMappaNORD);
+
+        LimiteMappa limiteMappaEST = (LimiteMappa) factoryOggettiDiGioco.getLimiteEST();
+        limiteMappaEST.setPartita(p1);
+        p1.getLimitiMappa().add(limiteMappaEST);
+
+        LimiteMappa limiteMappaOVEST = (LimiteMappa) factoryOggettiDiGioco.getLimiteOVEST();
+        limiteMappaOVEST.setPartita(p1);
+        p1.getLimitiMappa().add(limiteMappaOVEST);
 
         Giocatore g = Giocatore.builder().username("Carlo").ruolo(TipoRuolo.ROLE_USER.toString()).partita(p1).password(encoder.encode("p")).build();
         Punteggio punti = Punteggio.builder().punti(33).build();

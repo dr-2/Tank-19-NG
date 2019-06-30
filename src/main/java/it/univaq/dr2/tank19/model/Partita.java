@@ -1,5 +1,6 @@
 package it.univaq.dr2.tank19.model;
 
+import it.univaq.dr2.tank19.model.oggettigioco.LimiteMappa;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
@@ -29,6 +30,9 @@ public class Partita extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita", fetch = FetchType.EAGER)
     private Set<Proiettile> proiettili = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita", fetch = FetchType.EAGER)
+    private Set<LimiteMappa> limitiMappa = new HashSet<>();
+
     private TipoStatoPartita stato;
     private Integer numeroGiocatoriUmani;
 
@@ -44,6 +48,7 @@ public class Partita extends BaseEntity {
         Set<OggettoDiGioco> oggetti = new HashSet<>();
         oggetti.addAll(tanks);
         oggetti.addAll(proiettili);
+        oggetti.addAll(limitiMappa);
 
         return oggetti;
     }

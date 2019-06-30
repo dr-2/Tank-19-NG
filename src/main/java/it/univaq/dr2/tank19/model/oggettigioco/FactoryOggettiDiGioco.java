@@ -1,5 +1,7 @@
 package it.univaq.dr2.tank19.model.oggettigioco;
 
+import it.univaq.dr2.tank19.model.TipoOggetto;
+
 import java.util.ResourceBundle;
 
 
@@ -7,8 +9,11 @@ public class FactoryOggettiDiGioco {
     // Devo regolare l'accesso all'istanza da parte dei thread
     private volatile static FactoryOggettiDiGioco uniqueInstance;
     private static ResourceBundle rb = ResourceBundle.getBundle("application");
+    private Integer XMAX, YMAX;
 
     private FactoryOggettiDiGioco() {
+        XMAX = Integer.parseInt(rb.getString("canvas.larghezza"));
+        YMAX = Integer.parseInt(rb.getString("canvas.altezza"));
     }
 
     public static FactoryOggettiDiGioco getInstance() {
@@ -34,8 +39,40 @@ public class FactoryOggettiDiGioco {
         return tank;
     }
 
-    public OggettoDiGioco getLimiteMappa() {
-        return new LimiteMappa();
+    public OggettoDiGioco getLimiteSUD() {
+        LimiteMappa limiteMappa = new LimiteMappa();
+        limiteMappa.setPosX(0);
+        limiteMappa.setPosY(YMAX);
+        limiteMappa.setHitbox(XMAX);
+        limiteMappa.setTipo(TipoOggetto.LIMITE);
+        return limiteMappa;
+    }
+
+    public OggettoDiGioco getLimiteNORD() {
+        LimiteMappa limiteMappa = new LimiteMappa();
+        limiteMappa.setPosX(0);
+        limiteMappa.setPosY(-XMAX);
+        limiteMappa.setHitbox(XMAX);
+        limiteMappa.setTipo(TipoOggetto.LIMITE);
+        return limiteMappa;
+    }
+
+    public OggettoDiGioco getLimiteEST() {
+        LimiteMappa limiteMappa = new LimiteMappa();
+        limiteMappa.setPosX(XMAX);
+        limiteMappa.setPosY(0);
+        limiteMappa.setHitbox(YMAX);
+        limiteMappa.setTipo(TipoOggetto.LIMITE);
+        return limiteMappa;
+    }
+
+    public OggettoDiGioco getLimiteOVEST() {
+        LimiteMappa limiteMappa = new LimiteMappa();
+        limiteMappa.setPosX(-YMAX);
+        limiteMappa.setPosY(0);
+        limiteMappa.setHitbox(YMAX);
+        limiteMappa.setTipo(TipoOggetto.LIMITE);
+        return limiteMappa;
     }
 
     public synchronized OggettoDiGioco getProiettile() {
