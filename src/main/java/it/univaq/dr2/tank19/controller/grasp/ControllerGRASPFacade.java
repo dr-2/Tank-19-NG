@@ -43,10 +43,7 @@ public class ControllerGRASPFacade {
             currentOggettoDiGioco.eseguiComando();
         }
         // se il tank ha un proiettile, devo muoverlo
-        if (currentOggettoDiGioco.getProiettile() != null) {
-            currentOggettoDiGioco.getProiettile().setComandoMovimento();
-            currentOggettoDiGioco.getProiettile().eseguiComando();
-        }
+
         if (!rilevatoreCollisioni.generaCollisione(currentOggettoDiGioco)) {
             serviceTank.save((Tank) currentOggettoDiGioco);
         } else {
@@ -61,8 +58,16 @@ public class ControllerGRASPFacade {
 
     @Scheduled(fixedDelay = 1000 / 60)
     public void gameTick() {
-
+        muoviProiettili();
         inviaAggiornamentiDiStato();
+    }
+
+    private void muoviProiettili() {
+        serviceProiettili.findAll().iterator().forEachRemaining(proiettile -> {
+            proiettile.setComandoMovimento();
+            proiettile.eseguiComando();
+            serviceProiettili.save(proiettile);
+        });
     }
 
     private void inviaAggiornamentiDiStato() {

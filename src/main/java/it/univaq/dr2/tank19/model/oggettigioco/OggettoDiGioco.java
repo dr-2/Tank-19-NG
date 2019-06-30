@@ -17,16 +17,13 @@ public interface OggettoDiGioco {
 
     Direzione getDirezione();
 
-
     void setProiettile(Proiettile proiettile);
 
     void eseguiComando();
 
-
     Integer getVelocita();
 
     Partita getPartita();
-
 
     Integer getDimensioneHitbox();
 
