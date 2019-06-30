@@ -1,28 +1,30 @@
 package it.univaq.dr2.tank19.model.oggettigioco;
 
+import it.univaq.dr2.tank19.model.BaseEntity;
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.TipoOggetto;
 import it.univaq.dr2.tank19.model.comandi.Comando;
-import lombok.NonNull;
+import lombok.*;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.awt.*;
 
-public class LimiteMappa implements OggettoDiGioco {
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "limiti_mappa")
+public class LimiteMappa extends BaseEntity implements OggettoDiGioco {
 
     private TipoOggetto tipo = TipoOggetto.LIMITE;
-    private Integer velocita = 0;
-
-    @ManyToOne
-    @JoinColumn(name = "partita_id")
-    private Partita partita;
 
     @NonNull
-    private Integer posX;
+    private Integer posX = 800;
     @NonNull
-    private Integer posY;
+    private Integer posY = 600;
 
 
     @Override
@@ -93,22 +95,20 @@ public class LimiteMappa implements OggettoDiGioco {
 
     @Override
     public Integer getXMax() {
-        return null;
+        return posX + 30; //TODO: muovi in propr
     }
 
     @Override
     public Integer getYMax() {
-        return null;
+        return posY + 1000;
     }
 
     @Override
     public void setPosX(Integer posX) {
-        this.posX = posX;
     }
 
     @Override
     public void setPosY(Integer posY) {
-        this.posY = posY;
     }
 
     @Override

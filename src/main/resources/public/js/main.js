@@ -244,7 +244,7 @@ const keyUpHandler = (e) => {
 
 
 const handleBottoneConnessione = (e) => {
-    e.srcElement.disabled = true;
+    e["srcElement"].disabled = true;
     console.log("ciao, " + gameConfig.userInfo.username)
 
     if (gameConfig.userInfo.username) {

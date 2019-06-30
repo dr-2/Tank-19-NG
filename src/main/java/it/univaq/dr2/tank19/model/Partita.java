@@ -3,7 +3,10 @@ package it.univaq.dr2.tank19.model;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,7 +16,6 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "partite")
 public class Partita extends BaseEntity {

@@ -49,14 +49,8 @@ public class ControllerGRASPFacade {
         }
 
         //la collisione non è responsabilità di questo controller. spostarla in un implementazione di comando
-        if (!rilevatoreCollisioni.isColliding(currentOggettoDiGioco)) {
-            serviceTank.save((Tank) currentOggettoDiGioco);
-        } else {
-            System.out.println("COLLISIONE RILEVATA!!");
-            // memento per annullare la mossa
-            // ruotare solamente il carro
-            // salvare
-        }
+        serviceTank.save((Tank) currentOggettoDiGioco);
+
     }
 
 

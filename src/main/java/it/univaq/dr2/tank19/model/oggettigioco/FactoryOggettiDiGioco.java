@@ -1,8 +1,12 @@
 package it.univaq.dr2.tank19.model.oggettigioco;
 
+import java.util.ResourceBundle;
+
+
 public class FactoryOggettiDiGioco {
     // Devo regolare l'accesso all'istanza da parte dei thread
     private volatile static FactoryOggettiDiGioco uniqueInstance;
+    private static ResourceBundle rb = ResourceBundle.getBundle("application");
 
     private FactoryOggettiDiGioco() {
     }
@@ -19,7 +23,15 @@ public class FactoryOggettiDiGioco {
     }
 
     public OggettoDiGioco getTank() {
-        return new Tank();
+        //TODO: inserire dati sul Giocatore proprietario del tank e altre info mancanti
+        // ESEMPIO:  Tank tank = Tank.builder().vita(100000).direzione(Direzione.OVEST).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(100).posY(100).velocita(1).build();
+        Tank tank = Tank.builder()
+                .vita(Integer.parseInt(rb.getString("tank.vita")))
+                .velocita(Integer.parseInt(rb.getString("tank.velocita")))
+                .hitbox(Integer.parseInt(rb.getString("tank.hitbox")))
+                .build();
+
+        return tank;
     }
 
     public OggettoDiGioco getLimiteMappa() {
@@ -27,7 +39,12 @@ public class FactoryOggettiDiGioco {
     }
 
     public synchronized OggettoDiGioco getProiettile() {
-        return new Proiettile();
+        Proiettile proiettile = new Proiettile();
+        proiettile.setVelocita(Integer.parseInt(rb.getString("proiettile.velocita")));
+        proiettile.setVita(Integer.parseInt(rb.getString("proiettile.vita")));
+        proiettile.setHitbox(Integer.parseInt(rb.getString("proiettile.hitbox")));
+
+        return proiettile;
     }
 }
 

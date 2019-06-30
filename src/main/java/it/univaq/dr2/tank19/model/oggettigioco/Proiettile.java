@@ -20,13 +20,15 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     @OneToOne(cascade = CascadeType.ALL)
     private Tank tank;
 
+    Integer hitbox;
+
     private TipoOggetto tipo = TipoOggetto.PROIETTILE;
 
     private Direzione direzione;
 
-    private Integer velocita = 4;
+    private Integer velocita;
 
-    private Integer vita = 1;
+    private Integer vita;
 
     @ManyToOne
     @JoinColumn(name = "partita_id")
@@ -41,11 +43,11 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     Comando comando;
 
     public Integer getXMax() {
-        return posX + 5;
+        return posX + hitbox;
     }
 
     public Integer getYMax() {
-        return posY + 5;
+        return posY + hitbox;
     }
 
     @Override
@@ -88,6 +90,6 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
 
     @Override
     public Integer getDimensioneHitbox() {
-        return 5;
+        return hitbox;
     }
 }
