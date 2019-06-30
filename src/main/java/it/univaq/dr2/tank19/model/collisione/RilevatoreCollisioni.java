@@ -22,6 +22,9 @@ public class RilevatoreCollisioni implements Collisione {
                 altroOggetto[0] = oggettoDiGioco;
                 System.out.println("TROVATO!!!");
             }
+            else{
+                System.out.println("Non collide con: " + oggettoDiGioco.getId().toString());
+            }
         });
 
         return altroOggetto[0] != null;

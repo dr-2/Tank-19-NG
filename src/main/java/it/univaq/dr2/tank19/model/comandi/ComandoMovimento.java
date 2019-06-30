@@ -1,6 +1,7 @@
 package it.univaq.dr2.tank19.model.comandi;
 
 import it.univaq.dr2.tank19.model.Direzione;
+import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -37,25 +38,48 @@ public class ComandoMovimento implements Comando {
         Integer posY = oggettoDiGioco.getPosY();
         Integer velocita = oggettoDiGioco.getVelocita() != null ? oggettoDiGioco.getVelocita() : ComandoMovimento.velocita;
         Integer dimensioneHitbox = oggettoDiGioco.getDimensioneHitbox();
+        Partita partitaInCorso = oggettoDiGioco.getPartita();
 
         if (direzione == Direzione.NORD) {
             if (posY > 0) {
                 posY = posY - velocita;
+            }
+            else{
+                if(oggettoDiGioco.getTipo().toString() == "PROIETTILE"){
+                    System.out.println("BOOM!");
+                    // ToDo: Aggiungere comportamento relativo a esplosione proiettile
+
+                }
             }
         }
         if (direzione == Direzione.SUD) {
             if (posY < yMax - dimensioneHitbox) {
                 posY = posY + velocita;
             }
+            else{
+                if(oggettoDiGioco.getTipo().toString() == "PROIETTILE"){
+                    System.out.println("BOOM!"); // ToDo: Aggiungere comportamento relativo a esplosione proiettile
+                }
+            }
         }
         if (direzione == Direzione.EST) {
             if (posX < xMax - dimensioneHitbox) {
                 posX = posX + velocita;
             }
+            else{
+                if(oggettoDiGioco.getTipo().toString() == "PROIETTILE"){
+                    System.out.println("BOOM!"); // ToDo: Aggiungere comportamento relativo a esplosione proiettile
+                }
+            }
         }
         if (direzione == Direzione.OVEST) {
             if (posX > 0) {
                 posX = posX - velocita;
+            }
+            else{
+                if(oggettoDiGioco.getTipo().toString() == "PROIETTILE"){
+                    System.out.println("BOOM!"); // ToDo: Aggiungere comportamento relativo a esplosione proiettile
+                }
             }
         }
 
