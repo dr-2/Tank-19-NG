@@ -49,7 +49,12 @@ public class ControllerGRASPFacade {
         }
         if (!rilevatoreCollisioni.generaCollisione(currentOggettoDiGioco)) {
             serviceTank.save((Tank) currentOggettoDiGioco);
-        } else System.out.println("COLLISIONE RILEVATA!!");
+        } else {
+            System.out.println("COLLISIONE RILEVATA!!");
+            // memento per annullare la mossa
+            // ruotare solamente il carro
+            // salvare
+        }
     }
 
 

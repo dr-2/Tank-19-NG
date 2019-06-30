@@ -9,12 +9,12 @@ import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
 import lombok.*;
 
 import javax.persistence.*;
+import java.awt.*;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "proiettili")
 public class Proiettile extends BaseEntity implements OggettoDiGioco {
@@ -40,11 +40,18 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     Comando comando;
 
     public Integer getXMax() {
-        return posX + 5;
+        return posX + 800;
     }
 
     public Integer getYMax() {
-        return posY + 5;
+        return posY + 600;
+    }
+
+    @Override
+    public Polygon getPolygon() {
+        int xPoly[] = {this.getPosX(), this.getXMax()};
+        int yPoly[] = {this.getPosY(), this.getYMax()};
+        return new Polygon(xPoly, yPoly, xPoly.length);
     }
 
     @Override

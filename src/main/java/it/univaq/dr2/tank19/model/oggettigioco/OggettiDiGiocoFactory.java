@@ -1,7 +1,5 @@
 package it.univaq.dr2.tank19.model.oggettigioco;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class OggettiDiGiocoFactory {
     // Devo regolare l'accesso all'istanza da parte dei thread
     private volatile static OggettiDiGiocoFactory uniqueInstance;
@@ -20,12 +18,16 @@ public class OggettiDiGiocoFactory {
         return uniqueInstance; // Posso ritornare l'istanza unica della factory Singleton
     }
 
-    public OggettoDiGioco getTank() throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        return (OggettoDiGioco) Class.forName(Tank.class.getName()).getConstructor().newInstance();
+    public OggettoDiGioco getTank() {
+        return new Tank();
     }
 
-    public synchronized OggettoDiGioco getProiettile() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        return (OggettoDiGioco) Class.forName(Proiettile.class.getName()).getConstructor().newInstance();
+    public OggettoDiGioco getLimiteMappa() {
+        return new LimiteMappa();
+    }
+
+    public synchronized OggettoDiGioco getProiettile() {
+        return new Proiettile();
     }
 }
 

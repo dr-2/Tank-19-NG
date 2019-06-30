@@ -6,18 +6,15 @@ import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettiDiGiocoFactory;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
-import org.springframework.stereotype.Component;
 
-@Component
-public class ComandoMuoviNord implements Comando {
-
+public class ComandoMuoviSud implements Comando {
     @Override
     public void esegui(OggettoDiGioco oggettoDiGioco) {
-        assert oggettoDiGioco.getDirezione() == Direzione.NORD;
+        assert oggettoDiGioco.getDirezione() == Direzione.SUD;
         Direzione direzione = oggettoDiGioco.getDirezione();
         Integer velocita = oggettoDiGioco.getVelocita();
         Integer nuovaPosX = oggettoDiGioco.getPosX();
-        Integer nuovaPosY = oggettoDiGioco.getPosY() - velocita;
+        Integer nuovaPosY = oggettoDiGioco.getPosY() + velocita;
         //Integer dimensione = oggettoDiGioco.getDimensioneHitbox();
 
         OggettiDiGiocoFactory oggettiDiGiocoFactory = OggettiDiGiocoFactory.getInstance();
@@ -34,9 +31,7 @@ public class ComandoMuoviNord implements Comando {
             oggettoDiGioco.setPosX(nuovaPosX);
             oggettoDiGioco.setPosY(nuovaPosY);
         } else {
-            System.out.println("COLLIDE A NORD. VIENE SOLO RUOTATO");
+            System.out.println("COLLIDE A SUD. VIENE SOLO RUOTATO");
         }
-
-
     }
 }

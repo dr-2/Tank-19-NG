@@ -7,8 +7,6 @@ import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * @author Carlo Centofanti
  * @created 08/06/2019
@@ -21,11 +19,7 @@ public class ComandoFuoco implements Comando {
             OggettiDiGiocoFactory oggettiDiGiocoFactory = OggettiDiGiocoFactory.getInstance();
             Proiettile proiettile = null;
 
-            try {
-                proiettile = (Proiettile) oggettiDiGiocoFactory.getProiettile();
-            } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                e.printStackTrace();
-            }
+            proiettile = (Proiettile) oggettiDiGiocoFactory.getProiettile();
             Direzione direzione = oggettoDiGioco.getDirezione();
 
             assert proiettile != null;

@@ -12,12 +12,12 @@ public class RilevatoreCollisioni implements Collisione {
 
     @Override
     public Boolean generaCollisione(OggettoDiGioco oggettoMosso) {
-        Polygon polygon = getPolygonFromOggettoDiGioco(oggettoMosso);
+        Polygon polygon = oggettoMosso.getPolygon();
         Partita partita = oggettoMosso.getPartita();
 
         final OggettoDiGioco[] altroOggetto = {null};
         partita.getOggettiPartita().iterator().forEachRemaining(oggettoDiGioco -> {
-            Polygon poly2 = getPolygonFromOggettoDiGioco(oggettoDiGioco);
+            Polygon poly2 = oggettoDiGioco.getPolygon();
             if (!(oggettoMosso.getId().equals(oggettoDiGioco.getId()) && oggettoMosso.getTipo() == oggettoDiGioco.getTipo()) && polygon.getBounds().intersects(poly2.getBounds())) {
                 altroOggetto[0] = oggettoDiGioco;
                 System.out.println("TROVATO!!!");
@@ -27,9 +27,4 @@ public class RilevatoreCollisioni implements Collisione {
         return altroOggetto[0] != null;
     }
 
-    public Polygon getPolygonFromOggettoDiGioco(OggettoDiGioco oggettoDiGioco) {
-        int xPoly[] = {oggettoDiGioco.getPosX(), oggettoDiGioco.getXMax()};
-        int yPoly[] = {oggettoDiGioco.getPosY(), oggettoDiGioco.getYMax()};
-        return new Polygon(xPoly, yPoly, xPoly.length);
-    }
 }

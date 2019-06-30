@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.awt.*;
 
 /**
  * @author Carlo Centofanti
@@ -55,6 +56,13 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
 
     public Integer getYMax() {
         return posY + 30;
+    }
+
+    @Override
+    public Polygon getPolygon() {
+        int xPoly[] = {this.getPosX(), this.getXMax()};
+        int yPoly[] = {this.getPosY(), this.getYMax()};
+        return new Polygon(xPoly, yPoly, xPoly.length);
     }
 
     @Override

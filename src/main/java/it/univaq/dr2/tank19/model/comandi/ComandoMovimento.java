@@ -62,7 +62,7 @@ public class ComandoMovimento implements Comando {
         oggettoDiGioco.setPosX(posX);
         oggettoDiGioco.setPosY(posY);
 
-        oggettoDiGioco.setDirezione(direzione);
+        //oggettoDiGioco.setDirezione(direzione);
 
     }
 
