@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ComandoFuoco implements Comando {
-    // Serve a generare un oggetto che viene sparato da un altro oggetto (regole attuali: Proiettile viene sparato da Tank).
     @Override
     public void esegui(OggettoDiGioco oggettoDiGioco) {
         if (oggettoDiGioco.getProiettile() == null) {
@@ -19,22 +18,42 @@ public class ComandoFuoco implements Comando {
 
             proiettile = (Proiettile) oggettiDiGiocoFactory.getProiettile();
             Direzione direzione = oggettoDiGioco.getDirezione();
+
+            assert proiettile != null;
+            proiettile.setPosY(getSpawnY(oggettoDiGioco));
+            proiettile.setPosX(getSpawnX(oggettoDiGioco));
+
             proiettile.setDirezione(direzione);
             proiettile.setTank((Tank) oggettoDiGioco);
             oggettoDiGioco.setProiettile(proiettile);
-
-            // Quando viene generato, il proiettile si trova in corrispondenza del centro del Tank generatore
-            proiettile.setPosX((int)oggettoDiGioco.getPolygon().getBounds().getCenterX());
-            proiettile.setPosY((int)oggettoDiGioco.getPolygon().getBounds().getCenterY());
-
-
-
-
         } else { // TODO: al momento un tank non può sparare più di un proiettile
         }
     }
 
+    private Integer getSpawnX(OggettoDiGioco oggettoDiGioco) {
+        Integer retVal = oggettoDiGioco.getPosX();
+        if (oggettoDiGioco.getDirezione() == Direzione.EST) retVal = retVal + oggettoDiGioco.getDimensioneHitbox();
+        if (oggettoDiGioco.getDirezione() == Direzione.NORD)
+            retVal = retVal + (oggettoDiGioco.getDimensioneHitbox() / 2);
+        if (oggettoDiGioco.getDirezione() == Direzione.SUD)
+            retVal = retVal + (oggettoDiGioco.getDimensioneHitbox() / 2);
+        if (oggettoDiGioco.getDirezione() == Direzione.OVEST) retVal = retVal - 5;
 
+
+        return retVal;
+    }
+
+    private Integer getSpawnY(OggettoDiGioco oggettoDiGioco) {
+        Integer retVal = oggettoDiGioco.getPosY();
+        if (oggettoDiGioco.getDirezione() == Direzione.SUD) retVal = retVal + oggettoDiGioco.getDimensioneHitbox();
+        if (oggettoDiGioco.getDirezione() == Direzione.EST)
+            retVal = retVal + (oggettoDiGioco.getDimensioneHitbox() / 2);
+        if (oggettoDiGioco.getDirezione() == Direzione.OVEST)
+            retVal = retVal + (oggettoDiGioco.getDimensioneHitbox() / 2);
+        if (oggettoDiGioco.getDirezione() == Direzione.NORD) retVal = retVal - 5;
+
+        return retVal;
+    }
 
 
 }

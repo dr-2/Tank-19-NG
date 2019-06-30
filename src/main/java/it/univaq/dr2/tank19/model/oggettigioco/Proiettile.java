@@ -5,7 +5,6 @@ import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.TipoOggetto;
 import it.univaq.dr2.tank19.model.comandi.Comando;
-import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +25,8 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     private Direzione direzione;
 
     private Integer velocita = 4;
+    private Integer vita = 1; // Quanti danni può subire il proiettile
+    private Integer danno = 2; // Il danno che arreca la collisione con un proiettile ad un altro oggetto
 
     @ManyToOne
     @JoinColumn(name = "partita_id")
@@ -40,24 +41,19 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     Comando comando;
 
     public Integer getXMax() {
-        return posX + 800;
+        return posX + 5;
     }
 
     public Integer getYMax() {
-        return posY + 600;
+        return posY + 5;
     }
+
 
     @Override
     public Polygon getPolygon() {
         int xPoly[] = {this.getPosX(), this.getXMax()};
         int yPoly[] = {this.getPosY(), this.getYMax()};
         return new Polygon(xPoly, yPoly, xPoly.length);
-    }
-
-    @Override
-    public void setComandoMovimento() {
-        ComandoTankStrategyFactory factoryComandiTank = ComandoTankStrategyFactory.getInstance();
-        this.comando = factoryComandiTank.getComandoMovimento();
     }
 
     @Override
@@ -90,4 +86,34 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     public Integer getDimensioneHitbox() {
         return 5;
     }
+
+    @Override
+    public void setVita(int newVita){
+        this.vita = newVita;
+    }
+
+    @Override
+    public void scalaVita(int danno){
+        int newVita = this.getVita() - danno;
+        if (newVita < 0){ // Il proiettile non può avere vita negativa
+            newVita = 0;
+        }
+        this.setVita(newVita);
+    }
+
+    @Override
+    public Integer getVita(){
+        return this.vita;
+    }
+
+    @Override
+    public Integer getDanno(){
+        return this.danno;
+    }
+
+    @Override
+    public void setDanno(int newDanno){
+        this.danno = newDanno;
+    }
+
 }

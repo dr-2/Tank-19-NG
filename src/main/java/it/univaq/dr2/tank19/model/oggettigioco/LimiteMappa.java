@@ -3,6 +3,7 @@ package it.univaq.dr2.tank19.model.oggettigioco;
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.TipoOggetto;
+import it.univaq.dr2.tank19.model.comandi.Comando;
 import lombok.NonNull;
 
 import javax.persistence.JoinColumn;
@@ -23,6 +24,9 @@ public class LimiteMappa implements OggettoDiGioco {
     @NonNull
     private Integer posY;
 
+    private Integer vita = -8; // -8 = vita infinita
+    private Integer danno = 0;
+
 
     @Override
     public void setDirezione(Direzione direzione) {
@@ -30,9 +34,15 @@ public class LimiteMappa implements OggettoDiGioco {
     }
 
     @Override
-    public void setComandoMovimento() {
+    public void setComando(Comando comando) {
 
     }
+
+    @Override
+    public Tank getTank() {
+        return null;
+    }
+
 
     @Override
     public void setComandoFuoco() {
@@ -120,4 +130,34 @@ public class LimiteMappa implements OggettoDiGioco {
         int yPoly[] = {this.getPosY(), this.getYMax()};
         return new Polygon(xPoly, yPoly, xPoly.length);
     }
+
+    @Override
+    public void setVita(int newVita){
+        this.vita = newVita;
+    }
+
+    @Override
+    public void scalaVita(int danno){
+        int newVita = this.getVita() - danno;
+        if (newVita < 0){ // Il proiettile non può avere vita negativa
+            newVita = 0;
+        }
+        this.setVita(newVita);
+    }
+
+    @Override
+    public Integer getVita(){
+        return this.vita;
+    }
+
+    @Override
+    public Integer getDanno(){
+        return this.danno;
+    }
+
+    @Override
+    public void setDanno(int newDanno){
+        this.danno = newDanno;
+    }
+
 }

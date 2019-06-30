@@ -9,10 +9,6 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.awt.*;
 
-/**
- * @author Carlo Centofanti
- * @created 08/06/2019
- */
 
 @Setter
 @Getter
@@ -34,6 +30,8 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
     private Direzione direzione;
     private TipoOggetto tipo = TipoOggetto.CARRO_ARMATO;
     private Integer velocita = 1;
+    private Integer vita = 10; // Quanti danni può subire il Tank
+    private Integer danno = 1; // Il danno che arreca il Tank quando collide con un altro oggetto (al momento, è in grado solo di eliminare un proiettile).
 
     @OneToOne(cascade = CascadeType.ALL)
     private Giocatore proprietario;
@@ -75,16 +73,14 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
         return this.velocita;
     }
 
-
     @Override
     public Integer getDimensioneHitbox() {
         return 30;
     }
 
     @Override
-    public void setComandoMovimento() {
-        ComandoTankStrategyFactory factoryComandiTank = ComandoTankStrategyFactory.getInstance();
-        this.comando = factoryComandiTank.getComandoMovimento();
+    public Tank getTank() {
+        return this;
     }
 
     @Override
@@ -92,5 +88,35 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
         ComandoTankStrategyFactory factoryComandiTank = ComandoTankStrategyFactory.getInstance();
         this.comando = factoryComandiTank.getComandoFuoco();
     }
+
+    @Override
+    public void setVita(int newVita){
+        this.vita = newVita;
+    }
+
+    @Override
+    public void scalaVita(int danno){
+        int newVita = this.getVita() - danno;
+        if (newVita < 0){ // Il Tank non può avere vita negativa
+            newVita = 0;
+        }
+        this.setVita(newVita);
+    }
+
+    @Override
+    public Integer getVita(){
+        return this.vita;
+    }
+
+    @Override
+    public Integer getDanno(){
+        return this.danno;
+    }
+
+    @Override
+    public void setDanno(int newDanno){
+        this.danno = newDanno;
+    }
+
 
 }
