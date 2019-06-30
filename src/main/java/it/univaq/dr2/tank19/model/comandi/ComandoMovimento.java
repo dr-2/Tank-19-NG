@@ -2,6 +2,7 @@ package it.univaq.dr2.tank19.model.comandi;
 
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.Objects;
  * @created 08/06/2019
  */
 @Component
+@Slf4j
 public class ComandoMovimento implements Comando {
 
     static int xMax;

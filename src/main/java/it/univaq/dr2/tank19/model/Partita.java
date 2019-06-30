@@ -1,9 +1,13 @@
 package it.univaq.dr2.tank19.model;
 
+import it.univaq.dr2.tank19.model.oggettigioco.LimiteMappa;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,7 +17,6 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "partite")
 public class Partita extends BaseEntity {
@@ -26,6 +29,9 @@ public class Partita extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita", fetch = FetchType.EAGER)
     private Set<Proiettile> proiettili = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita", fetch = FetchType.EAGER)
+    private Set<LimiteMappa> limitiMappa = new HashSet<>();
 
     private TipoStatoPartita stato;
     private Integer numeroGiocatoriUmani;
@@ -42,6 +48,7 @@ public class Partita extends BaseEntity {
         Set<OggettoDiGioco> oggetti = new HashSet<>();
         oggetti.addAll(tanks);
         oggetti.addAll(proiettili);
+        oggetti.addAll(limitiMappa);
 
         return oggetti;
     }

@@ -56,14 +56,14 @@ function preload() {
     });
 
     httpGet("/configurazioni/canvas/altezza", 'text', false, (response) => {
-        gameConfig.canvas.larghezza = parseInt(response);
+        gameConfig.canvas.altezza = parseInt(response);
         resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
     }, () => {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");
         location.reload();
     });
     httpGet("/configurazioni/canvas/larghezza", 'text', false, (response) => {
-        gameConfig.canvas.altezza = parseInt(response);
+        gameConfig.canvas.larghezza = parseInt(response);
         resizeCanvas(gameConfig.canvas.larghezza, gameConfig.canvas.altezza);
     }, () => {
         alert("Errore critico di configurazione. La pagina verrà ricaricata");
@@ -244,7 +244,7 @@ const keyUpHandler = (e) => {
 
 
 const handleBottoneConnessione = (e) => {
-    e.srcElement.disabled = true;
+    e["srcElement"].disabled = true;
     console.log("ciao, " + gameConfig.userInfo.username)
 
     if (gameConfig.userInfo.username) {
@@ -322,6 +322,10 @@ const cambiaGiocatoere = () => {
     console.log(gameConfig.partita.idOggettoControllato)
 }
 
+const pulisciProiettili = () => {
+    gameState.proiettili = {};
+}
+
 const cambiaPartita = () => {
     if (gameConfig.partita.idPartita === 1) {
         gameConfig.partita.idPartita = 2;
@@ -347,3 +351,5 @@ document.getElementById('bottone-cambia-partita').addEventListener("click", camb
 if (!haveEvents) {
     setInterval(scangamepads, 500);
 }
+
+setInterval(pulisciProiettili, 500);

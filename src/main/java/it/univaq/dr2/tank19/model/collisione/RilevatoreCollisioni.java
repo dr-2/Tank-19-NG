@@ -8,23 +8,32 @@ import java.awt.*;
 
 @Component
 public class RilevatoreCollisioni implements Collisione {
-
+    private final FactoryRegoleCollisione factoryRegoleCollisione = FactoryRegoleCollisioneImpl.getInstance();
 
     @Override
-    public Boolean generaCollisione(OggettoDiGioco oggettoMosso) {
+    public Boolean isColliding(OggettoDiGioco oggettoMosso) {
         Polygon polygon = oggettoMosso.getPolygon();
         Partita partita = oggettoMosso.getPartita();
 
         final OggettoDiGioco[] altroOggetto = {null};
         partita.getOggettiPartita().iterator().forEachRemaining(oggettoDiGioco -> {
             Polygon poly2 = oggettoDiGioco.getPolygon();
-            if (!(oggettoMosso.getId().equals(oggettoDiGioco.getId()) && oggettoMosso.getTipo() == oggettoDiGioco.getTipo()) && polygon.getBounds().intersects(poly2.getBounds())) {
+            boolean stessoOggetto = oggettoMosso.getId().equals(oggettoDiGioco.getId()) && oggettoMosso.getTipo() == oggettoDiGioco.getTipo();
+
+            if (!stessoOggetto && polygon.getBounds().intersects(poly2.getBounds())) {
+                // Collisione trovata. Riportiamo il risultato fuori dalla lambda
                 altroOggetto[0] = oggettoDiGioco;
-                System.out.println("TROVATO!!!");
             }
         });
 
-        return altroOggetto[0] != null;
+        Boolean collisione = altroOggetto[0] != null;
+
+        if (collisione) {
+            RegolaCollisione regola = factoryRegoleCollisione.getRegolaPer(oggettoMosso.getTipo(), altroOggetto[0].getTipo());
+            regola.applicaEffetto(oggettoMosso, altroOggetto[0]);
+        }
+        return collisione;
     }
+
 
 }

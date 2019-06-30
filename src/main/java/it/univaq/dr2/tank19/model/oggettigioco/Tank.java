@@ -2,7 +2,7 @@ package it.univaq.dr2.tank19.model.oggettigioco;
 
 import it.univaq.dr2.tank19.model.*;
 import it.univaq.dr2.tank19.model.comandi.Comando;
-import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
+import it.univaq.dr2.tank19.model.comandi.FactoryComandiImpl;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +33,10 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
 
     private Direzione direzione;
     private TipoOggetto tipo = TipoOggetto.CARRO_ARMATO;
-    private Integer velocita = 1;
+    private Integer velocita;
+    private Integer vita;
+
+    Integer hitbox;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Giocatore proprietario;
@@ -51,11 +54,11 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
     private Integer posY;
 
     public Integer getXMax() {
-        return posX + 30;
+        return posX + hitbox;
     }
 
     public Integer getYMax() {
-        return posY + 30;
+        return posY + hitbox;
     }
 
     @Override
@@ -63,6 +66,11 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
         int xPoly[] = {this.getPosX(), this.getXMax()};
         int yPoly[] = {this.getPosY(), this.getYMax()};
         return new Polygon(xPoly, yPoly, xPoly.length);
+    }
+
+    @Override
+    public void riduciVita() {
+        vita = vita - 1;
     }
 
     @Override
@@ -75,21 +83,19 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
         return this.velocita;
     }
 
-
     @Override
     public Integer getDimensioneHitbox() {
-        return 30;
+        return hitbox;
     }
 
     @Override
-    public void setComandoMovimento() {
-        ComandoTankStrategyFactory factoryComandiTank = ComandoTankStrategyFactory.getInstance();
-        this.comando = factoryComandiTank.getComandoMovimento();
+    public Tank getTank() {
+        return this;
     }
 
     @Override
     public void setComandoFuoco() {
-        ComandoTankStrategyFactory factoryComandiTank = ComandoTankStrategyFactory.getInstance();
+        FactoryComandiImpl factoryComandiTank = FactoryComandiImpl.getInstance();
         this.comando = factoryComandiTank.getComandoFuoco();
     }
 

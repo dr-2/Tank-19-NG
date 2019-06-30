@@ -1,6 +1,8 @@
 package it.univaq.dr2.tank19.bootstrap;
 
 import it.univaq.dr2.tank19.model.*;
+import it.univaq.dr2.tank19.model.oggettigioco.FactoryOggettiDiGioco;
+import it.univaq.dr2.tank19.model.oggettigioco.LimiteMappa;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
 import it.univaq.dr2.tank19.service.ServiceGiocatore;
 import it.univaq.dr2.tank19.service.ServicePartita;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 @Slf4j
 @Component
@@ -19,6 +22,9 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
     private final ServicePartita servicePartita;
     private final ServiceGiocatore serviceGiocatore;
+    private static ResourceBundle rb = ResourceBundle.getBundle("application");
+    private static FactoryOggettiDiGioco factoryOggettiDiGioco = FactoryOggettiDiGioco.getInstance();
+
 
     public TankBootstrap(ServicePartita servicePartita, ServiceGiocatore serviceGiocatore) {
         this.servicePartita = servicePartita;
@@ -37,8 +43,29 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+        Integer vel = Integer.parseInt(rb.getString("tank.velocita"));
+        Integer vita = Integer.parseInt(rb.getString("tank.vita"));
+        Integer hitbox = Integer.parseInt(rb.getString("tank.hitbox"));
+
+
 
         Partita p1 = new Partita();
+
+        LimiteMappa limiteMappaSUD = (LimiteMappa) factoryOggettiDiGioco.getLimiteSUD();
+        limiteMappaSUD.setPartita(p1);
+        p1.getLimitiMappa().add(limiteMappaSUD);
+
+        LimiteMappa limiteMappaNORD = (LimiteMappa) factoryOggettiDiGioco.getLimiteNORD();
+        limiteMappaNORD.setPartita(p1);
+        p1.getLimitiMappa().add(limiteMappaNORD);
+
+        LimiteMappa limiteMappaEST = (LimiteMappa) factoryOggettiDiGioco.getLimiteEST();
+        limiteMappaEST.setPartita(p1);
+        p1.getLimitiMappa().add(limiteMappaEST);
+
+        LimiteMappa limiteMappaOVEST = (LimiteMappa) factoryOggettiDiGioco.getLimiteOVEST();
+        limiteMappaOVEST.setPartita(p1);
+        p1.getLimitiMappa().add(limiteMappaOVEST);
 
         Giocatore g = Giocatore.builder().username("Carlo").ruolo(TipoRuolo.ROLE_USER.toString()).partita(p1).password(encoder.encode("p")).build();
         Punteggio punti = Punteggio.builder().punti(33).build();
@@ -46,7 +73,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
         g.aggiungiPunti(-34);
 
-        Tank tank = Tank.builder().direzione(Direzione.OVEST).partita(p1).posX(100).posY(100).velocita(1).build();
+        Tank tank = Tank.builder().vita(vita).hitbox(hitbox).velocita(vel).direzione(Direzione.OVEST).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(100).posY(100).build();
         p1.getTanks().add(tank);
         g.setMioTank(tank);
 
@@ -65,7 +92,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g2.setPartita(p2);
         g2.setPassword(encoder.encode("p"));
 
-        Tank tankValeria = Tank.builder().direzione(Direzione.SUD).partita(p2).velocita(1).posX(200).posY(100).build();
+        Tank tankValeria = Tank.builder().vita(vita).hitbox(hitbox).velocita(vel).tipo(TipoOggetto.CARRO_ARMATO).direzione(Direzione.SUD).partita(p2).posX(550).posY(550).build();
         p2.getTanks().add(tankValeria);
 
         p2.getGiocatori().add(g2);
@@ -79,7 +106,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g4.setPartita(p2);
         g4.setPassword(encoder.encode("p"));
 
-        Tank tankGio = Tank.builder().tipo(TipoOggetto.CARRO_ARMATO).partita(p2).direzione(Direzione.EST).velocita(1).posX(100).posY(200).build();
+        Tank tankGio = Tank.builder().vita(vita).hitbox(hitbox).velocita(vel).tipo(TipoOggetto.CARRO_ARMATO).partita(p2).direzione(Direzione.EST).posX(500).posY(500).build();
         p2.getTanks().add(tankGio);
 
         p2.getGiocatori().add(g4);
@@ -92,7 +119,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g3.setPartita(p1);
         g3.setPassword(encoder.encode("p"));
 
-        Tank tank3 = Tank.builder().velocita(1).direzione(Direzione.SUD).partita(p1).posX(200).posY(200).build();
+        Tank tank3 = Tank.builder().vita(vita).hitbox(hitbox).velocita(vel).direzione(Direzione.SUD).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(200).posY(200).build();
         p1.getTanks().add(tank3);
 
         p1.getGiocatori().add(g3);

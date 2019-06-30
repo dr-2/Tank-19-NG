@@ -3,10 +3,12 @@ package it.univaq.dr2.tank19.controller.grasp;
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.TipoOggetto;
 import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
+import it.univaq.dr2.tank19.model.comandi.FactoryComandi;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioDiAggiornamentoStato;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
+import it.univaq.dr2.tank19.service.ServicePartita;
 import it.univaq.dr2.tank19.service.ServiceProiettili;
 import it.univaq.dr2.tank19.service.ServiceTank;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -23,46 +25,61 @@ public class ControllerGRASPFacade {
     private final ServiceProiettili serviceProiettili;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final RilevatoreCollisioni rilevatoreCollisioni;
+    private final FactoryComandi factoryComandi;
+    private final ServicePartita servicePartita;
 
-    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni) {
+    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni, FactoryComandi factoryComandi, ServicePartita servicePartita) {
         this.serviceTank = serviceTank;
         this.serviceProiettili = serviceProiettili;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.rilevatoreCollisioni = rilevatoreCollisioni;
+        this.factoryComandi = factoryComandi;
+        this.servicePartita = servicePartita;
     }
 
     public void eseguiComandi(Long idOggetto, Direzione direzione, Boolean fuoco) {
         OggettoDiGioco currentOggettoDiGioco = serviceTank.findById(idOggetto);
         if (direzione != null) {
-            currentOggettoDiGioco.setDirezione(direzione);
-            currentOggettoDiGioco.setComandoMovimento();
+            currentOggettoDiGioco.setComando(factoryComandi.getComandoMuoviA(direzione));
             currentOggettoDiGioco.eseguiComando();
         }
         if (fuoco) {
             currentOggettoDiGioco.setComandoFuoco();
             currentOggettoDiGioco.eseguiComando();
         }
-        // se il tank ha un proiettile, devo muoverlo
-        if (currentOggettoDiGioco.getProiettile() != null) {
-            currentOggettoDiGioco.getProiettile().setComandoMovimento();
-            currentOggettoDiGioco.getProiettile().eseguiComando();
-        }
-        if (!rilevatoreCollisioni.generaCollisione(currentOggettoDiGioco)) {
-            serviceTank.save((Tank) currentOggettoDiGioco);
-        } else {
-            System.out.println("COLLISIONE RILEVATA!!");
-            // memento per annullare la mossa
-            // ruotare solamente il carro
-            // salvare
-        }
+
+        //la collisione non è responsabilità di questo controller. spostarla in un implementazione di comando
+        serviceTank.save((Tank) currentOggettoDiGioco);
+
     }
 
 
 
     @Scheduled(fixedDelay = 1000 / 60)
     public void gameTick() {
-
+        rimuoviProiettiliMorti();
+        muoviProiettili();
         inviaAggiornamentiDiStato();
+    }
+
+    private void rimuoviProiettiliMorti() {
+        serviceProiettili.findAll().iterator().forEachRemaining(proiettile -> {
+            if (proiettile.getVita() < 1) {
+                Tank t = serviceTank.findById(proiettile.getTank().getId());
+                t.setProiettile(null);
+                serviceTank.save(t);
+                serviceProiettili.deleteById(proiettile.getId());
+            }
+        });
+
+    }
+
+    private void muoviProiettili() {
+        serviceProiettili.findAll().iterator().forEachRemaining(proiettile -> {
+            proiettile.setComando(factoryComandi.getComandoMuoviA(proiettile.getDirezione()));
+            proiettile.eseguiComando();
+            serviceProiettili.save(proiettile);
+        });
     }
 
     private void inviaAggiornamentiDiStato() {

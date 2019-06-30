@@ -5,14 +5,14 @@ import it.univaq.dr2.tank19.model.collisione.Collisione;
 import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 
-public class ComandoMuoviSud implements Comando {
+public class ComandoMuoviOvest implements Comando {
     @Override
     public void esegui(OggettoDiGioco oggettoDiGioco) {
-        oggettoDiGioco.setDirezione(Direzione.SUD);
+        oggettoDiGioco.setDirezione(Direzione.OVEST);
         Integer velocita = oggettoDiGioco.getVelocita();
-        Integer nuovaPosX = oggettoDiGioco.getPosX();
-        Integer nuovaPosY = oggettoDiGioco.getPosY() + velocita;
-        Integer vecchiaPosY = oggettoDiGioco.getPosY();
+        Integer nuovaPosX = oggettoDiGioco.getPosX() - velocita;
+        Integer vecchiaPosX = oggettoDiGioco.getPosX();
+        Integer nuovaPosY = oggettoDiGioco.getPosY();
         //Integer dimensione = oggettoDiGioco.getDimensioneHitbox();
 
         //Prova a muovere
@@ -25,7 +25,7 @@ public class ComandoMuoviSud implements Comando {
 
         if (collide) {
             // annullo movimento
-            oggettoDiGioco.setPosY(vecchiaPosY);
+            oggettoDiGioco.setPosX(vecchiaPosX);
             // TODO: segnala collisione
         }
     }

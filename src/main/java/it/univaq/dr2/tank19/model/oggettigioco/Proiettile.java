@@ -5,7 +5,6 @@ import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.TipoOggetto;
 import it.univaq.dr2.tank19.model.comandi.Comando;
-import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,11 +20,15 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     @OneToOne(cascade = CascadeType.ALL)
     private Tank tank;
 
+    Integer hitbox;
+
     private TipoOggetto tipo = TipoOggetto.PROIETTILE;
 
     private Direzione direzione;
 
-    private Integer velocita = 4;
+    private Integer velocita;
+
+    private Integer vita;
 
     @ManyToOne
     @JoinColumn(name = "partita_id")
@@ -40,11 +43,11 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     Comando comando;
 
     public Integer getXMax() {
-        return posX + 800;
+        return posX + hitbox;
     }
 
     public Integer getYMax() {
-        return posY + 600;
+        return posY + hitbox;
     }
 
     @Override
@@ -55,9 +58,8 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     }
 
     @Override
-    public void setComandoMovimento() {
-        ComandoTankStrategyFactory factoryComandiTank = ComandoTankStrategyFactory.getInstance();
-        this.comando = factoryComandiTank.getComandoMovimento();
+    public void riduciVita() {
+        vita = vita - 1;
     }
 
     @Override
@@ -88,6 +90,6 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
 
     @Override
     public Integer getDimensioneHitbox() {
-        return 5;
+        return hitbox;
     }
 }
