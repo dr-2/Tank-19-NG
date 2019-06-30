@@ -11,7 +11,7 @@ public class RilevatoreCollisioni implements Collisione {
 
 
     @Override
-    public Boolean generaCollisione(OggettoDiGioco oggettoMosso) {
+    public Boolean isColliding(OggettoDiGioco oggettoMosso) {
         Polygon polygon = oggettoMosso.getPolygon();
         Partita partita = oggettoMosso.getPartita();
 
@@ -20,7 +20,7 @@ public class RilevatoreCollisioni implements Collisione {
             Polygon poly2 = oggettoDiGioco.getPolygon();
             if (!(oggettoMosso.getId().equals(oggettoDiGioco.getId()) && oggettoMosso.getTipo() == oggettoDiGioco.getTipo()) && polygon.getBounds().intersects(poly2.getBounds())) {
                 altroOggetto[0] = oggettoDiGioco;
-                System.out.println("TROVATO!!!");
+                //System.out.println("TROVATO!!!");
             }
         });
 

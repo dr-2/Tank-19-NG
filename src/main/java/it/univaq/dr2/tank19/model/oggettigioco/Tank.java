@@ -75,16 +75,14 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
         return this.velocita;
     }
 
-
     @Override
     public Integer getDimensioneHitbox() {
         return 30;
     }
 
     @Override
-    public void setComandoMovimento() {
-        ComandoTankStrategyFactory factoryComandiTank = ComandoTankStrategyFactory.getInstance();
-        this.comando = factoryComandiTank.getComandoMovimento();
+    public Tank getTank() {
+        return this;
     }
 
     @Override

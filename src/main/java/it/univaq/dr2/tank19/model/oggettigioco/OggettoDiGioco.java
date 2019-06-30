@@ -3,13 +3,16 @@ package it.univaq.dr2.tank19.model.oggettigioco;
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.TipoOggetto;
+import it.univaq.dr2.tank19.model.comandi.Comando;
 
 import java.awt.*;
 
 public interface OggettoDiGioco {
     void setDirezione(Direzione direzione);
 
-    void setComandoMovimento();
+    void setComando(Comando comando);
+
+    Tank getTank();
 
     void setComandoFuoco();
 

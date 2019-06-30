@@ -3,6 +3,7 @@ package it.univaq.dr2.tank19.model.oggettigioco;
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.TipoOggetto;
+import it.univaq.dr2.tank19.model.comandi.Comando;
 import lombok.NonNull;
 
 import javax.persistence.JoinColumn;
@@ -30,9 +31,15 @@ public class LimiteMappa implements OggettoDiGioco {
     }
 
     @Override
-    public void setComandoMovimento() {
+    public void setComando(Comando comando) {
 
     }
+
+    @Override
+    public Tank getTank() {
+        return null;
+    }
+
 
     @Override
     public void setComandoFuoco() {

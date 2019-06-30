@@ -3,6 +3,7 @@ package it.univaq.dr2.tank19.controller.grasp;
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.TipoOggetto;
 import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
+import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioDiAggiornamentoStato;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
@@ -23,28 +24,29 @@ public class ControllerGRASPFacade {
     private final ServiceProiettili serviceProiettili;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final RilevatoreCollisioni rilevatoreCollisioni;
+    private ComandoTankStrategyFactory factoryComandi;
 
     public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni) {
         this.serviceTank = serviceTank;
         this.serviceProiettili = serviceProiettili;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.rilevatoreCollisioni = rilevatoreCollisioni;
+        this.factoryComandi = ComandoTankStrategyFactory.getInstance();
     }
 
     public void eseguiComandi(Long idOggetto, Direzione direzione, Boolean fuoco) {
         OggettoDiGioco currentOggettoDiGioco = serviceTank.findById(idOggetto);
         if (direzione != null) {
-            currentOggettoDiGioco.setDirezione(direzione);
-            currentOggettoDiGioco.setComandoMovimento();
+            currentOggettoDiGioco.setComando(factoryComandi.getComandoMuoviA(direzione));
             currentOggettoDiGioco.eseguiComando();
         }
         if (fuoco) {
             currentOggettoDiGioco.setComandoFuoco();
             currentOggettoDiGioco.eseguiComando();
         }
-        // se il tank ha un proiettile, devo muoverlo
 
-        if (!rilevatoreCollisioni.generaCollisione(currentOggettoDiGioco)) {
+        //la collisione non è responsabilità di questo controller. spostarla in un implementazione di comando
+        if (!rilevatoreCollisioni.isColliding(currentOggettoDiGioco)) {
             serviceTank.save((Tank) currentOggettoDiGioco);
         } else {
             System.out.println("COLLISIONE RILEVATA!!");
@@ -64,7 +66,7 @@ public class ControllerGRASPFacade {
 
     private void muoviProiettili() {
         serviceProiettili.findAll().iterator().forEachRemaining(proiettile -> {
-            proiettile.setComandoMovimento();
+            proiettile.setComando(factoryComandi.getComandoMuoviA(proiettile.getDirezione()));
             proiettile.eseguiComando();
             serviceProiettili.save(proiettile);
         });
