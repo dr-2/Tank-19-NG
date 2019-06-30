@@ -2,7 +2,7 @@ package it.univaq.dr2.tank19.model.oggettigioco;
 
 import it.univaq.dr2.tank19.model.*;
 import it.univaq.dr2.tank19.model.comandi.Comando;
-import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
+import it.univaq.dr2.tank19.model.comandi.FactoryComandiImpl;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -87,7 +87,7 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
 
     @Override
     public void setComandoFuoco() {
-        ComandoTankStrategyFactory factoryComandiTank = ComandoTankStrategyFactory.getInstance();
+        FactoryComandiImpl factoryComandiTank = FactoryComandiImpl.getInstance();
         this.comando = factoryComandiTank.getComandoFuoco();
     }
 

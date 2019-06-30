@@ -3,7 +3,7 @@ package it.univaq.dr2.tank19.controller.grasp;
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.TipoOggetto;
 import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
-import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
+import it.univaq.dr2.tank19.model.comandi.FactoryComandi;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioDiAggiornamentoStato;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
@@ -24,14 +24,14 @@ public class ControllerGRASPFacade {
     private final ServiceProiettili serviceProiettili;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final RilevatoreCollisioni rilevatoreCollisioni;
-    private ComandoTankStrategyFactory factoryComandi;
+    private final FactoryComandi factoryComandi;
 
-    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni) {
+    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni, FactoryComandi factoryComandi) {
         this.serviceTank = serviceTank;
         this.serviceProiettili = serviceProiettili;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.rilevatoreCollisioni = rilevatoreCollisioni;
-        this.factoryComandi = ComandoTankStrategyFactory.getInstance();
+        this.factoryComandi = factoryComandi;
     }
 
     public void eseguiComandi(Long idOggetto, Direzione direzione, Boolean fuoco) {

@@ -2,16 +2,18 @@ package it.univaq.dr2.tank19.model.comandi;
 
 import it.univaq.dr2.tank19.model.Direzione;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-public class ComandoTankStrategyFactory {
-    private static ComandoTankStrategyFactory ourInstance = new ComandoTankStrategyFactory();
+@Component
+public class FactoryComandiImpl implements FactoryComandi {
+    private static FactoryComandiImpl ourInstance = new FactoryComandiImpl();
 
-    public static ComandoTankStrategyFactory getInstance() {
+    public static FactoryComandiImpl getInstance() {
         return ourInstance;
     }
 
-    private ComandoTankStrategyFactory() {
+    private FactoryComandiImpl() {
 
     }
 

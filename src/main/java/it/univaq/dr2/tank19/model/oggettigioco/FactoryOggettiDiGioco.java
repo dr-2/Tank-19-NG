@@ -1,17 +1,17 @@
 package it.univaq.dr2.tank19.model.oggettigioco;
 
-public class OggettiDiGiocoFactory {
+public class FactoryOggettiDiGioco {
     // Devo regolare l'accesso all'istanza da parte dei thread
-    private volatile static OggettiDiGiocoFactory uniqueInstance;
+    private volatile static FactoryOggettiDiGioco uniqueInstance;
 
-    private OggettiDiGiocoFactory() {
+    private FactoryOggettiDiGioco() {
     }
 
-    public static OggettiDiGiocoFactory getInstance() {
+    public static FactoryOggettiDiGioco getInstance() {
         if (uniqueInstance == null) {   // Controllo rapido. Se esiste già non impatta sulle prestazioni
-            synchronized (OggettiDiGiocoFactory.class) { // Eseguo in maniera Atomica e lenta
+            synchronized (FactoryOggettiDiGioco.class) { // Eseguo in maniera Atomica e lenta
                 if (uniqueInstance == null) { //Controllo lento. Ora sono sicuro di essere il primo thread e posso creare l'istanza
-                    uniqueInstance = new OggettiDiGiocoFactory();
+                    uniqueInstance = new FactoryOggettiDiGioco();
                 }
             }
         }
