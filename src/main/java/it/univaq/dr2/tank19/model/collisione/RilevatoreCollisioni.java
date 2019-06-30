@@ -2,7 +2,6 @@ package it.univaq.dr2.tank19.model.collisione;
 
 import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
-import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
@@ -28,20 +27,26 @@ public class RilevatoreCollisioni implements Collisione {
             }
         });
 
+        System.out.println("L'oggetto mosso è: " + oggettoMosso.getId().toString());
 
-        // Da questo test emerge che viene rilevata una auto-collisione!!!
         if(altroOggetto[0] != null){
-            System.out.println("L'oggetto " + oggettoMosso.getId().toString() + " COLLIDE CON: " + altroOggetto[0].getId().toString());
-            System.out.println("La vita dell'oggetto lanciato è: " + oggettoMosso.getVita().toString());
-            System.out.println("La vita dell'oggetto colpito è: " + altroOggetto[0].getVita().toString());
-            final Integer contraccolpo = altroOggetto[0].getDanno();
-            altroOggetto[0].scalaVita(danno);
-            oggettoMosso.scalaVita(contraccolpo);
-            System.out.println("La nuova vita dell'oggetto lanciato è: " + oggettoMosso.getVita().toString());
-            System.out.println("La nuova  vita dell'oggetto colpito è: " + altroOggetto[0].getVita().toString());
-        }
+            System.out.println("COLLIDE CON: " + altroOggetto[0].getId().toString()); // Test
+            System.out.println("La vita dell'oggetto lanciato è: " + oggettoMosso.getVita().toString()); // Test
+            System.out.println("La vita dell'oggetto colpito è: " + altroOggetto[0].getVita().toString()); // Test
+            boom(altroOggetto[0], oggettoMosso);
+            System.out.println("La nuova vita dell'oggetto lanciato è: " + oggettoMosso.getVita().toString()); // Test
+            System.out.println("La nuova vita dell'oggetto colpito è: " + altroOggetto[0].getVita().toString()); // Test
 
+        }
         return altroOggetto[0] != null;
+    }
+
+    private void boom(OggettoDiGioco ogg1, OggettoDiGioco ogg2){
+        if(ogg1.getTipo().toString() == "PROIETTILE" || ogg2.getTipo().toString() == "PROIETTILE"){
+            System.out.println("BOOM!"); // Test
+            ogg1.scalaVita(ogg2.getDanno());
+            ogg2.scalaVita(ogg1.getDanno());
+        }
     }
 
 }

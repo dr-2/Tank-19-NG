@@ -68,7 +68,7 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
 
     @Override
     public void setProiettile(Proiettile proiettile) {
-        // do nothing. un proiettile per ora non puuò possedere un altro proiettile
+        // do nothing. un proiettile per ora non può possedere un altro proiettile
     }
 
     @Override
@@ -97,6 +97,7 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
         int newVita = this.getVita() - danno;
         if (newVita < 0){ // Il proiettile non può avere vita negativa
             newVita = 0;
+            // ToDo: Aggiungere comportamento sparizione proiettile
         }
         this.setVita(newVita);
     }

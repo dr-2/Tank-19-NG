@@ -46,7 +46,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
         g.aggiungiPunti(-34);
 
-        Tank tank = Tank.builder().direzione(Direzione.OVEST).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(100).posY(100).velocita(1).build();
+        Tank tank = Tank.builder().direzione(Direzione.OVEST).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(100).posY(100).velocita(1).vita(10).danno(1).build();
         p1.getTanks().add(tank);
         g.setMioTank(tank);
 
@@ -65,7 +65,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g2.setPartita(p2);
         g2.setPassword(encoder.encode("p"));
 
-        Tank tankValeria = Tank.builder().tipo(TipoOggetto.CARRO_ARMATO).direzione(Direzione.SUD).partita(p2).velocita(1).posX(550).posY(550).build();
+        Tank tankValeria = Tank.builder().tipo(TipoOggetto.CARRO_ARMATO).direzione(Direzione.SUD).partita(p2).velocita(1).posX(550).posY(550).vita(10).danno(1).build();
         p2.getTanks().add(tankValeria);
 
         p2.getGiocatori().add(g2);
@@ -79,7 +79,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g4.setPartita(p2);
         g4.setPassword(encoder.encode("p"));
 
-        Tank tankGio = Tank.builder().tipo(TipoOggetto.CARRO_ARMATO).partita(p2).direzione(Direzione.EST).velocita(1).posX(500).posY(500).build();
+        Tank tankGio = Tank.builder().tipo(TipoOggetto.CARRO_ARMATO).partita(p2).direzione(Direzione.EST).velocita(1).posX(500).posY(500).vita(10).danno(1).build();
         p2.getTanks().add(tankGio);
 
         p2.getGiocatori().add(g4);
@@ -92,7 +92,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g3.setPartita(p1);
         g3.setPassword(encoder.encode("p"));
 
-        Tank tank3 = Tank.builder().velocita(1).direzione(Direzione.SUD).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(200).posY(200).build();
+        Tank tank3 = Tank.builder().velocita(1).direzione(Direzione.SUD).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(200).posY(200).vita(10).danno(1).build();
         p1.getTanks().add(tank3);
 
         p1.getGiocatori().add(g3);
