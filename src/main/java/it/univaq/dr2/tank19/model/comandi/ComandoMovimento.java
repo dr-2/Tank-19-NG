@@ -1,5 +1,7 @@
-package it.univaq.dr2.tank19.model;
+package it.univaq.dr2.tank19.model.comandi;
 
+import it.univaq.dr2.tank19.model.Direzione;
+import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -12,7 +14,7 @@ import java.util.Objects;
  * @created 08/06/2019
  */
 @Component
-public class ComandoMossa implements Comando {
+public class ComandoMovimento implements Comando {
 
     static int xMax;
     static int yMax;
@@ -29,10 +31,12 @@ public class ComandoMossa implements Comando {
     }
 
     @Override
-    public void esegui(OggettoDiGioco oggettoDiGioco, Direzione direzione) {
-        Integer posX = oggettoDiGioco.getPosizione().getPosX();
-        Integer posY = oggettoDiGioco.getPosizione().getPosY();
-
+    public void esegui(OggettoDiGioco oggettoDiGioco) {
+        Direzione direzione = oggettoDiGioco.getDirezione();
+        Integer posX = oggettoDiGioco.getPosX();
+        Integer posY = oggettoDiGioco.getPosY();
+        Integer velocita = oggettoDiGioco.getVelocita() != null ? oggettoDiGioco.getVelocita() : ComandoMovimento.velocita;
+        Integer dimensioneHitbox = oggettoDiGioco.getDimensioneHitbox();
 
         if (direzione == Direzione.NORD) {
             if (posY > 0) {
@@ -40,12 +44,12 @@ public class ComandoMossa implements Comando {
             }
         }
         if (direzione == Direzione.SUD) {
-            if (posY < yMax - 30) {
+            if (posY < yMax - dimensioneHitbox) {
                 posY = posY + velocita;
             }
         }
         if (direzione == Direzione.EST) {
-            if (posX < xMax - 30) {
+            if (posX < xMax - dimensioneHitbox) {
                 posX = posX + velocita;
             }
         }
@@ -54,11 +58,12 @@ public class ComandoMossa implements Comando {
                 posX = posX - velocita;
             }
         }
-        Posizione newPosizione = oggettoDiGioco.getPosizione();
-        newPosizione.setPosX(posX);
-        newPosizione.setPosY(posY);
 
-        oggettoDiGioco.setPosizione(newPosizione);
-        oggettoDiGioco.setDirezione(direzione);
+        oggettoDiGioco.setPosX(posX);
+        oggettoDiGioco.setPosY(posY);
+
+        //oggettoDiGioco.setDirezione(direzione);
+
     }
+
 }

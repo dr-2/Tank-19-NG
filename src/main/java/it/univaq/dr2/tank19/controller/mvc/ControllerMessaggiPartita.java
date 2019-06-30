@@ -23,8 +23,7 @@ public class ControllerMessaggiPartita {
     public MessaggioBase inviaMessaggioComando(@Payload MessaggioComando messaggio, @DestinationVariable("idpartita") String idPartita) {
         String URLMessaggiPartita = "/partite/" + idPartita + "/stato";
 
-        controllerGRASPFacade.muovi(messaggio.getIdOggetto(), messaggio.getDirezione());
-        //controllerGRASP.spara(messaggio.getIdOggetto(), messaggio.getFuoco()); //TODO: seconda iteerazione -> lato GRASP eseguire solo se .getFuoco è true
+        controllerGRASPFacade.eseguiComandi(messaggio.getIdOggetto(), messaggio.getDirezione(), messaggio.getFuoco());
 
 
         //servicePartita.doMossa(messaggio);

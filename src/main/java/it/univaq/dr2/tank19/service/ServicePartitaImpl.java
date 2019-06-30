@@ -2,8 +2,8 @@ package it.univaq.dr2.tank19.service;
 
 import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.repository.RepositoryGiocatore;
-import it.univaq.dr2.tank19.repository.RepositoryOggettoDiGioco;
 import it.univaq.dr2.tank19.repository.RepositoryPartita;
+import it.univaq.dr2.tank19.repository.RepositoryTank;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -13,11 +13,11 @@ import java.util.Set;
 public class ServicePartitaImpl implements ServicePartita {
 
     private final RepositoryPartita repositoryPartita;
-    private final RepositoryOggettoDiGioco repositoryOggettoDiGioco;
+    private final RepositoryTank repositoryTank;
 
-    public ServicePartitaImpl(RepositoryGiocatore repositoryGiocatore, RepositoryPartita repositoryPartita, ServiceOggettoDiGioco serviceOggettoDiGioco, RepositoryOggettoDiGioco repositoryOggettoDiGioco) {
+    public ServicePartitaImpl(RepositoryGiocatore repositoryGiocatore, RepositoryPartita repositoryPartita, ServiceTank serviceTank, RepositoryTank repositoryTank) {
         this.repositoryPartita = repositoryPartita;
-        this.repositoryOggettoDiGioco = repositoryOggettoDiGioco;
+        this.repositoryTank = repositoryTank;
     }
 
     @Override

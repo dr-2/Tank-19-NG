@@ -1,6 +1,7 @@
 package it.univaq.dr2.tank19.model;
 
 
+import it.univaq.dr2.tank19.model.oggettigioco.Tank;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class Giocatore extends BaseEntity {
     private Punteggio punteggio;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private OggettoDiGioco mioTank;
+    private Tank mioTank;
 
     @Transient
     private String passwordConfirm;
