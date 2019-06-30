@@ -24,7 +24,13 @@ public class RilevatoreCollisioni implements Collisione {
             }
         });
 
-        return altroOggetto[0] != null;
+        Boolean collisione = altroOggetto[0] != null;
+
+        if (collisione) {
+            RegolaCollisione r = new RegolaCollisioneProiettileTank(); //TODO: usare factory
+            r.applicaEffetto(oggettoMosso, altroOggetto[0]);
+        }
+        return collisione;
     }
 
 }

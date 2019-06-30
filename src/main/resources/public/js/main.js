@@ -322,6 +322,10 @@ const cambiaGiocatoere = () => {
     console.log(gameConfig.partita.idOggettoControllato)
 }
 
+const pulisciProiettili = () => {
+    gameState.proiettili = {};
+}
+
 const cambiaPartita = () => {
     if (gameConfig.partita.idPartita === 1) {
         gameConfig.partita.idPartita = 2;
@@ -347,3 +351,5 @@ document.getElementById('bottone-cambia-partita').addEventListener("click", camb
 if (!haveEvents) {
     setInterval(scangamepads, 500);
 }
+
+setInterval(pulisciProiettili, 500);

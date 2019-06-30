@@ -127,4 +127,14 @@ public class LimiteMappa implements OggettoDiGioco {
         int yPoly[] = {this.getPosY(), this.getYMax()};
         return new Polygon(xPoly, yPoly, xPoly.length);
     }
+
+    @Override
+    public void riduciVita() {
+
+    }
+
+    @Override
+    public Integer getVita() {
+        return null;
+    }
 }

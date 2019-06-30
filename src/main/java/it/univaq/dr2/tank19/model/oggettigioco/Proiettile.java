@@ -26,6 +26,8 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
 
     private Integer velocita = 4;
 
+    private Integer vita = 1;
+
     @ManyToOne
     @JoinColumn(name = "partita_id")
     private Partita partita;
@@ -51,6 +53,11 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
         int xPoly[] = {this.getPosX(), this.getXMax()};
         int yPoly[] = {this.getPosY(), this.getYMax()};
         return new Polygon(xPoly, yPoly, xPoly.length);
+    }
+
+    @Override
+    public void riduciVita() {
+        vita = vita - 1;
     }
 
     @Override

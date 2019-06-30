@@ -8,6 +8,7 @@ import it.univaq.dr2.tank19.model.messaggi.MessaggioDiAggiornamentoStato;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
+import it.univaq.dr2.tank19.service.ServicePartita;
 import it.univaq.dr2.tank19.service.ServiceProiettili;
 import it.univaq.dr2.tank19.service.ServiceTank;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -25,13 +26,15 @@ public class ControllerGRASPFacade {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final RilevatoreCollisioni rilevatoreCollisioni;
     private final FactoryComandi factoryComandi;
+    private final ServicePartita servicePartita;
 
-    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni, FactoryComandi factoryComandi) {
+    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni, FactoryComandi factoryComandi, ServicePartita servicePartita) {
         this.serviceTank = serviceTank;
         this.serviceProiettili = serviceProiettili;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.rilevatoreCollisioni = rilevatoreCollisioni;
         this.factoryComandi = factoryComandi;
+        this.servicePartita = servicePartita;
     }
 
     public void eseguiComandi(Long idOggetto, Direzione direzione, Boolean fuoco) {
@@ -60,8 +63,21 @@ public class ControllerGRASPFacade {
 
     @Scheduled(fixedDelay = 1000 / 60)
     public void gameTick() {
+        rimuoviProiettiliMorti();
         muoviProiettili();
         inviaAggiornamentiDiStato();
+    }
+
+    private void rimuoviProiettiliMorti() {
+        serviceProiettili.findAll().iterator().forEachRemaining(proiettile -> {
+            if (proiettile.getVita() < 1) {
+                Tank t = serviceTank.findById(proiettile.getTank().getId());
+                t.setProiettile(null);
+                serviceTank.save(t);
+                serviceProiettili.deleteById(proiettile.getId());
+            }
+        });
+
     }
 
     private void muoviProiettili() {

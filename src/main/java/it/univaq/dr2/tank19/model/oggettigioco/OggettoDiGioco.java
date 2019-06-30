@@ -47,4 +47,8 @@ public interface OggettoDiGioco {
     TipoOggetto getTipo();
 
     Polygon getPolygon();
+
+    void riduciVita();
+
+    Integer getVita();
 }

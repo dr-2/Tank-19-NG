@@ -33,7 +33,8 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
 
     private Direzione direzione;
     private TipoOggetto tipo = TipoOggetto.CARRO_ARMATO;
-    private Integer velocita = 1;
+    private Integer velocita = 1; //TODO: sposta in proprieta
+    private Integer vita = 1000; //TODO: sposta in proprietà e riduci questo numero XD
 
     @OneToOne(cascade = CascadeType.ALL)
     private Giocatore proprietario;
@@ -52,17 +53,22 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
 
     public Integer getXMax() {
         return posX + 30;
-    }
+    } //TODO: sposta in proprieta
 
     public Integer getYMax() {
         return posY + 30;
-    }
+    } //TODO: sposta in proprieta
 
     @Override
     public Polygon getPolygon() {
         int xPoly[] = {this.getPosX(), this.getXMax()};
         int yPoly[] = {this.getPosY(), this.getYMax()};
         return new Polygon(xPoly, yPoly, xPoly.length);
+    }
+
+    @Override
+    public void riduciVita() {
+        vita = vita - 1;
     }
 
     @Override
@@ -78,7 +84,7 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
     @Override
     public Integer getDimensioneHitbox() {
         return 30;
-    }
+    } //TODO: sposta in proprieta
 
     @Override
     public Tank getTank() {
