@@ -27,6 +27,14 @@ public class FactoryOggettiDiGioco {
         return uniqueInstance; // Posso ritornare l'istanza unica della factory Singleton
     }
 
+    public OggettoDiGioco getMuretto() {
+        Muretto muretto = new Muretto();
+        muretto.setVita(Integer.parseInt(rb.getString("muretto.vita")));
+        muretto.setVelocita(Integer.parseInt(rb.getString("muretto.velocita")));
+        muretto.setHitbox(Integer.parseInt(rb.getString("muretto.hitbox")));
+        return muretto;
+    }
+
     public OggettoDiGioco getTank() {
         //TODO: inserire dati sul Giocatore proprietario del tank e altre info mancanti
         // ESEMPIO:  Tank tank = Tank.builder().vita(100000).direzione(Direzione.OVEST).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(100).posY(100).velocita(1).build();
@@ -83,5 +91,7 @@ public class FactoryOggettiDiGioco {
 
         return proiettile;
     }
+
+
 }
 

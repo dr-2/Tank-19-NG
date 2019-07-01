@@ -11,10 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
-/**
- * @author Carlo Centofanti
- * @created 07/12/2018
- */
+
 @Getter
 @Setter
 @NoArgsConstructor

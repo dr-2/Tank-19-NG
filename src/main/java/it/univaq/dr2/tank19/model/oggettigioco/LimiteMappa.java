@@ -43,7 +43,7 @@ public class LimiteMappa extends BaseEntity implements OggettoDiGioco {
 
     }
 
-    @Override
+
     public Tank getTank() {
         return null;
     }
@@ -110,7 +110,7 @@ public class LimiteMappa extends BaseEntity implements OggettoDiGioco {
     }
 
     @Override
-    public void riduciVita() {
+    public void riduciVita(Integer dannoSubito) {
 
     }
 

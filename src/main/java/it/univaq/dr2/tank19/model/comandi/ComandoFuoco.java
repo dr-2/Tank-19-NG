@@ -7,10 +7,7 @@ import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Carlo Centofanti
- * @created 08/06/2019
- */
+
 @Component
 public class ComandoFuoco implements Comando {
     @Override

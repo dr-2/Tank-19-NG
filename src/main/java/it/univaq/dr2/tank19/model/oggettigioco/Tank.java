@@ -9,10 +9,6 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.awt.*;
 
-/**
- * @author Carlo Centofanti
- * @created 08/06/2019
- */
 
 @Setter
 @Getter
@@ -69,11 +65,6 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
     }
 
     @Override
-    public void riduciVita() {
-        vita = vita - 1;
-    }
-
-    @Override
     public void eseguiComando() {
         comando.esegui(this);
     }
@@ -89,14 +80,19 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
     }
 
     @Override
-    public Tank getTank() {
-        return this;
-    }
-
-    @Override
     public void setComandoFuoco() {
         FactoryComandiImpl factoryComandiTank = FactoryComandiImpl.getInstance();
         this.comando = factoryComandiTank.getComandoFuoco();
     }
+
+    @Override
+    public void riduciVita(Integer dannoSubito){
+        int newVita = this.getVita() - dannoSubito;
+        if (newVita < 0){ // Non non può avere vita negativa
+            newVita = 0;
+        }
+        this.setVita(newVita);
+    }
+
 
 }
