@@ -31,6 +31,9 @@ public class RilevatoreCollisioni implements Collisione {
         if (collisione) {
             RegolaCollisione regola = factoryRegoleCollisione.getRegolaPer(oggettoMosso.getTipo(), altroOggetto[0].getTipo());
             regola.applicaEffetto(oggettoMosso, altroOggetto[0]);
+            System.out.println(oggettoMosso.getTipo().toString() + " COLLIDE con: " + altroOggetto[0].getTipo().toString()); // Test
+            System.out.println("Si applica la regola: " + regola.toString()); // Test
+            System.out.println("Le loro nuove vite sono: " + oggettoMosso.getVita().toString() + " e " + altroOggetto[0].getVita().toString());
         }
         return collisione;
     }

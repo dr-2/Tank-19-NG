@@ -81,7 +81,7 @@ public class ControllerGRASPFacade {
 
     private void rimuoviMurettiMorti() {
         serviceMuretti.findAll().iterator().forEachRemaining(muretto -> {
-            if (muretto.getVita() < 1) {
+            if (muretto.getVita() < 2) {
                 serviceMuretti.deleteById(muretto.getId());
                 System.out.println("Muretto morto rimosso"); // Test
             }
@@ -96,6 +96,7 @@ public class ControllerGRASPFacade {
             serviceProiettili.save(proiettile);
         });
     }
+
 
     private void inviaAggiornamentiDiStato() {
         serviceTank.findAll().iterator().forEachRemaining(tank -> {

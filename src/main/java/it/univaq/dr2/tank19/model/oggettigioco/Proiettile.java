@@ -30,7 +30,6 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
 
     private Integer vita;
 
-    private Integer danno;
 
     @ManyToOne
     @JoinColumn(name = "partita_id")
