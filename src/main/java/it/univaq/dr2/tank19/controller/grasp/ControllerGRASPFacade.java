@@ -1,6 +1,7 @@
 package it.univaq.dr2.tank19.controller.grasp;
 
 import it.univaq.dr2.tank19.model.Direzione;
+import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.TipoOggetto;
 import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
 import it.univaq.dr2.tank19.model.comandi.FactoryComandi;
@@ -81,7 +82,7 @@ public class ControllerGRASPFacade {
 
     private void rimuoviMurettiMorti() {
         serviceMuretti.findAll().iterator().forEachRemaining(muretto -> {
-            if (muretto.getVita() < 2) {
+            if (muretto.getVita() < 1) {
                 serviceMuretti.deleteById(muretto.getId());
                 System.out.println("Muretto morto rimosso"); // Test
             }
