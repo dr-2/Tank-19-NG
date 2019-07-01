@@ -8,6 +8,7 @@ import it.univaq.dr2.tank19.model.messaggi.MessaggioDiAggiornamentoStato;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
+import it.univaq.dr2.tank19.service.ServiceMuretti;
 import it.univaq.dr2.tank19.service.ServicePartita;
 import it.univaq.dr2.tank19.service.ServiceProiettili;
 import it.univaq.dr2.tank19.service.ServiceTank;
@@ -15,22 +16,24 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Carlo Centofanti
- * @created 23/06/2019
- */
+
 @Component
 public class ControllerGRASPFacade {
     private final ServiceTank serviceTank;
     private final ServiceProiettili serviceProiettili;
+    private final ServiceMuretti serviceMuretti;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final RilevatoreCollisioni rilevatoreCollisioni;
     private final FactoryComandi factoryComandi;
     private final ServicePartita servicePartita;
 
-    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni, FactoryComandi factoryComandi, ServicePartita servicePartita) {
+    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili,
+                                 ServiceMuretti serviceMuretti, SimpMessagingTemplate simpMessagingTemplate,
+                                 RilevatoreCollisioni rilevatoreCollisioni, FactoryComandi factoryComandi,
+                                 ServicePartita servicePartita) {
         this.serviceTank = serviceTank;
         this.serviceProiettili = serviceProiettili;
+        this.serviceMuretti = serviceMuretti;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.rilevatoreCollisioni = rilevatoreCollisioni;
         this.factoryComandi = factoryComandi;
@@ -58,6 +61,7 @@ public class ControllerGRASPFacade {
     @Scheduled(fixedDelay = 1000 / 60)
     public void gameTick() {
         rimuoviProiettiliMorti();
+        rimuoviMurettiMorti();
         muoviProiettili();
         inviaAggiornamentiDiStato();
     }
@@ -69,6 +73,17 @@ public class ControllerGRASPFacade {
                 t.setProiettile(null);
                 serviceTank.save(t);
                 serviceProiettili.deleteById(proiettile.getId());
+                System.out.println("Proiettile morto rimosso"); // Test
+            }
+        });
+
+    }
+
+    private void rimuoviMurettiMorti() {
+        serviceMuretti.findAll().iterator().forEachRemaining(muretto -> {
+            if (muretto.getVita() < 1) {
+                serviceMuretti.deleteById(muretto.getId());
+                System.out.println("Muretto morto rimosso"); // Test
             }
         });
 

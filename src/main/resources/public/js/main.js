@@ -1,6 +1,7 @@
 const gameState = {
     tanks: {},
-    proiettili: {}
+    proiettili: {},
+    muretti: {}
 };
 const command = {
     nord: false,
@@ -18,6 +19,9 @@ const gameConfig = {
     },
     proiettile: {
         proiettile_n: null
+    },
+    muretto: {
+        muretto_n: null
     },
     canvas: {
         altezza: null,
@@ -37,6 +41,7 @@ const gameConfig = {
 
 const PROIETTILE = "PROIETTILE"
 const CARRO_ARMATO = "CARRO_ARMATO"
+const MURETTO = "MURETTO"
 
 
 let haveEvents = 'ongamepadconnected' in window;
@@ -81,7 +86,8 @@ function preload() {
     gameConfig.tank.myTank_s = loadImage('/pictures/game/tank/giallo_s.png');
     gameConfig.tank.myTank_e = loadImage('/pictures/game/tank/giallo_e.png');
     gameConfig.tank.myTank_o = loadImage('/pictures/game/tank/giallo_o.png');
-    gameConfig.proiettile.proiettile_n = loadImage('/pictures/game/tank/proiettile.png')
+    gameConfig.proiettile.proiettile_n = loadImage('/pictures/game/tank/proiettile.png');
+    gameConfig.muretto.muretto_n = loadImage('/pictures/game/brick.png')
 
 }
 
@@ -98,9 +104,14 @@ function draw() {
     background(51);
     for (const id of Object.keys(gameState.tanks)) {
         gameState.tanks[id].draw();
+        console.log("Disegno il Tank")
     }
     for (const id of Object.keys(gameState.proiettili)) {
         gameState.proiettili[id].draw();
+    }
+    for (const id of Object.keys(gameState.muretti)) {
+        console.log("Disegno il Muretto");
+        gameState.muretti[id].draw();
     }
 
     //check gamepad inputs
@@ -287,7 +298,7 @@ const onError = () => {
 
 const onStateUpgradeReceived = (message) => {
     parsedData = JSON.parse(message.body);
-    let tipoOggetto = parsedData.tipoOggetto
+    let tipoOggetto = parsedData.tipoOggetto;
 
     if (tipoOggetto === CARRO_ARMATO) {
         if (gameState.tanks[parsedData.idOggetto]) {
@@ -304,6 +315,10 @@ const onStateUpgradeReceived = (message) => {
         } else {
             gameState.proiettili[parsedData.idOggetto] = new Proiettile(parsedData.posx, parsedData.posy, parsedData.direzione)
         }
+    }
+
+    if (tipoOggetto === MURETTO) {
+        gameState.proiettili[parsedData.idOggetto] = new Muretto(parsedData.posx, parsedData.posy, parsedData.direzione)
     }
 
 

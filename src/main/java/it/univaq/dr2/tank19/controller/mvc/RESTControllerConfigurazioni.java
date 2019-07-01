@@ -6,10 +6,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author Carlo Centofanti
- * @created 10/06/2019
- */
 
 @RestController
 public class RESTControllerConfigurazioni {

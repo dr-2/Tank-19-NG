@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * @author Carlo Centofanti
- * @created 09/06/2019
- */
+
 @Service
 public class ServiceTankImpl implements ServiceTank {
 

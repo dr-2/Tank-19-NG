@@ -82,6 +82,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
             muretto.setPosX(0);
             muretto.setPosY(i * 30);
             p1.getMuretti().add(muretto);
+            System.out.println("Vita muretto: " + muretto.getVita().toString()); // Test
             i++;
         }
 
