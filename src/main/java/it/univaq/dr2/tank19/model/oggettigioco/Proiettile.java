@@ -30,6 +30,8 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
 
     private Integer vita;
 
+    private Integer danno;
+
     @ManyToOne
     @JoinColumn(name = "partita_id")
     private Partita partita;
@@ -57,10 +59,6 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
         return new Polygon(xPoly, yPoly, xPoly.length);
     }
 
-    @Override
-    public void riduciVita() {
-        vita = vita - 1;
-    }
 
     @Override
     public void setComandoFuoco() {
@@ -92,4 +90,14 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     public Integer getDimensioneHitbox() {
         return hitbox;
     }
+
+    @Override
+    public void riduciVita(Integer dannoSubito){
+        int newVita = this.getVita() - dannoSubito;
+        if (newVita < 0){ // Non non può avere vita negativa
+            newVita = 0;
+        }
+        this.setVita(newVita);
+    }
+
 }

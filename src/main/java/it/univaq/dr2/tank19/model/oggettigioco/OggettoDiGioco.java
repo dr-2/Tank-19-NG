@@ -24,12 +24,6 @@ public interface OggettoDiGioco {
 
     void eseguiComando();
 
-    void setVita(int newVita);
-
-    void setDanno(int newDanno);
-
-    Integer getDanno();
-
     Integer getVelocita();
 
     Partita getPartita();
@@ -54,7 +48,7 @@ public interface OggettoDiGioco {
 
     Polygon getPolygon();
 
-    void riduciVita();
+    void riduciVita(Integer dannoSubito);
 
     Integer getVita();
 }
