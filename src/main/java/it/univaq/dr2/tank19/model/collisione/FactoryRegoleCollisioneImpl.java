@@ -34,6 +34,9 @@ public class FactoryRegoleCollisioneImpl implements FactoryRegoleCollisione {
         if (oggettoCheGeneraCollisione == TipoOggetto.PROIETTILE && oggettoCheSubisceCollisione == TipoOggetto.MURETTO){
             return new RegolaCollisioneProiettileMuretto();
         }
+        if (oggettoCheGeneraCollisione == TipoOggetto.PROIETTILE && oggettoCheSubisceCollisione == TipoOggetto.PROIETTILE){
+            return new RegolaCollisioneProiettileProiettile();
+        }
 
         // Se non so cosa fare, loggo e non applico regole
         log.error("Caso di collisione non implementato. Viene applicata la regola nulla");
