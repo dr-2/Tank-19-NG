@@ -8,19 +8,18 @@ import it.univaq.dr2.tank19.model.comandi.Comando;
 import java.awt.*;
 
 public interface OggettoDiGioco {
+    // Composition & Aggregation, fuori da questa interfaccia please!
     void setDirezione(Direzione direzione);
 
     void setComando(Comando comando);
-
-    Tank getTank();
 
     void setComandoFuoco();
 
     Proiettile getProiettile();
 
-    Direzione getDirezione();
-
     void setProiettile(Proiettile proiettile);
+
+    Direzione getDirezione();
 
     void eseguiComando();
 

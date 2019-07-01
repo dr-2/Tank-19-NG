@@ -80,11 +80,6 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
     }
 
     @Override
-    public Tank getTank() {
-        return this;
-    }
-
-    @Override
     public void setComandoFuoco() {
         FactoryComandiImpl factoryComandiTank = FactoryComandiImpl.getInstance();
         this.comando = factoryComandiTank.getComandoFuoco();

@@ -1,9 +1,6 @@
 package it.univaq.dr2.tank19.model;
 
-import it.univaq.dr2.tank19.model.oggettigioco.LimiteMappa;
-import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
-import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
-import it.univaq.dr2.tank19.model.oggettigioco.Tank;
+import it.univaq.dr2.tank19.model.oggettigioco.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +25,9 @@ public class Partita extends BaseEntity {
     private Set<Tank> tanks = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita", fetch = FetchType.EAGER)
+    private Set<Muretto> muretti = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita", fetch = FetchType.EAGER)
     private Set<Proiettile> proiettili = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "partita", fetch = FetchType.EAGER)
@@ -49,7 +49,7 @@ public class Partita extends BaseEntity {
         oggetti.addAll(tanks);
         oggetti.addAll(proiettili);
         oggetti.addAll(limitiMappa);
-
+        oggetti.addAll(muretti);
         return oggetti;
     }
 

@@ -4,5 +4,6 @@ public enum TipoOggetto {
     CARRO_ARMATO,
     PROIETTILE,
     POTENZIAMENTO,
-    LIMITE
+    LIMITE,
+    MURETTO
 }
