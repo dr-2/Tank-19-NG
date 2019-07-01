@@ -76,7 +76,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
         // Muretti
         int i = 0;
-        while(i < 10){ // Aggiungo una schiera di muretti
+        while(i < 100){ // Aggiungo una schiera di muretti
             Muretto muretto = (Muretto) factoryOggettiDiGioco.getMuretto();
             muretto.setPartita(p1);
             muretto.setPosX(0);
