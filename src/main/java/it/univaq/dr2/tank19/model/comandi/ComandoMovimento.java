@@ -37,51 +37,25 @@ public class ComandoMovimento implements Comando {
         Integer posY = oggettoDiGioco.getPosY();
         Integer velocita = oggettoDiGioco.getVelocita() != null ? oggettoDiGioco.getVelocita() : ComandoMovimento.velocita;
         Integer dimensioneHitbox = oggettoDiGioco.getDimensioneHitbox();
-        Partita partitaInCorso = oggettoDiGioco.getPartita();
 
         if (direzione == Direzione.NORD) {
             if (posY > 0) {
                 posY = posY - velocita;
-            }
-            else{
-                if(oggettoDiGioco.getTipo().toString() == "PROIETTILE"){
-                    System.out.println("BOOM!");
-                    System.out.println(partitaInCorso.getOggettiPartita().toArray().length);
-                    partitaInCorso.cancellaProiettile(oggettoDiGioco);
-                    System.out.println(partitaInCorso.getOggettiPartita().toArray().length);
-                    // ToDo: Aggiungere comportamento relativo a esplosione proiettile
-
-                }
             }
         }
         if (direzione == Direzione.SUD) {
             if (posY < yMax - dimensioneHitbox) {
                 posY = posY + velocita;
             }
-            else{
-                if(oggettoDiGioco.getTipo().toString() == "PROIETTILE"){
-                    System.out.println("BOOM!"); // ToDo: Aggiungere comportamento relativo a esplosione proiettile
-                }
-            }
         }
         if (direzione == Direzione.EST) {
             if (posX < xMax - dimensioneHitbox) {
                 posX = posX + velocita;
             }
-            else{
-                if(oggettoDiGioco.getTipo().toString() == "PROIETTILE"){
-                    System.out.println("BOOM!"); // ToDo: Aggiungere comportamento relativo a esplosione proiettile
-                }
-            }
         }
         if (direzione == Direzione.OVEST) {
             if (posX > 0) {
                 posX = posX - velocita;
-            }
-            else{
-                if(oggettoDiGioco.getTipo().toString() == "PROIETTILE"){
-                    System.out.println("BOOM!"); // ToDo: Aggiungere comportamento relativo a esplosione proiettile
-                }
             }
         }
 

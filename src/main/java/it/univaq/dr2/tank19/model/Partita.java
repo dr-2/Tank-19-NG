@@ -53,9 +53,5 @@ public class Partita extends BaseEntity {
         return oggetti;
     }
 
-    public void cancellaProiettile(OggettoDiGioco proiettile){
-        // I proiettili che esplodono vanno rimossi dalla partita.
-        this.proiettili.remove(proiettile);
-    }
 
 }
