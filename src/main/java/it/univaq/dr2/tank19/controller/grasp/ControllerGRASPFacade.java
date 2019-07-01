@@ -3,11 +3,12 @@ package it.univaq.dr2.tank19.controller.grasp;
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.TipoOggetto;
 import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
-import it.univaq.dr2.tank19.model.comandi.ComandoTankStrategyFactory;
+import it.univaq.dr2.tank19.model.comandi.FactoryComandi;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioDiAggiornamentoStato;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
+import it.univaq.dr2.tank19.service.ServicePartita;
 import it.univaq.dr2.tank19.service.ServiceProiettili;
 import it.univaq.dr2.tank19.service.ServiceTank;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -24,14 +25,16 @@ public class ControllerGRASPFacade {
     private final ServiceProiettili serviceProiettili;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final RilevatoreCollisioni rilevatoreCollisioni;
-    private ComandoTankStrategyFactory factoryComandi;
+    private final FactoryComandi factoryComandi;
+    private final ServicePartita servicePartita;
 
-    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni) {
+    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni, FactoryComandi factoryComandi, ServicePartita servicePartita) {
         this.serviceTank = serviceTank;
         this.serviceProiettili = serviceProiettili;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.rilevatoreCollisioni = rilevatoreCollisioni;
-        this.factoryComandi = ComandoTankStrategyFactory.getInstance();
+        this.factoryComandi = factoryComandi;
+        this.servicePartita = servicePartita;
     }
 
     public void eseguiComandi(Long idOggetto, Direzione direzione, Boolean fuoco) {
@@ -46,22 +49,29 @@ public class ControllerGRASPFacade {
         }
 
         //la collisione non è responsabilità di questo controller. spostarla in un implementazione di comando
-        if (!rilevatoreCollisioni.isColliding(currentOggettoDiGioco)) {
-            serviceTank.save((Tank) currentOggettoDiGioco);
-        } else {
-            System.out.println("COLLISIONE RILEVATA!!");
-            // memento per annullare la mossa
-            // ruotare solamente il carro
-            // salvare
-        }
+        serviceTank.save((Tank) currentOggettoDiGioco);
+
     }
 
 
 
     @Scheduled(fixedDelay = 1000 / 60)
     public void gameTick() {
+        rimuoviProiettiliMorti();
         muoviProiettili();
         inviaAggiornamentiDiStato();
+    }
+
+    private void rimuoviProiettiliMorti() {
+        serviceProiettili.findAll().iterator().forEachRemaining(proiettile -> {
+            if (proiettile.getVita() < 1) {
+                Tank t = serviceTank.findById(proiettile.getTank().getId());
+                t.setProiettile(null);
+                serviceTank.save(t);
+                serviceProiettili.deleteById(proiettile.getId());
+            }
+        });
+
     }
 
     private void muoviProiettili() {

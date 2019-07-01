@@ -20,13 +20,15 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     @OneToOne(cascade = CascadeType.ALL)
     private Tank tank;
 
+    Integer hitbox;
+
     private TipoOggetto tipo = TipoOggetto.PROIETTILE;
 
     private Direzione direzione;
 
-    private Integer velocita = 4;
-    private Integer vita = 1; // Quanti danni può subire il proiettile
-    private Integer danno = 2; // Il danno che arreca la collisione con un proiettile ad un altro oggetto
+    private Integer velocita;
+
+    private Integer vita;
 
     @ManyToOne
     @JoinColumn(name = "partita_id")
@@ -41,19 +43,23 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     Comando comando;
 
     public Integer getXMax() {
-        return posX + 5;
+        return posX + hitbox;
     }
 
     public Integer getYMax() {
-        return posY + 5;
+        return posY + hitbox;
     }
-
 
     @Override
     public Polygon getPolygon() {
         int xPoly[] = {this.getPosX(), this.getXMax()};
         int yPoly[] = {this.getPosY(), this.getYMax()};
         return new Polygon(xPoly, yPoly, xPoly.length);
+    }
+
+    @Override
+    public void riduciVita() {
+        vita = vita - 1;
     }
 
     @Override
@@ -68,7 +74,7 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
 
     @Override
     public void setProiettile(Proiettile proiettile) {
-        // do nothing. un proiettile per ora non può possedere un altro proiettile
+        // do nothing. un proiettile per ora non puuò possedere un altro proiettile
     }
 
     @Override
@@ -84,37 +90,6 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
 
     @Override
     public Integer getDimensioneHitbox() {
-        return 5;
+        return hitbox;
     }
-
-    @Override
-    public void setVita(int newVita){
-        this.vita = newVita;
-    }
-
-    @Override
-    public void scalaVita(int danno){
-        int newVita = this.getVita() - danno;
-        if (newVita < 0){ // Il proiettile non può avere vita negativa
-            newVita = 0;
-            // ToDo: Aggiungere comportamento sparizione proiettile
-        }
-        this.setVita(newVita);
-    }
-
-    @Override
-    public Integer getVita(){
-        return this.vita;
-    }
-
-    @Override
-    public Integer getDanno(){
-        return this.danno;
-    }
-
-    @Override
-    public void setDanno(int newDanno){
-        this.danno = newDanno;
-    }
-
 }
