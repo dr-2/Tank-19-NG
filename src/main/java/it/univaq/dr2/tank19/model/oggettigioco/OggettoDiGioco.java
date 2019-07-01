@@ -26,10 +26,6 @@ public interface OggettoDiGioco {
 
     void setVita(int newVita);
 
-    void scalaVita(int danno);
-
-    Integer getVita();
-
     void setDanno(int newDanno);
 
     Integer getDanno();
