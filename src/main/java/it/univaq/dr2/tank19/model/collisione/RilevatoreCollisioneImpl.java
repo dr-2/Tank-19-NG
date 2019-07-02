@@ -9,7 +9,7 @@ import java.awt.*;
 
 @Slf4j
 @Component
-public class RilevatoreCollisioni implements Collisione {
+public class RilevatoreCollisioneImpl implements RilevatoreCollisione {
     private final FactoryRegoleCollisione factoryRegoleCollisione = FactoryRegoleCollisioneImpl.getInstance();
 
     private OggettoDiGioco oggettoMosso;
@@ -27,7 +27,7 @@ public class RilevatoreCollisioni implements Collisione {
             boolean stessoOggetto = oggettoMosso.getId().equals(oggettoDiGioco.getId()) && oggettoMosso.getTipo() == oggettoDiGioco.getTipo();
 
             if (!stessoOggetto && polygon.getBounds().intersects(poly2.getBounds())) {
-                // Collisione trovata. Riportiamo il risultato fuori dalla lambda
+                // RilevatoreCollisione trovata. Riportiamo il risultato fuori dalla lambda
                 this.oggettoCheSubisceCollisione = oggettoDiGioco;
                 collisione = true;
             }
@@ -39,7 +39,7 @@ public class RilevatoreCollisioni implements Collisione {
     @Override
     public void applicaCollisione() {
 
-        log.info("Collisione avvenuta tra: " + oggettoMosso.getTipo() + " id=" + oggettoMosso.getId() + " |e| " + oggettoCheSubisceCollisione.getTipo() + " id=" + oggettoCheSubisceCollisione.getId());
+        log.info("RilevatoreCollisione avvenuta tra: " + oggettoMosso.getTipo() + " id=" + oggettoMosso.getId() + " |e| " + oggettoCheSubisceCollisione.getTipo() + " id=" + oggettoCheSubisceCollisione.getId());
         RegolaCollisione regola = factoryRegoleCollisione.getRegolaPer(oggettoMosso.getTipo(), oggettoCheSubisceCollisione.getTipo());
         regola.applicaEffetto(oggettoMosso, oggettoCheSubisceCollisione);
     }

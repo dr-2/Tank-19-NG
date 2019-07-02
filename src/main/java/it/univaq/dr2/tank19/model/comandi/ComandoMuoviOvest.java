@@ -1,8 +1,8 @@
 package it.univaq.dr2.tank19.model.comandi;
 
 import it.univaq.dr2.tank19.model.Direzione;
-import it.univaq.dr2.tank19.model.collisione.Collisione;
-import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
+import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisione;
+import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioneImpl;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 
 public class ComandoMuoviOvest implements Comando {
@@ -20,15 +20,15 @@ public class ComandoMuoviOvest implements Comando {
         oggettoDiGioco.setPosY(nuovaPosY);
 
         //verifico se collido
-        Collisione collisione = new RilevatoreCollisioni();
-        Boolean collide = collisione.isColliding(oggettoDiGioco);
+        RilevatoreCollisione rilevatoreCollisione = new RilevatoreCollisioneImpl();
+        Boolean collide = rilevatoreCollisione.isColliding(oggettoDiGioco);
 
         if (collide) {
             // annullo movimento
-            // annullo movimento e applico la collisione
-            collisione.applicaCollisione();
+            // annullo movimento e applico la rilevatoreCollisione
+            rilevatoreCollisione.applicaCollisione();
             oggettoDiGioco.setPosX(vecchiaPosX);
-            // TODO: segnala collisione
+            // TODO: segnala rilevatoreCollisione
         }
     }
 }

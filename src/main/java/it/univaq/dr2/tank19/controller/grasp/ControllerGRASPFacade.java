@@ -2,7 +2,7 @@ package it.univaq.dr2.tank19.controller.grasp;
 
 import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.TipoOggetto;
-import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
+import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioneImpl;
 import it.univaq.dr2.tank19.model.comandi.FactoryComandi;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioDiAggiornamentoStato;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
@@ -24,11 +24,11 @@ public class ControllerGRASPFacade {
     private final ServiceTank serviceTank;
     private final ServiceProiettili serviceProiettili;
     private final SimpMessagingTemplate simpMessagingTemplate;
-    private final RilevatoreCollisioni rilevatoreCollisioni;
+    private final RilevatoreCollisioneImpl rilevatoreCollisioni;
     private final FactoryComandi factoryComandi;
     private final ServicePartita servicePartita;
 
-    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioni rilevatoreCollisioni, FactoryComandi factoryComandi, ServicePartita servicePartita) {
+    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioneImpl rilevatoreCollisioni, FactoryComandi factoryComandi, ServicePartita servicePartita) {
         this.serviceTank = serviceTank;
         this.serviceProiettili = serviceProiettili;
         this.simpMessagingTemplate = simpMessagingTemplate;
