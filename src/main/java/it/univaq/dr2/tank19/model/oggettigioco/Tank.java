@@ -41,7 +41,7 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
     @OneToOne(cascade = CascadeType.ALL)
     private Giocatore proprietario;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Proiettile proiettile;
 
     @ManyToOne

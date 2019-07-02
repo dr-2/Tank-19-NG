@@ -37,7 +37,7 @@ public class ControllerGRASPFacade {
         this.servicePartita = servicePartita;
     }
 
-    public void eseguiComandi(Long idOggetto, Direzione direzione, Boolean fuoco) {
+    public synchronized void eseguiComandi(Long idOggetto, Direzione direzione, Boolean fuoco) {
         OggettoDiGioco currentOggettoDiGioco = serviceTank.findById(idOggetto);
         if (direzione != null) {
             currentOggettoDiGioco.setComando(factoryComandi.getComandoMuoviA(direzione));
@@ -56,7 +56,7 @@ public class ControllerGRASPFacade {
 
 
     @Scheduled(fixedDelay = 1000 / 60)
-    public void gameTick() {
+    public synchronized void gameTick() {
         rimuoviProiettiliMorti();
         muoviProiettili();
         inviaAggiornamentiDiStato();
@@ -68,7 +68,7 @@ public class ControllerGRASPFacade {
                 Tank t = serviceTank.findById(proiettile.getTank().getId());
                 t.setProiettile(null);
                 serviceTank.save(t);
-                serviceProiettili.deleteById(proiettile.getId());
+                //serviceProiettili.deleteById(proiettile.getId());
             }
         });
 
