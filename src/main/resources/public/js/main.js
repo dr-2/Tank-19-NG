@@ -104,13 +104,11 @@ function draw() {
     background(51);
     for (const id of Object.keys(gameState.tanks)) {
         gameState.tanks[id].draw();
-        console.log("Disegno il Tank")
     }
     for (const id of Object.keys(gameState.proiettili)) {
         gameState.proiettili[id].draw();
     }
     for (const id of Object.keys(gameState.muretti)) {
-        console.log("Disegno il Muretto");
         gameState.muretti[id].draw();
     }
 

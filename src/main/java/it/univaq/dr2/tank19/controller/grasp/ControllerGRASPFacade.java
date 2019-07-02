@@ -6,6 +6,7 @@ import it.univaq.dr2.tank19.model.TipoOggetto;
 import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
 import it.univaq.dr2.tank19.model.comandi.FactoryComandi;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioDiAggiornamentoStato;
+import it.univaq.dr2.tank19.model.oggettigioco.Muretto;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
@@ -16,6 +17,8 @@ import it.univaq.dr2.tank19.service.ServiceTank;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 
 @Component
@@ -59,13 +62,14 @@ public class ControllerGRASPFacade {
 
 
 
-    @Scheduled(fixedDelay = 1000 / 60)
+    @Scheduled(fixedDelay = 100 / 60)
     public void gameTick() {
         rimuoviProiettiliMorti();
-        //rimuoviMurettiMorti();
+        rimuoviMurettiMorti();
         muoviProiettili();
         inviaAggiornamentiDiStato();
     }
+
 
     private void rimuoviProiettiliMorti() {
         serviceProiettili.findAll().iterator().forEachRemaining(proiettile -> {
@@ -100,54 +104,36 @@ public class ControllerGRASPFacade {
 
 
     private void inviaAggiornamentiDiStato() {
-        serviceTank.findAll().iterator().forEachRemaining(tank -> {
-            String URLMessaggiPartita = "/partite/" + tank.getPartita().getId() + "/stato";
+        Set<OggettoDiGioco> tanks = (Set<OggettoDiGioco>)(Set<?>) serviceTank.findAll();
+        Set<OggettoDiGioco> muretti = (Set<OggettoDiGioco>)(Set<?>) serviceMuretti.findAll();
+        Set<OggettoDiGioco> proiettili = (Set<OggettoDiGioco>)(Set<?>) serviceProiettili.findAll();
+
+        Set<OggettoDiGioco> oggettoDiGioco = tanks;
+        oggettoDiGioco.addAll(muretti);
+        oggettoDiGioco.addAll(proiettili);
+
+        oggettoDiGioco.iterator().forEachRemaining(oggetto -> {
+            String URLMessaggiPartita = "/partite/" + oggetto.getPartita().getId() + "/stato";
             String direzione;
             try {
-                direzione = tank.getDirezione().toString();
+                direzione = oggetto.getDirezione().toString();
             } catch (NullPointerException e) {
                 direzione = "null";
             }
 
-            MessaggioDiAggiornamentoStato aggiornamentoTank = new MessaggioDiAggiornamentoStato();
-            MessaggioDiAggiornamentoStato aggiornamentoProiettile = new MessaggioDiAggiornamentoStato();
+            MessaggioDiAggiornamentoStato aggiornamentoOggetto = new MessaggioDiAggiornamentoStato();
 
-            aggiornamentoTank.setIdOggetto(tank.getId());
-            aggiornamentoTank.setPosx(tank.getPosX());
-            aggiornamentoTank.setPosy(tank.getPosY());
-            aggiornamentoTank.setDirezione(direzione);
-            aggiornamentoTank.setTipoOggetto(TipoOggetto.CARRO_ARMATO);
+            aggiornamentoOggetto.setIdOggetto(oggetto.getId());
+            aggiornamentoOggetto.setPosx(oggetto.getPosX());
+            aggiornamentoOggetto.setPosy(oggetto.getPosY());
+            aggiornamentoOggetto.setDirezione(direzione);
+            aggiornamentoOggetto.setTipoOggetto(oggetto.getTipo());
 
-            if (tank.getProiettile() != null) {
-                Proiettile proiettile = tank.getProiettile();
-                aggiornamentoProiettile.setIdOggetto(proiettile.getId());
-                aggiornamentoProiettile.setPosx(proiettile.getPosX());
-                aggiornamentoProiettile.setPosy(proiettile.getPosY());
-                aggiornamentoProiettile.setDirezione(proiettile.getDirezione().toString());
-                aggiornamentoProiettile.setTipoOggetto(TipoOggetto.PROIETTILE);
-            }
-            simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoTank);
-            simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoProiettile);
-        });
-        serviceMuretti.findAll().iterator().forEachRemaining(muretto -> {
-            String URLMessaggiPartita = "/partite/" + muretto.getPartita().getId() + "/stato";
-            String direzione;
-            try {
-                direzione = muretto.getDirezione().toString();
-            } catch (NullPointerException e) {
-                direzione = "null";
-            }
 
-            MessaggioDiAggiornamentoStato aggiornamentoMuretto = new MessaggioDiAggiornamentoStato();
+            simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoOggetto);
 
-            aggiornamentoMuretto.setIdOggetto(muretto.getId());
-            aggiornamentoMuretto.setPosx(muretto.getPosX());
-            aggiornamentoMuretto.setPosy(muretto.getPosY());
-            aggiornamentoMuretto.setDirezione(direzione);
-            aggiornamentoMuretto.setTipoOggetto(TipoOggetto.MURETTO);
-
-            simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoMuretto);
         });
     }
+
 
 }
