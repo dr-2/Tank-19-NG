@@ -87,7 +87,7 @@ function preload() {
     gameConfig.tank.myTank_e = loadImage('/pictures/game/tank/giallo_e.png');
     gameConfig.tank.myTank_o = loadImage('/pictures/game/tank/giallo_o.png');
     gameConfig.proiettile.proiettile_n = loadImage('/pictures/game/tank/proiettile.png');
-    gameConfig.muretto.muretto_n = loadImage('/pictures/game/brick.png')
+    gameConfig.muretto.muretto_n = loadImage('/pictures/game/brick.png');
 
 }
 

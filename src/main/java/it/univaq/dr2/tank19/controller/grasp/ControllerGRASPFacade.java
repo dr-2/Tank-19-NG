@@ -129,6 +129,25 @@ public class ControllerGRASPFacade {
             simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoTank);
             simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoProiettile);
         });
+        serviceMuretti.findAll().iterator().forEachRemaining(muretto -> {
+            String URLMessaggiPartita = "/partite/" + muretto.getPartita().getId() + "/stato";
+            String direzione;
+            try {
+                direzione = muretto.getDirezione().toString();
+            } catch (NullPointerException e) {
+                direzione = "null";
+            }
+
+            MessaggioDiAggiornamentoStato aggiornamentoMuretto = new MessaggioDiAggiornamentoStato();
+
+            aggiornamentoMuretto.setIdOggetto(muretto.getId());
+            aggiornamentoMuretto.setPosx(muretto.getPosX());
+            aggiornamentoMuretto.setPosy(muretto.getPosY());
+            aggiornamentoMuretto.setDirezione(direzione);
+            aggiornamentoMuretto.setTipoOggetto(TipoOggetto.MURETTO);
+
+            simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoMuretto);
+        });
     }
 
 }
