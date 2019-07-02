@@ -47,10 +47,7 @@ public class ControllerGRASPFacade {
             currentOggettoDiGioco.setComandoFuoco();
             currentOggettoDiGioco.eseguiComando();
         }
-
-        //la collisione non è responsabilità di questo controller. spostarla in un implementazione di comando
         serviceTank.save((Tank) currentOggettoDiGioco);
-
     }
 
 
@@ -75,14 +72,25 @@ public class ControllerGRASPFacade {
     }
 
     private synchronized void muoviProiettili() {
-        serviceTank.findAll().iterator().forEachRemaining(tank -> {
-            Proiettile proiettile = tank.getProiettile();
-            if (proiettile != null) {
-                proiettile.setComando(factoryComandi.getComandoMuoviA(proiettile.getDirezione()));
-                proiettile.eseguiComando();
-                serviceTank.save(tank);
-            }
+        servicePartita.findAll().iterator().forEachRemaining(partita -> {
+            partita.getTanks().iterator().forEachRemaining(tank -> {
+                Proiettile proiettile = tank.getProiettile();
+                if (proiettile != null) {
+                    proiettile.setComando(factoryComandi.getComandoMuoviA(proiettile.getDirezione()));
+                    proiettile.eseguiComando();
+                    //serviceTank.save(tank);
+                }
+            });
+            servicePartita.save(partita);
         });
+//        serviceTank.findAll().iterator().forEachRemaining(tank -> {
+//            Proiettile proiettile = tank.getProiettile();
+//            if (proiettile != null) {
+//                proiettile.setComando(factoryComandi.getComandoMuoviA(proiettile.getDirezione()));
+//                proiettile.eseguiComando();
+//                serviceTank.save(tank);
+//            }
+//        });
     }
 
     private void inviaAggiornamentiDiStato() {
