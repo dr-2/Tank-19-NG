@@ -74,11 +74,14 @@ public class ControllerGRASPFacade {
 
     }
 
-    private void muoviProiettili() {
-        serviceProiettili.findAll().iterator().forEachRemaining(proiettile -> {
-            proiettile.setComando(factoryComandi.getComandoMuoviA(proiettile.getDirezione()));
-            proiettile.eseguiComando();
-            serviceProiettili.save(proiettile);
+    private synchronized void muoviProiettili() {
+        serviceTank.findAll().iterator().forEachRemaining(tank -> {
+            Proiettile proiettile = tank.getProiettile();
+            if (proiettile != null) {
+                proiettile.setComando(factoryComandi.getComandoMuoviA(proiettile.getDirezione()));
+                proiettile.eseguiComando();
+                serviceTank.save(tank);
+            }
         });
     }
 

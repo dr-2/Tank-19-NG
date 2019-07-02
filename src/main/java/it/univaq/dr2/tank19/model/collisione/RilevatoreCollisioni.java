@@ -14,6 +14,7 @@ public class RilevatoreCollisioni implements Collisione {
 
     private OggettoDiGioco oggettoMosso;
     private OggettoDiGioco oggettoCheSubisceCollisione;
+    Boolean collisione = false;
 
     @Override
     public Boolean isColliding(OggettoDiGioco oggettoCheSiMuove) {
@@ -21,7 +22,6 @@ public class RilevatoreCollisioni implements Collisione {
         Polygon polygon = oggettoMosso.getPolygon();
         Partita partita = oggettoMosso.getPartita();
 
-        final OggettoDiGioco[] altroOggetto = {null};
         partita.getOggettiPartita().iterator().forEachRemaining(oggettoDiGioco -> {
             Polygon poly2 = oggettoDiGioco.getPolygon();
             boolean stessoOggetto = oggettoMosso.getId().equals(oggettoDiGioco.getId()) && oggettoMosso.getTipo() == oggettoDiGioco.getTipo();
@@ -29,23 +29,18 @@ public class RilevatoreCollisioni implements Collisione {
             if (!stessoOggetto && polygon.getBounds().intersects(poly2.getBounds())) {
                 // Collisione trovata. Riportiamo il risultato fuori dalla lambda
                 this.oggettoCheSubisceCollisione = oggettoDiGioco;
+                collisione = true;
             }
         });
 
-        //        if (collisione) {
-//            RegolaCollisione regola = factoryRegoleCollisione.getRegolaPer(oggettoMosso.getTipo(), altroOggetto[0].getTipo());
-//            regola.applicaEffetto(oggettoMosso, altroOggetto[0]);
-//        }
-        return oggettoCheSubisceCollisione != null;
+        return collisione;
     }
 
     @Override
     public void applicaCollisione() {
-        log.warn(oggettoMosso.getTipo() + "--" + oggettoCheSubisceCollisione.getTipo());
+
+        log.info("Collisione avvenuta tra: " + oggettoMosso.getTipo() + " id=" + oggettoMosso.getId() + " |e| " + oggettoCheSubisceCollisione.getTipo() + " id=" + oggettoCheSubisceCollisione.getId());
         RegolaCollisione regola = factoryRegoleCollisione.getRegolaPer(oggettoMosso.getTipo(), oggettoCheSubisceCollisione.getTipo());
-        log.warn(oggettoMosso.getId() + "--" + oggettoCheSubisceCollisione.getId());
         regola.applicaEffetto(oggettoMosso, oggettoCheSubisceCollisione);
     }
-
-
 }

@@ -70,7 +70,9 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
 
     @Override
     public void riduciVita() {
+        System.out.println("VITA - 1");
         vita = vita - 1;
+        System.out.println(vita);
     }
 
     @Override
