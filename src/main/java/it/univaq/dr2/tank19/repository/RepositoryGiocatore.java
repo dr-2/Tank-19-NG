@@ -3,7 +3,9 @@ package it.univaq.dr2.tank19.repository;
 import it.univaq.dr2.tank19.model.Giocatore;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface RepositoryGiocatore extends CrudRepository<Giocatore, Long> {
 
 

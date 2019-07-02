@@ -4,8 +4,10 @@ import it.univaq.dr2.tank19.model.Direzione;
 import it.univaq.dr2.tank19.model.collisione.Collisione;
 import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioni;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class ComandoMuoviNord implements Comando {
 
@@ -27,7 +29,8 @@ public class ComandoMuoviNord implements Comando {
         Boolean collide = collisione.isColliding(oggettoDiGioco);
 
         if (collide) {
-            // annullo movimento
+            // annullo movimento e applico la collisione
+            collisione.applicaCollisione();
             oggettoDiGioco.setPosY(vecchiaPosY);
             // TODO: segnala collisione
         }

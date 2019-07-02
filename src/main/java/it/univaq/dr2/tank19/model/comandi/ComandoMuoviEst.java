@@ -25,6 +25,8 @@ public class ComandoMuoviEst implements Comando {
 
         if (collide) {
             // annullo movimento
+            // annullo movimento e applico la collisione
+            collisione.applicaCollisione();
             oggettoDiGioco.setPosX(vecchiaPosX);
             // TODO: segnala collisione
         }

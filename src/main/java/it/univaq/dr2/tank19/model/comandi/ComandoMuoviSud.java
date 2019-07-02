@@ -25,6 +25,8 @@ public class ComandoMuoviSud implements Comando {
 
         if (collide) {
             // annullo movimento
+            // annullo movimento e applico la collisione
+            collisione.applicaCollisione();
             oggettoDiGioco.setPosY(vecchiaPosY);
             // TODO: segnala collisione
         }

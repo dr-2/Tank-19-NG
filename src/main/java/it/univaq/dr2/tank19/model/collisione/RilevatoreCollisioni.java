@@ -2,16 +2,22 @@ package it.univaq.dr2.tank19.model.collisione;
 
 import it.univaq.dr2.tank19.model.Partita;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
 
+@Slf4j
 @Component
 public class RilevatoreCollisioni implements Collisione {
     private final FactoryRegoleCollisione factoryRegoleCollisione = FactoryRegoleCollisioneImpl.getInstance();
 
+    private OggettoDiGioco oggettoMosso;
+    private OggettoDiGioco oggettoCheSubisceCollisione;
+
     @Override
-    public Boolean isColliding(OggettoDiGioco oggettoMosso) {
+    public Boolean isColliding(OggettoDiGioco oggettoCheSiMuove) {
+        this.oggettoMosso = oggettoCheSiMuove;
         Polygon polygon = oggettoMosso.getPolygon();
         Partita partita = oggettoMosso.getPartita();
 
@@ -22,17 +28,23 @@ public class RilevatoreCollisioni implements Collisione {
 
             if (!stessoOggetto && polygon.getBounds().intersects(poly2.getBounds())) {
                 // Collisione trovata. Riportiamo il risultato fuori dalla lambda
-                altroOggetto[0] = oggettoDiGioco;
+                this.oggettoCheSubisceCollisione = oggettoDiGioco;
             }
         });
 
-        Boolean collisione = altroOggetto[0] != null;
+        //        if (collisione) {
+//            RegolaCollisione regola = factoryRegoleCollisione.getRegolaPer(oggettoMosso.getTipo(), altroOggetto[0].getTipo());
+//            regola.applicaEffetto(oggettoMosso, altroOggetto[0]);
+//        }
+        return oggettoCheSubisceCollisione != null;
+    }
 
-        if (collisione) {
-            RegolaCollisione regola = factoryRegoleCollisione.getRegolaPer(oggettoMosso.getTipo(), altroOggetto[0].getTipo());
-            regola.applicaEffetto(oggettoMosso, altroOggetto[0]);
-        }
-        return collisione;
+    @Override
+    public void applicaCollisione() {
+        log.warn(oggettoMosso.getTipo() + "--" + oggettoCheSubisceCollisione.getTipo());
+        RegolaCollisione regola = factoryRegoleCollisione.getRegolaPer(oggettoMosso.getTipo(), oggettoCheSubisceCollisione.getTipo());
+        log.warn(oggettoMosso.getId() + "--" + oggettoCheSubisceCollisione.getId());
+        regola.applicaEffetto(oggettoMosso, oggettoCheSubisceCollisione);
     }
 
 
