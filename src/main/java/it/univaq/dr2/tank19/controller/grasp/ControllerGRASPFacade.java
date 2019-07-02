@@ -54,8 +54,8 @@ public class ControllerGRASPFacade {
 
     @Scheduled(fixedDelay = 1000 / 60)
     public synchronized void gameTick() {
-        rimuoviProiettiliMorti();
         muoviProiettili();
+        rimuoviProiettiliMorti();
         inviaAggiornamentiDiStato();
     }
 
@@ -65,13 +65,12 @@ public class ControllerGRASPFacade {
                 Tank t = serviceTank.findById(proiettile.getTank().getId());
                 t.setProiettile(null);
                 serviceTank.save(t);
-                //serviceProiettili.deleteById(proiettile.getId());
             }
         });
 
     }
 
-    private synchronized void muoviProiettili() {
+    private void muoviProiettili() {
         servicePartita.findAll().iterator().forEachRemaining(partita -> {
             partita.getTanks().iterator().forEachRemaining(tank -> {
                 Proiettile proiettile = tank.getProiettile();
@@ -83,14 +82,6 @@ public class ControllerGRASPFacade {
             });
             servicePartita.save(partita);
         });
-//        serviceTank.findAll().iterator().forEachRemaining(tank -> {
-//            Proiettile proiettile = tank.getProiettile();
-//            if (proiettile != null) {
-//                proiettile.setComando(factoryComandi.getComandoMuoviA(proiettile.getDirezione()));
-//                proiettile.eseguiComando();
-//                serviceTank.save(tank);
-//            }
-//        });
     }
 
     private void inviaAggiornamentiDiStato() {

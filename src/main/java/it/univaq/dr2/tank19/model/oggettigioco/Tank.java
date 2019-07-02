@@ -4,6 +4,7 @@ import it.univaq.dr2.tank19.model.*;
 import it.univaq.dr2.tank19.model.comandi.Comando;
 import it.univaq.dr2.tank19.model.comandi.FactoryComandiImpl;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ import java.awt.*;
 @Builder
 @Entity
 @Component
+@Slf4j
 @Table(name = "tank")
 public class Tank extends BaseEntity implements OggettoDiGioco {
 
@@ -70,9 +72,8 @@ public class Tank extends BaseEntity implements OggettoDiGioco {
 
     @Override
     public void riduciVita() {
-        System.out.println("VITA - 1");
         vita = vita - 1;
-        System.out.println(vita);
+        log.info("Tank id=" + getId() + " vita: " + vita);
     }
 
     @Override
