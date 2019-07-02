@@ -62,7 +62,7 @@ public class ControllerGRASPFacade {
     @Scheduled(fixedDelay = 1000 / 60)
     public void gameTick() {
         rimuoviProiettiliMorti();
-        rimuoviMurettiMorti();
+        //rimuoviMurettiMorti();
         muoviProiettili();
         inviaAggiornamentiDiStato();
     }
