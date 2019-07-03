@@ -66,6 +66,7 @@ public class Muretto extends BaseEntity implements OggettoDiGioco {
         // Al momento, il muretto resta sempre immobile (è un oggetto passivo)
     }
 
+
     @Override
     public Proiettile getProiettile() { // Al momento, un muretto non ha proiettili
         return null;

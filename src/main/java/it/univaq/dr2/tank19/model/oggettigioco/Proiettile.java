@@ -40,6 +40,7 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     @NonNull
     private Integer posY;
 
+
     @Transient
     Comando comando;
 
@@ -50,6 +51,7 @@ public class Proiettile extends BaseEntity implements OggettoDiGioco {
     public Integer getYMax() {
         return posY + hitbox;
     }
+
 
     @Override
     public Polygon getPolygon() {

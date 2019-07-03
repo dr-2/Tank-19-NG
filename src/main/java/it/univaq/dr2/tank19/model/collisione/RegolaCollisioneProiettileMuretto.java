@@ -7,6 +7,5 @@ public class RegolaCollisioneProiettileMuretto implements RegolaCollisione {
     public void applicaEffetto(OggettoDiGioco ogg1, OggettoDiGioco ogg2) {
         ogg1.riduciVita(1);
         ogg2.riduciVita(1);
-
     }
 }

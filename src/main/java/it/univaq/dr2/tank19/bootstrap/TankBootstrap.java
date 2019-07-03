@@ -39,6 +39,52 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         loadData();
     }
 
+    private void creaSchieraOggettiVericale(Integer x0, Integer y0, Integer hOggetto, Integer numOggetti, Partita p){
+        int i = 0;
+        while(i < numOggetti){ // Aggiungo una schiera di muretti
+            Muretto muretto = (Muretto) factoryOggettiDiGioco.getMuretto();
+            muretto.setPartita(p);
+            muretto.setPosX(x0);
+            muretto.setPosY(i * hOggetto + y0);
+            p.getMuretti().add(muretto);
+            i++;
+        }
+    }
+
+    private void creaCampo0(Partita p){
+        Integer deltaX = 90;
+        Integer deltaY = 90;
+        // T
+        this.creaSchieraOggettiVericale(30+deltaX, 30+deltaY, 30, 1, p);
+        this.creaSchieraOggettiVericale(60+deltaX, 30+deltaY, 30,4, p);
+        this.creaSchieraOggettiVericale(90+deltaX, 30+deltaY, 30, 1, p);
+        // A
+        this.creaSchieraOggettiVericale(150+deltaX, 30+deltaY, 30, 4, p);
+        this.creaSchieraOggettiVericale(180+deltaX, 30+deltaY, 30,1, p);
+        this.creaSchieraOggettiVericale(180+deltaX, 90+deltaY, 30,1, p);
+        this.creaSchieraOggettiVericale(210+deltaX, 30+deltaY, 30, 4, p);
+        // N
+        this.creaSchieraOggettiVericale(270+deltaX, 30+deltaY, 30, 4, p);
+        this.creaSchieraOggettiVericale(300+deltaX, 60+deltaY, 30,1, p);
+        this.creaSchieraOggettiVericale(330+deltaX, 90+deltaY, 30,1, p);
+        this.creaSchieraOggettiVericale(360+deltaX, 30+deltaY, 30, 4, p);
+        // K
+        this.creaSchieraOggettiVericale(420+deltaX, 30+deltaY, 30, 4, p);
+        this.creaSchieraOggettiVericale(450+deltaX, 60+deltaY, 30,1, p);
+        this.creaSchieraOggettiVericale(480+deltaX, 30+deltaY, 30, 1, p);
+        this.creaSchieraOggettiVericale(480+deltaX, 90+deltaY, 30,2, p);
+        deltaX = 270;
+        deltaY = deltaY + 180;
+        // 1
+        this.creaSchieraOggettiVericale(30+deltaX, 30+deltaY, 30, 4, p);
+        // 9
+        // A
+        this.creaSchieraOggettiVericale(90+deltaX, 30+deltaY, 30, 3, p);
+        this.creaSchieraOggettiVericale(120+deltaX, 30+deltaY, 30,1, p);
+        this.creaSchieraOggettiVericale(120+deltaX, 90+deltaY, 30,1, p);
+        this.creaSchieraOggettiVericale(150+deltaX, 30+deltaY, 30, 4, p);
+    }
+
     private void loadData() {
         List<Partita> partite = new ArrayList<>(2);
 
@@ -74,17 +120,12 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         limiteMappaOVEST.setPartita(p1);
         p1.getLimitiMappa().add(limiteMappaOVEST);
 
-        // Muretti
-        int i = 0;
-        while(i < 10){ // Aggiungo una schiera di muretti
-            Muretto muretto = (Muretto) factoryOggettiDiGioco.getMuretto();
-            muretto.setPartita(p1);
-            muretto.setPosX(0);
-            muretto.setPosY(i * 30);
-            p1.getMuretti().add(muretto);
-            System.out.println("Vita muretto: " + muretto.getVita().toString()); // Test
-            i++;
-        }
+
+        //Posiziona Muretti
+        this.creaCampo0(p1);
+
+
+
 
 
         Giocatore g = Giocatore.builder().username("Carlo").ruolo(TipoRuolo.ROLE_USER.toString()).partita(p1).password(encoder.encode("p")).build();
@@ -93,7 +134,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
         g.aggiungiPunti(-34);
 
-        Tank tank = Tank.builder().vita(Tvita).hitbox(Thitbox).velocita(Tvel).direzione(Direzione.OVEST).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(100).posY(100).build();
+        Tank tank = Tank.builder().vita(Tvita).hitbox(Thitbox).velocita(Tvel).direzione(Direzione.OVEST).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(100).posY(30).build();
         p1.getTanks().add(tank);
         g.setMioTank(tank);
 
@@ -112,7 +153,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g2.setPartita(p2);
         g2.setPassword(encoder.encode("p"));
 
-        Tank tankValeria = Tank.builder().vita(Tvita).hitbox(Thitbox).velocita(Tvel).tipo(TipoOggetto.CARRO_ARMATO).direzione(Direzione.SUD).partita(p2).posX(550).posY(550).build();
+        Tank tankValeria = Tank.builder().vita(Tvita).hitbox(Thitbox).velocita(Tvel).tipo(TipoOggetto.CARRO_ARMATO).direzione(Direzione.SUD).partita(p2).posX(550).posY(30).build();
         p2.getTanks().add(tankValeria);
 
         p2.getGiocatori().add(g2);
@@ -126,7 +167,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g4.setPartita(p2);
         g4.setPassword(encoder.encode("p"));
 
-        Tank tankGio = Tank.builder().vita(Tvita).hitbox(Thitbox).velocita(Tvel).tipo(TipoOggetto.CARRO_ARMATO).partita(p2).direzione(Direzione.EST).posX(500).posY(500).build();
+        Tank tankGio = Tank.builder().vita(Tvita).hitbox(Thitbox).velocita(Tvel).tipo(TipoOggetto.CARRO_ARMATO).partita(p2).direzione(Direzione.EST).posX(500).posY(30).build();
         p2.getTanks().add(tankGio);
 
         p2.getGiocatori().add(g4);
@@ -139,7 +180,7 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         g3.setPartita(p1);
         g3.setPassword(encoder.encode("p"));
 
-        Tank tank3 = Tank.builder().vita(Tvita).hitbox(Thitbox).velocita(Tvel).direzione(Direzione.SUD).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(200).posY(200).build();
+        Tank tank3 = Tank.builder().vita(Tvita).hitbox(Thitbox).velocita(Tvel).direzione(Direzione.SUD).tipo(TipoOggetto.CARRO_ARMATO).partita(p1).posX(200).posY(30).build();
         p1.getTanks().add(tank3);
 
         p1.getGiocatori().add(g3);
