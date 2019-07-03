@@ -78,7 +78,6 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         // 1
         this.creaSchieraOggettiVericale(30+deltaX, 30+deltaY, 30, 4, p);
         // 9
-        // A
         this.creaSchieraOggettiVericale(90+deltaX, 30+deltaY, 30, 3, p);
         this.creaSchieraOggettiVericale(120+deltaX, 30+deltaY, 30,1, p);
         this.creaSchieraOggettiVericale(120+deltaX, 90+deltaY, 30,1, p);
