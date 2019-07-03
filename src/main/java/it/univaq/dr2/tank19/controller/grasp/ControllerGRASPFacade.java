@@ -8,6 +8,7 @@ import it.univaq.dr2.tank19.model.messaggi.TipoMessaggio;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
+import it.univaq.dr2.tank19.repository.RepositoryMuretto;
 import it.univaq.dr2.tank19.service.ServicePartita;
 import it.univaq.dr2.tank19.service.ServiceProiettili;
 import it.univaq.dr2.tank19.service.ServiceTank;
@@ -27,14 +28,16 @@ public class ControllerGRASPFacade {
     private final RilevatoreCollisioneImpl rilevatoreCollisioni;
     private final FactoryComandi factoryComandi;
     private final ServicePartita servicePartita;
+    private final RepositoryMuretto repositoryMuretto;
 
-    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioneImpl rilevatoreCollisioni, FactoryComandi factoryComandi, ServicePartita servicePartita) {
+    public ControllerGRASPFacade(ServiceTank serviceTank, ServiceProiettili serviceProiettili, SimpMessagingTemplate simpMessagingTemplate, RilevatoreCollisioneImpl rilevatoreCollisioni, FactoryComandi factoryComandi, ServicePartita servicePartita, RepositoryMuretto repositoryMuretto) {
         this.serviceTank = serviceTank;
         this.serviceProiettili = serviceProiettili;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.rilevatoreCollisioni = rilevatoreCollisioni;
         this.factoryComandi = factoryComandi;
         this.servicePartita = servicePartita;
+        this.repositoryMuretto = repositoryMuretto;
     }
 
     public synchronized void eseguiComandi(Long idOggetto, Direzione direzione, Boolean fuoco) {
@@ -56,7 +59,20 @@ public class ControllerGRASPFacade {
     public synchronized void gameTick() {
         muoviProiettili();
         rimuoviProiettiliMorti();
+        rimuoviMurettiMorti();
         inviaAggiornamentiDiStato();
+    }
+
+    private void rimuoviMurettiMorti() {
+        servicePartita.findAll().iterator().forEachRemaining(partita -> {
+            partita.getMuretti().iterator().forEachRemaining(muretto -> {
+                if (muretto.getVita() < 1) {
+                    inviaRimozioneOggetto(muretto);
+                    partita.getMuretti().remove(muretto);
+                    servicePartita.save(partita);
+                }
+            });
+        });
     }
 
     private void rimuoviProiettiliMorti() {
@@ -125,6 +141,18 @@ public class ControllerGRASPFacade {
             }
             simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoTank);
             simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoProiettile);
+        });
+        servicePartita.findAll().iterator().forEachRemaining(partita -> {
+            partita.getMuretti().iterator().forEachRemaining(muretto -> {
+                String URLMessaggiPartita = "/partite/" + muretto.getPartita().getId() + "/stato";
+                MessaggioDiAggiornamentoStato aggiornamentoMuretti = new MessaggioDiAggiornamentoStato();
+                aggiornamentoMuretti.setIdOggetto(muretto.getId());
+                aggiornamentoMuretti.setPosx(muretto.getPosX());
+                aggiornamentoMuretti.setPosy(muretto.getPosY());
+                aggiornamentoMuretti.setTipoOggetto(muretto.getTipo());
+
+                simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoMuretti);
+            });
         });
     }
 

@@ -8,11 +8,13 @@ class Muretto {
         noStroke();
         let img = gameConfig.muretto.muretto_standard;
 
-        image(img, this.posX, this.posY, w, h);
+        image(img, this.posX, this.posY);
     }
 
     moveToXY(x, y, dir) {
-        console.warn("un muretto non può muoversi.... per ora")
+        this.posX = x;
+        this.posY = y;
+        this.direzione = dir;
     }
 }
 

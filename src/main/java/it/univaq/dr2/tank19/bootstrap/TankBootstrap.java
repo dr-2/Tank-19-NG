@@ -3,6 +3,7 @@ package it.univaq.dr2.tank19.bootstrap;
 import it.univaq.dr2.tank19.model.*;
 import it.univaq.dr2.tank19.model.oggettigioco.FactoryOggettiDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.LimiteMappa;
+import it.univaq.dr2.tank19.model.oggettigioco.Muretto;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
 import it.univaq.dr2.tank19.service.ServiceGiocatore;
 import it.univaq.dr2.tank19.service.ServicePartita;
@@ -50,6 +51,14 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
 
         Partita p1 = new Partita();
+
+        Muretto m1 = new Muretto();
+        m1.setPosX(10);
+        m1.setPosY(10);
+        m1.setHitbox(30);
+        m1.setPartita(p1);
+        m1.setVita(2);
+        p1.getMuretti().add(m1);
 
         LimiteMappa limiteMappaSUD = (LimiteMappa) factoryOggettiDiGioco.getLimiteSUD();
         limiteMappaSUD.setPartita(p1);

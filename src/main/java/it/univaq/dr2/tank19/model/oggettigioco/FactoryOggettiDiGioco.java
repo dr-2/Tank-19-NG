@@ -75,6 +75,13 @@ public class FactoryOggettiDiGioco {
         return limiteMappa;
     }
 
+    public OggettoDiGioco getMuretto() {
+        Muretto muretto = new Muretto();
+        muretto.setVita(Integer.parseInt(rb.getString("muretto.vita")));
+        muretto.setHitbox(Integer.parseInt(rb.getString("muretto.hitbox")));
+        return muretto;
+    }
+
     public synchronized OggettoDiGioco getProiettile() {
         Proiettile proiettile = new Proiettile();
         proiettile.setVelocita(Integer.parseInt(rb.getString("proiettile.velocita")));
