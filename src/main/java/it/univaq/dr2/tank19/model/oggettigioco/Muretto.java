@@ -46,10 +46,6 @@ public class Muretto extends BaseEntity implements OggettoDiGioco {
         return posY + hitbox;
     }
 
-    @Override
-    public Long getId() {
-        return null;
-    }
 
     @Override
     public Polygon getPolygon() {
