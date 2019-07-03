@@ -16,10 +16,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Carlo Centofanti
- * @created 23/06/2019
- */
+
 @Component
 public class ControllerGRASPFacade {
     private final ServiceTank serviceTank;
