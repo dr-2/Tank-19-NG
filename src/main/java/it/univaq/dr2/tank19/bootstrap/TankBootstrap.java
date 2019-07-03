@@ -53,8 +53,8 @@ public class TankBootstrap implements ApplicationListener<ContextRefreshedEvent>
         Partita p1 = new Partita();
 
         Muretto m1 = new Muretto();
-        m1.setPosX(10);
-        m1.setPosY(10);
+        m1.setPosX(300);
+        m1.setPosY(300);
         m1.setHitbox(30);
         m1.setPartita(p1);
         m1.setVita(2);

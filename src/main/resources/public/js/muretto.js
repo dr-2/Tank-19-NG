@@ -8,7 +8,7 @@ class Muretto {
         noStroke();
         let img = gameConfig.muretto.muretto_standard;
 
-        image(img, this.posX, this.posY);
+        image(img, this.posX, this.posY, 30, 30);
     }
 
     moveToXY(x, y, dir) {

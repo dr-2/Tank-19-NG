@@ -8,11 +8,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class ServieMurettoImpl implements ServieMuretto {
+public class ServiceMurettoImpl implements ServiceMuretto {
 
     private final RepositoryMuretto repositoryMuretto;
 
-    public ServieMurettoImpl(RepositoryMuretto repositoryMuretto) {
+    public ServiceMurettoImpl(RepositoryMuretto repositoryMuretto) {
         this.repositoryMuretto = repositoryMuretto;
     }
 
