@@ -1,10 +1,10 @@
 package it.univaq.dr2.tank19.controller.grasp;
 
 import it.univaq.dr2.tank19.model.Direzione;
-import it.univaq.dr2.tank19.model.TipoOggetto;
 import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioneImpl;
 import it.univaq.dr2.tank19.model.comandi.FactoryComandi;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioDiAggiornamentoStato;
+import it.univaq.dr2.tank19.model.messaggi.TipoMessaggio;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
@@ -62,12 +62,24 @@ public class ControllerGRASPFacade {
     private void rimuoviProiettiliMorti() {
         serviceProiettili.findAll().iterator().forEachRemaining(proiettile -> {
             if (proiettile.getVita() < 1) {
+                inviaRimozioneOggetto(proiettile);
                 Tank t = serviceTank.findById(proiettile.getTank().getId());
                 t.setProiettile(null);
                 serviceTank.save(t);
             }
         });
 
+    }
+
+    private void inviaRimozioneOggetto(OggettoDiGioco oggettoDiGioco) {
+        String URLMessaggiPartita = "/partite/" + oggettoDiGioco.getPartita().getId() + "/stato";
+        MessaggioDiAggiornamentoStato messaggioRimozioneOggetto = new MessaggioDiAggiornamentoStato();
+
+        messaggioRimozioneOggetto.setIdOggetto(oggettoDiGioco.getId());
+        messaggioRimozioneOggetto.setTipoMessaggio(TipoMessaggio.RIMUOVI_OGGETTO);
+        messaggioRimozioneOggetto.setTipoOggetto(oggettoDiGioco.getTipo());
+
+        simpMessagingTemplate.convertAndSend(URLMessaggiPartita, messaggioRimozioneOggetto);
     }
 
     private void muoviProiettili() {
@@ -101,7 +113,7 @@ public class ControllerGRASPFacade {
             aggiornamentoTank.setPosx(tank.getPosX());
             aggiornamentoTank.setPosy(tank.getPosY());
             aggiornamentoTank.setDirezione(direzione);
-            aggiornamentoTank.setTipoOggetto(TipoOggetto.CARRO_ARMATO);
+            aggiornamentoTank.setTipoOggetto(tank.getTipo());
 
             if (tank.getProiettile() != null) {
                 Proiettile proiettile = tank.getProiettile();
@@ -109,7 +121,7 @@ public class ControllerGRASPFacade {
                 aggiornamentoProiettile.setPosx(proiettile.getPosX());
                 aggiornamentoProiettile.setPosy(proiettile.getPosY());
                 aggiornamentoProiettile.setDirezione(proiettile.getDirezione().toString());
-                aggiornamentoProiettile.setTipoOggetto(TipoOggetto.PROIETTILE);
+                aggiornamentoProiettile.setTipoOggetto(proiettile.getTipo());
             }
             simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoTank);
             simpMessagingTemplate.convertAndSend(URLMessaggiPartita, aggiornamentoProiettile);

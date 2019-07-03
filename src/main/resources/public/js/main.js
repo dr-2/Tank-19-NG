@@ -1,6 +1,7 @@
 const gameState = {
     tanks: {},
-    proiettili: {}
+    proiettili: {},
+    muretti: {}
 };
 const command = {
     nord: false,
@@ -18,6 +19,9 @@ const gameConfig = {
     },
     proiettile: {
         proiettile_n: null
+    },
+    muretto: {
+        muretto_standard: null
     },
     canvas: {
         altezza: null,
@@ -37,6 +41,8 @@ const gameConfig = {
 
 const PROIETTILE = "PROIETTILE"
 const CARRO_ARMATO = "CARRO_ARMATO"
+const MURETTO = "MURETTO"
+const RIMUOVI_OGGETTO = "RIMUOVI_OGGETTO"
 
 
 let haveEvents = 'ongamepadconnected' in window;
@@ -82,6 +88,7 @@ function preload() {
     gameConfig.tank.myTank_e = loadImage('/pictures/game/tank/giallo_e.png');
     gameConfig.tank.myTank_o = loadImage('/pictures/game/tank/giallo_o.png');
     gameConfig.proiettile.proiettile_n = loadImage('/pictures/game/tank/proiettile.png')
+    gameConfig.muretto.muretto_standard = loadImage('/pictures/game/brick.png');
 
 }
 
@@ -101,6 +108,9 @@ function draw() {
     }
     for (const id of Object.keys(gameState.proiettili)) {
         gameState.proiettili[id].draw();
+    }
+    for (const id of Object.keys(gameState.muretti)) {
+        gameState.muretti[id].draw();
     }
 
     //check gamepad inputs
@@ -285,26 +295,56 @@ const onError = () => {
 
 };
 
-const onStateUpgradeReceived = (message) => {
-    parsedData = JSON.parse(message.body);
-    let tipoOggetto = parsedData.tipoOggetto
+const rimuoviOggetto = (parsedData) => {
+    if (parsedData.tipoOggetto === CARRO_ARMATO) {
+        if (gameState.tanks[parsedData.idOggetto]) {
+            delete gameState.tanks[parsedData.idOggetto];
+        }
+    }
+    if (parsedData.tipoOggetto === PROIETTILE) {
+        if (gameState.proiettili[parsedData.idOggetto]) {
+            delete gameState.proiettili[parsedData.idOggetto];
+        }
+    }
+    if (parsedData.tipoOggetto === MURETTO) {
+        if (gameState.muretti[parsedData.idOggetto]) {
+            delete gameState.muretti[parsedData.idOggetto];
+        }
+    }
+}
 
-    if (tipoOggetto === CARRO_ARMATO) {
+const aggiungiOggetto = (parsedData) => {
+    if (parsedData.tipoOggetto === CARRO_ARMATO) {
         if (gameState.tanks[parsedData.idOggetto]) {
             gameState.tanks[parsedData.idOggetto].moveToXY(parsedData.posx, parsedData.posy, parsedData.direzione)
         } else {
             gameState.tanks[parsedData.idOggetto] = new Tank(parsedData.posx, parsedData.posy, parsedData.direzione)
         }
-    }
-
-    if (tipoOggetto === PROIETTILE) {
-
+    } else if (parsedData.tipoOggetto === PROIETTILE) {
         if (gameState.proiettili[parsedData.idOggetto]) {
             gameState.proiettili[parsedData.idOggetto].moveToXY(parsedData.posx, parsedData.posy, parsedData.direzione)
         } else {
             gameState.proiettili[parsedData.idOggetto] = new Proiettile(parsedData.posx, parsedData.posy, parsedData.direzione)
         }
+    } else if (parsedData.tipoOggetto === MURETTO) {
+        if (gameState.muretti[parsedData.idOggetto]) {
+            gameState.muretti[parsedData.idOggetto].moveToXY(parsedData.posx, parsedData.posy, parsedData.direzione)
+        } else {
+            gameState.muretti[parsedData.idOggetto] = new Muretto(parsedData.posx, parsedData.posy)
+        }
     }
+
+}
+
+const onStateUpgradeReceived = (message) => {
+    parsedData = JSON.parse(message.body);
+
+    if (parsedData.tipoMessaggio === RIMUOVI_OGGETTO) {
+        rimuoviOggetto(parsedData);
+    } else {
+        aggiungiOggetto(parsedData);
+    }
+
 
 
 }
@@ -352,4 +392,4 @@ if (!haveEvents) {
     setInterval(scangamepads, 500);
 }
 
-setInterval(pulisciProiettili, 500);
+// setInterval(pulisciProiettili, 500);

@@ -5,5 +5,6 @@ public enum TipoMessaggio {
     STATO,
     CONNESSIONE,
     DISCONNESSIONE,
-    CHAT
+    CHAT,
+    RIMUOVI_OGGETTO
 }
