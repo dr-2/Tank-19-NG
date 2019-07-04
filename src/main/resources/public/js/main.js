@@ -156,10 +156,10 @@ function gamepadLoop() {
                 val = val.value;
             }
 
-            if (pressed) {
-                console.log("button pressed: " + i);
-            } else {
-                //console.log("button NON premuto: " + i);
+            if (pressed && i === 4) {
+                command.fuoco = true;
+            } else if (i === 4) {
+                command.fuoco = false;
             }
         }
 
