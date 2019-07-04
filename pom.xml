@@ -10,7 +10,7 @@
     </parent>
     <groupId>it.univaq.dr2</groupId>
     <artifactId>tank19</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>tank19</name>
     <description>Software Engineering project. Remake of Tank 1990</description>
