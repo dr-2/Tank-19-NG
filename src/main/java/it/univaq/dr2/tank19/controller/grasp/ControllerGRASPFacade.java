@@ -5,6 +5,7 @@ import it.univaq.dr2.tank19.model.collisione.RilevatoreCollisioneImpl;
 import it.univaq.dr2.tank19.model.comandi.FactoryComandi;
 import it.univaq.dr2.tank19.model.messaggi.MessaggioDiAggiornamentoStato;
 import it.univaq.dr2.tank19.model.messaggi.TipoMessaggio;
+import it.univaq.dr2.tank19.model.oggettigioco.Muretto;
 import it.univaq.dr2.tank19.model.oggettigioco.OggettoDiGioco;
 import it.univaq.dr2.tank19.model.oggettigioco.Proiettile;
 import it.univaq.dr2.tank19.model.oggettigioco.Tank;
@@ -15,6 +16,9 @@ import it.univaq.dr2.tank19.service.ServiceTank;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Carlo Centofanti
@@ -65,13 +69,18 @@ public class ControllerGRASPFacade {
 
     private void rimuoviMurettiMorti() {
         servicePartita.findAll().iterator().forEachRemaining(partita -> {
+            Set<Muretto> murettiDaRimuovere = new HashSet<>();
             partita.getMuretti().iterator().forEachRemaining(muretto -> {
                 if (muretto.getVita() < 1) {
                     inviaRimozioneOggetto(muretto);
-                    partita.getMuretti().remove(muretto);
-                    servicePartita.save(partita);
+                    murettiDaRimuovere.add(muretto);
+//                    partita.getMuretti().remove(muretto);
                 }
             });
+            murettiDaRimuovere.iterator().forEachRemaining(muretto -> {
+                partita.getMuretti().remove(muretto);
+            });
+            servicePartita.save(partita);
         });
     }
 
